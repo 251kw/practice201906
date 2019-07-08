@@ -30,33 +30,39 @@
 	String ic7 = "";
 	String ic8 = "";
 	String ic9 = "";
-	for(String i : icon){
-		if("icon-user".equals(i)){
-			ic1 = "checked";
-		}
-		if("icon-user-female".equals(i)){
-			ic2 = "checked";
-		}
-		if("icon-car".equals(i)){
-			ic3 = "checked";
-		}
-		if("icon-study".equals(i)){
-			ic4 = "checked";
-		}
-		if("icon-star".equals(i)){
-			ic5 = "checked";
-		}
-		if("icon-plane".equals(i)){
-			ic6 = "checked";
-		}
-		if("icon-camera".equals(i)){
-			ic7 = "checked";
-		}
-		if("icon-bicycle".equals(i)){
-			ic8 = "checked";
-		}
-		if("icon-ball".equals(i)){
-			ic9 = "checked";
+	/* if(icon == null){
+		icon = new String[1];
+		icon[0] = "";
+	} */
+	if(icon != null){
+		for(String i : icon){
+			if("icon-user".equals(i)){
+				ic1 = "checked";
+			}
+			if("icon-user-female".equals(i)){
+				ic2 = "checked";
+			}
+			if("icon-car".equals(i)){
+				ic3 = "checked";
+			}
+			if("icon-study".equals(i)){
+				ic4 = "checked";
+			}
+			if("icon-star".equals(i)){
+				ic5 = "checked";
+			}
+			if("icon-plane".equals(i)){
+				ic6 = "checked";
+			}
+			if("icon-camera".equals(i)){
+				ic7 = "checked";
+			}
+			if("icon-bicycle".equals(i)){
+				ic8 = "checked";
+			}
+			if("icon-ball".equals(i)){
+				ic9 = "checked";
+			}
 		}
 	}
 	if(id == null || "null".equals(id)){
