@@ -20,6 +20,45 @@
 	String id = (String)request.getAttribute("bid");
 	String name = (String)request.getAttribute("bun");
 	String profile = (String)request.getAttribute("bpr");
+	String[] icon = (String[])request.getAttribute("bic");
+	String ic1 = "";
+	String ic2 = "";
+	String ic3 = "";
+	String ic4 = "";
+	String ic5 = "";
+	String ic6 = "";
+	String ic7 = "";
+	String ic8 = "";
+	String ic9 = "";
+	for(String i : icon){
+		if("icon-user".equals(i)){
+			ic1 = "checked";
+		}
+		if("icon-user-female".equals(i)){
+			ic2 = "checked";
+		}
+		if("icon-car".equals(i)){
+			ic3 = "checked";
+		}
+		if("icon-study".equals(i)){
+			ic4 = "checked";
+		}
+		if("icon-star".equals(i)){
+			ic5 = "checked";
+		}
+		if("icon-plane".equals(i)){
+			ic6 = "checked";
+		}
+		if("icon-camera".equals(i)){
+			ic7 = "checked";
+		}
+		if("icon-bicycle".equals(i)){
+			ic8 = "checked";
+		}
+		if("icon-ball".equals(i)){
+			ic9 = "checked";
+		}
+	}
 	if(id == null || "null".equals(id)){
 		id = "";
 	}
@@ -68,23 +107,23 @@
 							type="text" name="icon" value="" size="20" /></td> --%>
 						<td>
 							<span class="icon-user pe-2x pe-va"></span>
-							<input type="checkbox" name="icon" value="icon-user">
+							<input type="checkbox" name="icon" value="icon-user" <%= ic1 %>>
 							<span class="icon-user-female pe-2x pe-va"></span>
-							<input type="checkbox" name="icon" value="icon-user-female">
+							<input type="checkbox" name="icon" value="icon-user-female" <%= ic2 %>>
 							<span class="icon-car pe-2x pe-va"></span>
-							<input type="checkbox" name="icon" value="icon-car"><br>
+							<input type="checkbox" name="icon" value="icon-car" <%= ic3 %>><br>
 							<span class="icon-study pe-2x pe-va"></span>
-							<input type="checkbox" name="icon" value="icon-study">
+							<input type="checkbox" name="icon" value="icon-study" <%= ic4 %>>
 							<span class="icon-star pe-2x pe-va"></span>
-							<input type="checkbox" name="icon" value="icon-star">
+							<input type="checkbox" name="icon" value="icon-star" <%= ic5 %>>
 							<span class="icon-plane pe-2x pe-va"></span>
-							<input type="checkbox" name="icon" value="icon-plane"><br>
+							<input type="checkbox" name="icon" value="icon-plane" <%= ic6 %>><br>
 							<span class="icon-camera pe-2x pe-va"></span>
-							<input type="checkbox" name="icon" value="icon-camera">
+							<input type="checkbox" name="icon" value="icon-camera" <%= ic7 %>>
 							<span class="icon-bicycle pe-2x pe-va"></span>
-							<input type="checkbox" name="icon" value="icon-bicycle">
+							<input type="checkbox" name="icon" value="icon-bicycle" <%= ic8 %>>
 							<span class="icon-ball pe-2x pe-va"></span>
-							<input type="checkbox" name="icon" value="icon-ball">
+							<input type="checkbox" name="icon" value="icon-ball" <%= ic9 %>>
 						</td>
 					</tr>
 					<tr>

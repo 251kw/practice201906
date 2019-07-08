@@ -25,6 +25,7 @@
 	String backLoginId = (String)request.getAttribute("SaveLoginId");
 	String backUsername = (String)request.getAttribute("SaveUserName");
 	String backProfile = (String)request.getAttribute("SaveProfile");
+	String backIcon = (String)request.getAttribute("SaveIcon");
 	String on = (String)request.getAttribute("button");
 	if(on == null || "null".equals(on)){
 		on = "";
@@ -113,6 +114,7 @@
 				<input type="hidden" name="backloginid" value="<%= backLoginId %>">
 				<input type="hidden" name="backusername" value="<%= backUsername %>">
 				<input type="hidden" name="backprofile" value="<%= backProfile %>">
+				<input type="hidden" name="backicon" value="<%= backIcon %>">
 				<input type="hidden" name="back" value="true">
 				<input type="hidden" name="counter" value="<%= n %>">
 			</form>

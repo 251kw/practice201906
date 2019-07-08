@@ -61,10 +61,12 @@ public class SerchUsersServlet extends HttpServlet {
 			String bid = request.getParameter("backloginid");
 			String bun = request.getParameter("backusername");
 			String bpr = request.getParameter("backprofile");
+			String bic = request.getParameter("backicon");
 
 			request.setAttribute("bid", bid);
 			request.setAttribute("bun", bun);
 			request.setAttribute("bpr", bpr);
+			request.setAttribute("bic", bic);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("SerchUsers.jsp");
 			dispatcher.forward(request, response);
 		}

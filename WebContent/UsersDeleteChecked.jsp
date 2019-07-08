@@ -29,11 +29,8 @@
 	<div class="padding-y-5 text-center">
 		<div style="width: 50%" class="container padding-y-5 text-left">
 			<strong class="color-main">以下のユーザーを削除します。よろしいですか？</strong>
-			<c:if test="${requestScope.alert != null && requestScope.alert != ''}">
-				<%-- リクエストスコープの alert の値を出力 --%>
 				<br><span class="color-error text-left">
-				<c:out value="${requestScope.alert}" /></span>
-				</c:if>
+				※叫びも削除されます</span>
 		</div>
 	</div>
 	<jsp:useBean id="checklist" scope="session"
