@@ -21,8 +21,7 @@ import dto.UserDTO;
 @WebServlet("/update")
 public class UpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-
+	DBManager dbm = new DBManager();
 	private final String SEARCH_DISP = "/search.jsp";
 	private final String DEL_CONF_DISP = "/deleteConfirm.jsp";
 	private final String DEL_COMP_DISP = "/deleteComplete.jsp";
@@ -189,17 +188,25 @@ public class UpdateServlet extends HttpServlet {
 			String icon = trimSpace(request.getParameter("icon"));
 			String profile = trimSpace(request.getParameter("profile"));
 
-			//インスタンス化
-			UserDTO user = new UserDTO(loginId, password, name, icon, profile);
+			UserDTO sub = new UserDTO();
+			sub = (UserDTO) session.getAttribute("updateUser");
 
-			//セッションの上書き
-			session.setAttribute("updateUser", user);
+			//ログインIDを変更してたら重複チェック
+			if(!sub.getLoginId().equals(loginId)) {
+				dbm.checkLoginId(loginId);
+			}
 
 			//エラーメッセージ用リスト
 			HashMap<String, String> errList = new HashMap<>();
 
 			//入力チェック
 			errList = checkInput(loginId, password, name);
+
+			//インスタンス化
+			UserDTO user = new UserDTO(loginId, password, name, icon, profile);
+
+			//セッションの上書き
+			session.setAttribute("updateUser", user);
 
 			//エラーがあれば入力画面へ戻る
 			if (errList.size() != 0) {
@@ -212,9 +219,9 @@ public class UpdateServlet extends HttpServlet {
 			}
 		}
 
-		//更新確認画面で修正ボタンが押されたら
+		//更新確認画面で修正ボタンが押されたら入力画面に戻る
 		if ("fix".equals(action)) {
-
+			gotoPage(request, response, UPD_COMP_DISP);
 		}
 
 	}
@@ -227,52 +234,50 @@ public class UpdateServlet extends HttpServlet {
 	}
 
 	//入力チェック
-		private HashMap<String, String> checkInput(String loginId, String password, String name) {
-			HashMap<String, String> list = new HashMap<>();
-			if ("".equals(loginId)) {     //未入力
-				list.put("idErr", ERR_ID_REQUIRE);
-			} else if (!isEisuji(loginId)) {     //英数字以外
-				list.put("idErr", ERR_ID_CODE);
-			} else if (dbm.checkLoginId(loginId)) {     //ID重複
-				list.put("idErr", ERR_ID_USED);
-			}
-			if ("".equals(password)) {     //未入力
-				list.put("passErr", ERR_PASS_REQUIRE);
-			}
-			if ("".equals(name)) {     //未入力
-				list.put("nameErr", ERR_NAME_REQUIRE);
-			} else if (!isZenkaku(name)) {     //全角以外
-				list.put("nameErr", ERR_NAME_ZEN);
-			}
-			return list;
+	private HashMap<String, String> checkInput(String loginId, String password, String name) {
+		HashMap<String, String> list = new HashMap<>();
+		if ("".equals(loginId)) {   //未入力
+			list.put("idErr", ERR_ID_REQUIRE);
+		} else if (!isEisuji(loginId)) {   //英数字以外
+			list.put("idErr", ERR_ID_CODE);
 		}
+		if ("".equals(password)) {   //未入力
+			list.put("passErr", ERR_PASS_REQUIRE);
+		}
+		if ("".equals(name)) {   //未入力
+			list.put("nameErr", ERR_NAME_REQUIRE);
+		} else if (!isZenkaku(name)) {   //全角以外
+			list.put("nameErr", ERR_NAME_ZEN);
+		}
+		return list;
+	}
 
-		//スペース除去
-		private String trimSpace(String input) {
-			input = input.replaceAll(" ", "");
-			input = input.replaceAll("　", "");
-			return input;
-		}
+	//スペース除去
+	private String trimSpace(String input) {
+		input = input.replaceAll(" ", "");
+		input = input.replaceAll("　", "");
+		return input;
+	}
 
-		//全角チェック
-		private boolean isZenkaku(String input) {
-			boolean result = true;
-			if (input.matches("^[^ -~｡-ﾟ]+$")) {
-				result = true;
-			} else {
-				result = false;
-			}
-			return result;
+	//全角チェック
+	private boolean isZenkaku(String input) {
+		boolean result = true;
+		if (input.matches("^[^ -~｡-ﾟ]+$")) {
+			result = true;
+		} else {
+			result = false;
 		}
+		return result;
+	}
 
-		//英数字チェック
-		private boolean isEisuji(String input) {
-			boolean result = true;
-			if (input.matches("[0-9a-zA-Z]+")) {
-				result = true;
-			} else {
-				result = false;
-			}
-			return result;
+	//英数字チェック
+	private boolean isEisuji(String input) {
+		boolean result = true;
+		if (input.matches("[0-9a-zA-Z]+")) {
+			result = true;
+		} else {
+			result = false;
 		}
+		return result;
+	}
 }
