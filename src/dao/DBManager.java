@@ -248,6 +248,7 @@ public class DBManager extends SnsDAO {
 		ResultSet rset = null;             // 検索結果
 		String iconbun = "";
 		String i = "or";
+		String l = "";
 		int n = 1;
 		int m = icon.length;
 
@@ -257,11 +258,15 @@ public class DBManager extends SnsDAO {
 			if(n == m) {
 				i = "";
 			}
-			iconbun += (" icon like " + "%" + s + "% " + i);
+			iconbun += (" icon='" + s + "' " + i);
 			n++;
+		}
+		if("".equals(icon[0])) {
+			iconbun = "icon like '%" + l + "'% ";
 		}
 
 		String sql = "SELECT * FROM users WHERE" + iconbun + "and loginId like ? and userName like ? and profile like ?";
+//		String sql = "SELECT * FROM users WHERE icon like '%%' and loginId like ? and userName like ? and profile like ?";
 		ArrayList<UserDTO> list = new ArrayList<UserDTO>();
 
 		try {
