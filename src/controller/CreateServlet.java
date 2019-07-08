@@ -64,11 +64,11 @@ public class CreateServlet extends HttpServlet {
 			request.setAttribute("alert1", message1);
 
 			// create.jsp に処理を転送
-			dispatcher = request.getRequestDispatcher("create.jsp");
-			dispatcher.forward(request, response);
+//			dispatcher = request.getRequestDispatcher("create.jsp");
+//			dispatcher.forward(request, response);
 		}
 
-		if(!(32 > loginId.length() || 32 > password.length())) {
+		if(32 < loginId.length() || 32 < password.length()) {
 			//が64文字以内でなければ
 			message6 ="loginIdまたはpasswordは32文字以内でおねがいします。";
 
@@ -105,7 +105,7 @@ public class CreateServlet extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 
-			if(!(("^[0-9a-zA-Z]+$").matches(password))) {
+			if(!((password).matches("^[0-9a-zA-Z]+$"))) {
 				//パスワードが半角英数字じゃなければ
 				message4 ="パスワードは半角英数字でお願いします。";
 
@@ -127,6 +127,7 @@ public class CreateServlet extends HttpServlet {
 				dispatcher.forward(request, response);
 
 			}
+
 
 			RequestDispatcher dispatcher2 =
 					getServletContext().getRequestDispatcher("/confirm.jsp");
