@@ -28,13 +28,14 @@
 					<tr>
 						<td><input class="form-control" type="text" name="uName"
 							value="" size="60" /></td>
-						
 						<td><input class="btn" type="submit" value="検索" /></td>
-						<jsp:useBean id="result" scope="request" type="dto.UserDTO" />
-							<div class="padding-y-5">
-		<div style="width: 40%" class="container padding-y-5">
+
+					<c:if
+						test="${requestScope.result != null && requestScope.result != ''}">
+						<jsp:useBean id="results" scope="request" type="java.util.ArrayList<dto.UserDTO>" />
 			<%-- リストにある要素の数だけ繰り返し --%>
 			<c:forEach var="result" items="${results}">
+			${result.icon}${result.userName}${result.date}
 				<table class="table table-striped table-bordered">
 					<tr>
 						<td rowspan="2" class="text-center"><span
@@ -51,7 +52,7 @@
 					</tr>
 				</table>
 			</c:forEach>
-
+			</c:if>
 							<%-- リクエストスコープに alert_s があれば --%>
 					<c:if
 						test="${requestScope.alert_s != null && requestScope.alert_s != ''}">
@@ -62,18 +63,6 @@
 
 						</tr>
 					</c:if>
-					<%-- リクエストスコープに検索内容 があれば --%>
-					<c:if
-						test="${requestScope.result != null && requestScope.result != ''}">
-						<tr>
-							<%-- リクエストスコープの alert の値を出力 --%>
-							<td colspan="2" class="color-error text-left"><c:out
-									value="${requestScope.result}" /></td>
-
-						</tr>
-					</c:if>
-					</div>
-				</div>
 				</table>
 			</form>
 		</div>

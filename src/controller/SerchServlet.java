@@ -9,10 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import dao.DBManager;
-import dto.ShoutDTO;
 import dto.UserDTO;
 /**
  * Servlet implementation class SerchServlet
@@ -54,17 +52,15 @@ public class SerchServlet extends HttpServlet {
 			//エラーメッセージをリクエストオブジェクトに保存
 			request.setAttribute("alert_s", message_s);
 		}
+
 		//入力情報が取得されたらリクエストスコープに保存
 		DBManager dbm = new DBManager();
-		UserDTO user = dbm.serchUser(uName);
+		ArrayList<UserDTO> list = dbm.serchUser(uName);
 
-		if (user != null) {
+		if (list != null) {
 			// ユーザ情報を取得できたら、書き込み内容リストを取得
-			ArrayList<userDTO> list = dbm.getShoutList();
-
-
-		request.setAttribute("result", user);
-
+		request.setAttribute("results", list);
+		}
 		dispatcher = request.getRequestDispatcher("Serch.jsp");
 		dispatcher.forward(request, response);
 		//doGet(request, response);

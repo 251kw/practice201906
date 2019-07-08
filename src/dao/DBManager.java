@@ -56,7 +56,7 @@ public class DBManager extends SnsDAO {
 	}
 
 	// 入力情報を受け取り、登録ユーザ一覧にその語を含むものがあるか検索
-	public UserDTO serchUser(String uName) {
+	public ArrayList<UserDTO> serchUser(String uName) {
 		Connection conn = null;            // データベース接続情報
 		PreparedStatement pstmt = null;    // SQL 管理情報
 		ResultSet rset = null;             // 検索結果
