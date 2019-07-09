@@ -183,6 +183,7 @@ String hiddenId = (String)request.getAttribute("hiddenId");
 		</div>
 		<form action="./ResultUsers.jsp" method="post">
 				<input class="btn" type="submit" value="ユーザー検索画面へ戻る" />
+				<input type="hidden" name="oldId" value="<%= oldId %>"/>
 			</form>
 	</div>
 </body>

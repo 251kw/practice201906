@@ -65,11 +65,18 @@
 			</table>
 			<table class="table">
 				<tr>
-				<td class="text-left"><button class="btn text-center" type="submit" formaction="./ResultUsers.jsp">戻る</button></td>
+				<td class="text-left"><button class="btn text-center" type="submit" formaction="./KCS">戻る</button></td>
 				<td class="text-right"><input class="btn text-center" type="submit" value="削除">
 				</td>
 			</tr>
 			</table>
+			<%
+				request.setCharacterEncoding("UTF-8");
+				String[] hiddenId = (String[])request.getAttribute("idList");
+				if(hiddenId != null){
+					for(String s : hiddenId){%>
+				<input type="hidden" name="idList" value="<%= s %>">
+				<%}}%>
 			</form>
 		</div>
 	</div>

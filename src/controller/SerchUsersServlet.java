@@ -72,19 +72,30 @@ public class SerchUsersServlet extends HttpServlet {
 			request.setAttribute("bic", bic);
 			dispatcher = request.getRequestDispatcher("SerchUsers.jsp");
 		} else {
-			request.setAttribute("SaveLoginId", loginId);
-			request.setAttribute("SaveUserName", username);
-			request.setAttribute("SaveIcon", icon);
-			request.setAttribute("SaveProfile", profile);
-
 			// DBで検索
 			DBManager dbm = new DBManager();
 			ArrayList<UserDTO> list = dbm.serchUsers(loginId, username, icon, profile);
-			HttpSession session = request.getSession();
+			if (list == null || list.size() == 0) {
+				String message = "ユーザーが見つかりませんでした";
+				request.setAttribute("noUser", message);
+				request.setAttribute("bid", loginId);
+				request.setAttribute("bun", username);
+				request.setAttribute("bic", icon);
+				request.setAttribute("bpr", profile);
+				dispatcher = request.getRequestDispatcher("SerchUsers.jsp");
+			} else {
+				HttpSession session = request.getSession();
 
-			// sessionスコープでリストを保存
-			session.setAttribute("List", list);
-			dispatcher = request.getRequestDispatcher("ResultUsers.jsp");
+				// sessionスコープでリストを保存
+				session.setAttribute("List", list);
+
+				request.setAttribute("SaveLoginId", loginId);
+				request.setAttribute("SaveUserName", username);
+				request.setAttribute("SaveIcon", icon);
+				request.setAttribute("SaveProfile", profile);
+
+				dispatcher = request.getRequestDispatcher("ResultUsers.jsp");
+			}
 		}
 		dispatcher.forward(request, response);
 	}

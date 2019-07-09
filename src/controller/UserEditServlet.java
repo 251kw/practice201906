@@ -62,6 +62,7 @@ public class UserEditServlet extends HttpServlet {
 			if (n > 1) {
 				message = "編集する場合は一つだけ選択してください";
 				request.setAttribute("alert", message);
+				request.setAttribute("backid", check);
 				dispatcher = request.getRequestDispatcher("ResultUsers.jsp");
 			} else {
 				String loginId = null;

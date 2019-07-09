@@ -85,6 +85,9 @@
 	<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-left">
 			<strong class="color-main">検索検索ぅ！</strong>
+		<c:if test="${requestScope.noUser != null && requestScope.noUser != ''}">
+			<div class="color-error">${noUser}</div>
+		</c:if>
 		</div>
 	</div>
 	<div class="padding-y-5 text-center">

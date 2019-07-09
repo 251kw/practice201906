@@ -241,6 +241,36 @@ public class DBManager extends SnsDAO {
 		return result;
 	}
 
+	// ユーザー削除するときにshoutsを消すためのメソッド
+	public boolean deleteShout2(String loginId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		boolean result = false;
+		try {
+			conn = getConnection();
+
+			// DELETE 文の登録と実行
+			String sql = "DELETE FROM shouts WHERE loginId=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, loginId);
+
+			int cnt = pstmt.executeUpdate();
+			if (cnt >= 1) {
+				// INSERT 文の実行結果が１以上なら登録成功
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// データベース切断処理
+			close(pstmt);
+			close(conn);
+		}
+
+		return result;
+	}
+
 	// ユーザー検索をするメソッド
 	public ArrayList<UserDTO> serchUsers(String loginId, String username, String[] icon, String profile) {
 		Connection conn = null;            // データベース接続情報
@@ -304,14 +334,14 @@ public class DBManager extends SnsDAO {
 		return list;
 	}
 
-	public ArrayList<UserDTO> oldserchUsers(String loginId, String username, String icon, String profile) {
+	public ArrayList<UserDTO> oldserchUsers(String loginId) {
 		Connection conn = null;            // データベース接続情報
 		PreparedStatement pstmt = null;    // SQL 管理情報
 		ResultSet rset = null;             // 検索結果
 
 		// icon like ? or
 
-		String sql = "SELECT * FROM users WHERE icon like ? and loginId like ? and userName like ? and profile like ?";
+		String sql = "SELECT * FROM users WHERE loginId=?";
 		ArrayList<UserDTO> list = new ArrayList<UserDTO>();
 
 		try {
@@ -320,10 +350,7 @@ public class DBManager extends SnsDAO {
 
 			// SELECT 文の登録と実行
 			pstmt = conn.prepareStatement(sql);	// SELECT 構文登録
-			pstmt.setString(1, "%" + icon + "%");
-			pstmt.setString(2, "%" + loginId + "%");
-			pstmt.setString(3, "%" + username + "%");
-			pstmt.setString(4, "%" + profile + "%");
+			pstmt.setString(1, loginId);
 			rset = pstmt.executeQuery();
 
 			// 検索結果があれば
