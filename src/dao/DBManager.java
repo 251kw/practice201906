@@ -214,30 +214,18 @@ public boolean serchUser(String loginId) {
 	PreparedStatement pstmt = null;
 	ResultSet rset = null;             // 検索結果
 	boolean result = false;
- {
+
+
+	try {
 		conn = getConnection();
 
 		// SELECT 文の登録と実行
 		String sql = "SELECT * FROM users WHERE loginId=?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, loginId);
+
 		rset = pstmt.executeQuery();
-		UserDTO user = null;
-
-		// 検索結果があれば
 		if (rset.next()) {
-			// 必要な列から値を取り出し、ユーザ情報オブジェクトを生成
-			user = new UserDTO();
-			user.setLoginId(rset.getString(2));
-			user.setPassword(rset.getString(3));
-			user.setUserName(rset.getString(4));
-			user.setIcon(rset.getString(5));
-			user.setProfile(rset.getString(6));
-
-		}
-
-		int cnt = pstmt.executeUpdate();
-		if (cnt == 1) {
 			// SELECT 文の実行結果が１なら登録成功
 			result = true;
 		}
@@ -245,6 +233,7 @@ public boolean serchUser(String loginId) {
 		e.printStackTrace();
 	} finally {
 		// データベース切断処理
+		close(rset);
 		close(pstmt);
 		close(conn);
 	}
@@ -253,3 +242,38 @@ public boolean serchUser(String loginId) {
 }
 }
 
+//	// ログインユーザ情報と書き込み内容を受け取り、リストに追加する
+//		public boolean getnewWriting(UserDTO newuser) {
+//			Connection conn = null;
+//			PreparedStatement pstmt = null;
+//
+//			boolean result = false;
+//			try {
+//				conn = getConnection();
+//
+//				// INSERT 文の登録と実行
+//				String sql = "INSERT INTO user(loginId, password, userName, icon,profile) VALUES(?, ?, ?, ?,?)";
+//				pstmt = conn.prepareStatement(sql);
+//				pstmt.setString(1, newuser.getLoginId());
+//				pstmt.setString(2, newuser.getPassword());
+//				pstmt.setString(3, newuser.getUserName());
+//				pstmt.setString(4, newuser.getIcon());
+//				pstmt.setString(5, newuser.getProfile());
+//
+//				int cnt = pstmt.executeUpdate();
+//				if (cnt == 1) {
+//					// INSERT 文の実行結果が１なら登録成功
+//					result = true;
+//				}
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			} finally {
+//				// データベース切断処理
+//				close(pstmt);
+//				close(conn);
+//			}
+//
+//			return result;
+//		}
+//
+//}

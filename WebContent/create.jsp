@@ -121,24 +121,6 @@
 									value="${requestScope.alert6}" /></td>
 						</tr>
 					</c:if>
-					<%-- リクエストスコープに alert5があれば --%>
-					<c:if
-						test="${requestScope.alert7 != null && requestScope.alert7 != ''}">
-						<tr>
-							<%-- リクエストスコープの alert の値を出力 --%>
-							<td colspan="2" class="color-error text-left"><c:out
-									value="${requestScope.alert7}" /></td>
-						</tr>
-					</c:if>
-					<%-- リクエストスコープに alert5があれば --%>
-					<c:if
-						test="${requestScope.alert8 != null && requestScope.alert8 != ''}">
-						<tr>
-							<%-- リクエストスコープの alert の値を出力 --%>
-							<td colspan="2" class="color-error text-left"><c:out
-									value="${requestScope.alert8}" /></td>
-						</tr>
-					</c:if>
 				</table>
 			</form>
 						<form action="./index.jsp" method="post">
