@@ -32,8 +32,13 @@ public class BbsServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String writing = request.getParameter("shout");
-		writing = writing.replaceAll("　","");
-		writing = writing.replaceAll(" ","");
+
+		//正規表現を用いて、変数writingで受け取ったshoutの内容から全角スペースを空文字に置換する。
+		//"^[\\h]+"は"^"=行の先頭の、[]内の文字、"\\h"は空白を"+"あるだけ""空文字に置き換える。
+		//"[\\h]+$"$は文末という意味で文末からあるだけ空白を空文字に置き換えている。
+		writing=writing.replaceFirst("^[\\h]+", "").replaceFirst("[\\h]+$", "");
+		//writing = writing.trim();
+
 		//String loginId = request.getParameter("userid");//叫ぶボタンにuser.loginIdを乗せて取得
 		RequestDispatcher dispatcher;
 		String message ="叫び内容を入力してください。";

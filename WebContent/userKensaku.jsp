@@ -12,28 +12,6 @@
 <link rel="stylesheet" href="./css/helper.css">
 </head>
 <body>
-	<%
-		String iC1 = "";
-		String iC2 = "";
-		String iC3 = "";
-		String iC4 = "";
-		String iC5 = "";
-		/* 		String cD = (String) request.getAttribute("nIcon");
-
-				if("icon-user-female".equals(cD)){
-					iC1="";
-					iC2="checked";
-				}else if("icon-study".equals(cD)){
-					iC1="";
-					iC3="checked";
-				}else if("icon-male".equals(cD)){
-					iC1="";
-					iC4="checked";
-				}else if("icon-female".equals(cD)){
-					iC1="";
-					iC5="checked";
-				}*/
-	%>
 	<div class="bg-success padding-y-5">
 		<div class="container padding-y-5 text-center">
 			<h1>気になるワードでユーザーを検索できます</h1>
@@ -61,22 +39,21 @@
 						<td class="color-main text-left">アイコン</td>
 
 						<td><input type="checkbox" name="icon" id="icon" value="icon-user"
-							<%=iC1%>>
+							${uI }>
 							<span class="icon-user pe-2x pe-va"></span><input
-							type="checkbox" name="icon2" id="icon2" value="icon-user-female" <%=iC2%>><span
+							type="checkbox" name="icon2" id="icon2" value="icon-user-female" ${uI2 }><span
 							class="icon-user-female pe-2x pe-va"></span> <input type="checkbox"
-							name="icon3" id="icon3" value="icon-study" <%=iC3%>><span
+							name="icon3" id="icon3" value="icon-study" ${uI3 }><span
 							class="icon-study pe-2x pe-va"></span> <input type="checkbox"
-							name="icon4" id="icon4" value="icon-male" <%=iC4%>><span
+							name="icon4" id="icon4" value="icon-male" ${uI4 }><span
 							class="icon-male pe-2x pe-va"></span> <input type="checkbox"
-							name="icon5" value="icon-female" <%=iC5%>><span
+							name="icon5" value="icon-female" ${uI5 }><span
 							class="icon-female pe-2x pe-va"></span></td>
 					</tr>
 					<tr>
-						<%-- ログインID 入力欄の名前は loginId --%>
 						<td class="color-main text-left">プロフィールで検索</td>
 						<td class="text-left"><input class="form-control" type="text"
-							name="profile" value="uk3" size="20" /></td>
+							name="profile" value="${uk3 }" size="20" /></td>
 					</tr>
 					<tr>
 						<td colspan="2" class="text-right"><input class="btn"

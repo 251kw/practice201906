@@ -47,14 +47,14 @@ public class DltUserKensaku extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html;charset=UTF-8");
+
 		RequestDispatcher dispatcher;
-		//String udto=null;
+
 		String message = null;
 		DBManager dbm = new DBManager();
 		String uk = request.getParameter("loginId");//Like検索する際に""空文字だとすべてが検索に引っかかるので入力なければＤＢ上該当の無いスペースを代入
 		if(uk.equals("")) {
-			uk=" ";//nullにしないとダメかも
+			uk=" ";
 		}
 		String uk2 = request.getParameter("userName");
 		if(uk2.equals("")) {
@@ -98,6 +98,30 @@ public class DltUserKensaku extends HttpServlet {
 			dispatcher = request.getRequestDispatcher("userIchiran2.jsp");
 		}else {
 			message = "検索結果は０件でした";
+			if(" ".equals(uk)) {
+				uk="";
+			}
+			if(" ".equals(uk2)) {
+				uk2="";
+			}
+			if(" ".equals(uk3)) {
+				uk3="";
+			}
+			if(!(" ".equals(uI))) {
+				uI="checked";
+			}
+			if(!(" ".equals(uI2))) {
+				uI2="checked";
+			}
+			if(!(" ".equals(uI3))) {
+				uI3="checked";
+			}
+			if(!(" ".equals(uI4))) {
+				uI4="checked";
+			}
+			if(!(" ".equals(uI5))) {
+				uI5="checked";
+			}
 			request.setAttribute("alert", message);
 			request.setAttribute("uk", uk);
 			request.setAttribute("uk2", uk2);

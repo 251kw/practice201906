@@ -321,7 +321,7 @@ public ArrayList<UserDTO> getUserList(String uk,String uk2,String uk3,String uI,
 	// SELECT 文の実行
 	String sql = "SELECT * FROM users WHERE loginId LIKE ? OR username LIKE ? "
 			+ "OR profile LIKE ? OR icon=? OR icon=? OR icon=? OR icon=? OR icon=?";
-	ArrayList<UserDTO> list = new ArrayList<>();
+	ArrayList<UserDTO> list = new ArrayList<>();//ダイヤモンド演算子？
 	try {
 		// SnsDAO クラスのメソッド呼び出し
 		conn = getConnection();
@@ -339,6 +339,7 @@ public ArrayList<UserDTO> getUserList(String uk,String uk2,String uk3,String uI,
 		// 検索結果の数だけ繰り返す
 		while (rset.next()) {
 			UserDTO sUser = new UserDTO();
+			sUser.setUserId(rset.getString(1));
 			sUser.setLoginId(rset.getString(2));
 			sUser.setUserName(rset.getString(4));
 			sUser.setIcon(rset.getString(5));
@@ -356,5 +357,43 @@ public ArrayList<UserDTO> getUserList(String uk,String uk2,String uk3,String uI,
 	}
 
 	return list;
+}
+public UserDTO getUserDeleteKakunin(String userId) { //ユーザーＩＤ（主キー）からユーザーを検索するメソッド
+	Connection conn = null;            // データベース接続情報
+	PreparedStatement pstmt = null;    // SQL 管理情報
+	ResultSet rset = null;             // 検索結果
+
+	String sql = "SELECT * FROM users WHERE userId=?";
+	//ArrayList<UserDTO> list = new ArrayList<>();
+	UserDTO user = new UserDTO();
+	try {
+		// データベース接続情報取得
+		conn = getConnection();
+
+		// SELECT 文の登録と実行
+		pstmt = conn.prepareStatement(sql);	// SELECT 構文登録
+		pstmt.setString(1, userId);
+		rset = pstmt.executeQuery();
+
+		// 検索結果があれば
+		while (rset.next()) {
+			// 必要な列から値を取り出し、ユーザ情報オブジェクトを生成
+
+			user.setUserId(rset.getString(1));
+			user.setLoginId(rset.getString(2));
+			user.setUserName(rset.getString(4));
+			user.setIcon(rset.getString(5));
+			user.setProfile(rset.getString(6));
+			//list.add(user);
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		// データベース切断処理
+		close(rset);
+		close(pstmt);
+		close(conn);
+	}
+	return user;
 }
 }
