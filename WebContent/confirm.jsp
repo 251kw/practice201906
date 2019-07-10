@@ -17,8 +17,6 @@
 <%
 
 	UserDTO user = (UserDTO)session.getAttribute("user");
-
-
 %>
 
 	<div class="bg-success padding-y-5">
@@ -72,10 +70,8 @@
 					</tr>
 				</table>
 			</form>
-						<form action="./index.jsp" method="post">
-
-						<input class="btn"
-							type="submit" value="キャンセル" />
+						<form action="./create.jsp" method="post">
+						<input type ="button" value="キャンセル" onclick="window.history.back()"/>
 				</form>
 		</div>
 	</div>

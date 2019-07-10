@@ -44,6 +44,7 @@ public class CreateServlet extends HttpServlet {
 		String message6 = null;
 
 		RequestDispatcher dispatcher = null;
+		HttpSession session2 = request.getSession();
 
 		UserDTO user = new UserDTO();
 		user.setLoginId(loginId);
@@ -54,79 +55,81 @@ public class CreateServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
+		boolean flag = false;
 
-		if (("").equals(loginId) || ("").equals(password)) {
+
+		if ((("").equals(loginId) || ("").equals(password))){
 			// ログインID かパスワードどちらか、もしくは双方未入力なら
 			message1 = "ログインIDとパスワードは必須入力です";
+			flag = true;
 
 			// エラーメッセージをリクエストオブジェクトに保存
 			request.setAttribute("alert1", message1);
 
-			// create.jsp に処理を転送
-			//			dispatcher = request.getRequestDispatcher("create.jsp");
-			//			dispatcher.forward(request, response);
+			session2.setAttribute(loginId,loginId);
+			session2.setAttribute(password,password);
+
 		}
 
-		if (32 < loginId.length() || 32 < password.length()) {
+
+		if ((32 < loginId.length() || 32 < password.length())) {
 			//loginIdとpasswordが32文字以内でなければ
 			message6 = "loginIdまたはpasswordは32文字以内でおねがいします。";
+			flag = true;
 
 			request.setAttribute("alert6", message6);
-
-			// create.jsp に処理を転送
-			dispatcher = request.getRequestDispatcher("create.jsp");
-			dispatcher.forward(request, response);
+			session2.setAttribute(loginId,loginId);
+			session2.setAttribute(password,password);
 		}
+
+		if (!((password).matches("^[0-9a-zA-Z]+$"))) {
+			//パスワードが半角英数字じゃなければ
+			message4 = "パスワードは半角英数字でお願いします。";
+			flag = true;
+
+			request.setAttribute("alert4", message4);
+			session2.setAttribute(password,password);
+		}
+
 
 		DBManager ndb = new DBManager();
 		ndb.serchUser(loginId);
 
 		if (ndb.serchUser(loginId)) {
 			message2 = "既にこのloginIdは使われています。";
+			flag = true;
 
 			// エラーメッセージをリクエストオブジェクトに保存
 			request.setAttribute("alert2", message2);
-
-			// create.jsp に処理を転送
-			dispatcher = request.getRequestDispatcher("create.jsp");
-			dispatcher.forward(request, response);
+			session2.setAttribute(loginId,loginId);
 
 		}
 
-		if (!(64 > userName.length())) {
+		if ((64 < userName.length())) {
 			//ユーザーネームが64文字以内でなければ
 			message3 = "ユーザーネームは64文字以内でおねがいします。";
+			flag = true;
 
 			request.setAttribute("alert3", message3);
+			session2.setAttribute(userName, userName);
 
-			// create.jsp に処理を転送
-			dispatcher = request.getRequestDispatcher("create.jsp");
-			dispatcher.forward(request, response);
 		}
 
 		if ((icon).equals("who")) {
 			//アイコンを選択していなければ
 			message5 = "アイコンを選択してください。";
+			flag = true;
 
 			request.setAttribute("alert5", message5);
-
-			// create.jsp に処理を転送
-			dispatcher = request.getRequestDispatcher("create.jsp");
-			dispatcher.forward(request, response);
+			session2.setAttribute(icon, icon);
 
 		}
 
-
-		if (!((password).matches("^[0-9a-zA-Z]+$"))) {
-			//パスワードが半角英数字じゃなければ
-			message4 = "パスワードは半角英数字でお願いします。";
-
-			request.setAttribute("alert4", message4);
-
-			// create.jsp に処理を転送
-			dispatcher = request.getRequestDispatcher("create.jsp");
+		if(flag) {
+			dispatcher = request.getRequestDispatcher("/create.jsp");
 			dispatcher.forward(request, response);
 		}
+
 
 		dispatcher = request.getRequestDispatcher("/confirm.jsp");
 		dispatcher.forward(request, response);

@@ -96,6 +96,8 @@ public class DBManager extends SnsDAO {
 		return list;
 	}
 
+
+
 	// ログインユーザ情報と書き込み内容を受け取り、リストに追加する
 		public boolean setnewUser(UserDTO user) {
 			Connection conn = null;
@@ -226,7 +228,7 @@ public boolean serchUser(String loginId) {
 
 		rset = pstmt.executeQuery();
 		if (rset.next()) {
-			// SELECT 文の実行結果が１なら登録成功
+			// SELECT 文の実行結果がtrue.;なら登録成功
 			result = true;
 		}
 	} catch (SQLException e) {
@@ -241,39 +243,3 @@ public boolean serchUser(String loginId) {
 	return result;
 }
 }
-
-//	// ログインユーザ情報と書き込み内容を受け取り、リストに追加する
-//		public boolean getnewWriting(UserDTO newuser) {
-//			Connection conn = null;
-//			PreparedStatement pstmt = null;
-//
-//			boolean result = false;
-//			try {
-//				conn = getConnection();
-//
-//				// INSERT 文の登録と実行
-//				String sql = "INSERT INTO user(loginId, password, userName, icon,profile) VALUES(?, ?, ?, ?,?)";
-//				pstmt = conn.prepareStatement(sql);
-//				pstmt.setString(1, newuser.getLoginId());
-//				pstmt.setString(2, newuser.getPassword());
-//				pstmt.setString(3, newuser.getUserName());
-//				pstmt.setString(4, newuser.getIcon());
-//				pstmt.setString(5, newuser.getProfile());
-//
-//				int cnt = pstmt.executeUpdate();
-//				if (cnt == 1) {
-//					// INSERT 文の実行結果が１なら登録成功
-//					result = true;
-//				}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			} finally {
-//				// データベース切断処理
-//				close(pstmt);
-//				close(conn);
-//			}
-//
-//			return result;
-//		}
-//
-//}

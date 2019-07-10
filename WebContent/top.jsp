@@ -64,7 +64,7 @@
 		</div>
 	</div>
 	<div class="padding-y-5 text-center">
-		<div style="width: 40%" class="container padding-y-5 text-left">
+d		<div style="width: 40%" class="container padding-y-5 text-left">
 			<strong class="color-main">みんなの叫び</strong>
 		</div>
 	</div>

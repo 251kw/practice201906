@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page session="true" %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -11,6 +12,17 @@
 <link rel="stylesheet" href="./css/helper.css">
 </head>
 <body>
+<%
+
+	String loginId = (String)session.getAttribute("loginId");
+	String password = (String)session.getAttribute("password");
+	String userName = (String)session.getAttribute("userName");
+	String icon = (String)session.getAttribute("icon");
+	String profile = (String)session.getAttribute("profile");
+
+
+
+%>
 	<div class="bg-success padding-y-5">
 		<div class="container padding-y-5 text-center">
 			<h1>
@@ -32,36 +44,50 @@
 						<%-- ログインID 入力欄の名前は loginId --%>
 						<td class="color-main text-left">ログインID</td>
 						<td class="text-left"><input class="form-control"
-						type="text" name="loginId" value="" size="20" /></td>
+						type="text" name="loginId" size="20" value="${param.loginId}"/></td>
 					</tr>
 					<tr>
 						<%-- パスワード入力欄の名前は password --%>
 						<td class="color-main text-left">パスワード</td>
 						<td class="text-left"><input class="form-control"
-							type="password" name="password" value="" size="20" /></td>
+							type="password" name="password" value="${param.password}" size="20" /></td>
 					</tr>
 					<tr>
 						<%-- ユーザーネーム入力欄の名前は userName --%>
 						<td class="color-main text-left">ユーザーネーム</td>
 						<td class="text-left"><input class="form-control"
-							type="text" name="userName" value="" size="20" /></td>
+							type="text" name="userName" value="${param.userName}" size="20" /></td>
 					</tr>
 					<tr>
 						<%-- アイコン入力欄の名前は icon --%>
 						<td class="color-main text-left">アイコン</td>
 						<td class="text-left">
-						<select name="icon" id="icon">
+						<select name="icon" id="icon"  >
         				<option value="who">--- どれを選択しますか? ---</option>
         				<option value="icon-user">男の子</option>
        				 	<option value="icon-user-female">女の子</option>
         				<option value="icon-bell">ベル</option>
+      					<c:choose>
+      					<c:when test="${param.icon == 'who'}">
+      					<option value="who" selected>--- どれを選択しますか? ---</option>
+      					</c:when>
+      					<c:when test="${param.icon == 'icon-user' }">
+      					<option value="icon-user" selected>男の子</option>
+      					</c:when>
+      					<c:when test="${param.icon == 'icon-user-female' }">
+      					<option value="icon-user-female" selected>女の子</option>
+      					</c:when>
+      					<c:when test="${param.icon == 'icon-bell' }">
+      					<option value="icon-bell" selected>ベル</option>
+      					</c:when>
+      					</c:choose>
       					</select>
 					</tr>
 					<tr>
 						<%-- プロフィール入力欄の名前は profile --%>
 						<td class="color-main text-left">プロフィール</td>
 						<td class="text-left"><input class="form-control"
-							type="text" name="profile" value="" size="20" /></td>
+							type="text" name="profile" value="${param.profile}" size="20" /></td>
 					</tr>
 					<tr>
 					<tr>
@@ -112,7 +138,7 @@
 									value="${requestScope.alert5}" /></td>
 						</tr>
 					</c:if>
-					<%-- リクエストスコープに alert5があれば --%>
+					<%-- リクエストスコープに alert6があれば --%>
 					<c:if
 						test="${requestScope.alert6 != null && requestScope.alert6 != ''}">
 						<tr>
@@ -123,7 +149,7 @@
 					</c:if>
 				</table>
 			</form>
-						<form action="./index.jsp" method="post">
+					<form action="./index.jsp" method="post">
 						<input class="btn"
 							type="submit" value="キャンセル" />
 						</form>

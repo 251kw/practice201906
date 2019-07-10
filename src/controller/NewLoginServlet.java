@@ -27,27 +27,27 @@ public class NewLoginServlet extends HttpServlet {
 		UserDTO user = (UserDTO)session.getAttribute("user");
 		RequestDispatcher dispatcher = null;
 
-			String loginId = user.getLoginId();
-			String password = user.getPassword();
-			DBManager nlog = new DBManager();
-			nlog.getnewLoginUser(loginId,password);
+		String loginId = user.getLoginId();
+		String password = user.getPassword();
+		DBManager nlog = new DBManager();
+		nlog.getnewLoginUser(loginId,password);
 
-			ArrayList<ShoutDTO> list = new ArrayList<ShoutDTO>();
-			ShoutDTO shout = new ShoutDTO();
-			shout.getUserName();
-			shout.getIcon();
-			shout.getDate();
-			shout.getWriting();
+		ArrayList<ShoutDTO> list = new ArrayList<ShoutDTO>();
+		ShoutDTO shout = new ShoutDTO();
+		shout.getUserName();
+		shout.getIcon();
+		shout.getDate();
+		shout.getWriting();
 
-			list.add(shout);
+		list.add(shout);
 
-			session.setAttribute("shouts",list);
+		session.setAttribute("shouts",list);
 
-			// 処理の転送先を top.jsp に指定
-			dispatcher = request.getRequestDispatcher("top.jsp");
-			dispatcher.forward(request, response);
+		// 処理の転送先を top.jsp に指定
+		dispatcher = request.getRequestDispatcher("top.jsp");
+		dispatcher.forward(request, response);
 
-}
+	}
 }
 
 
