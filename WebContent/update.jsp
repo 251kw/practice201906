@@ -25,16 +25,9 @@
 			<form action="update" method="post">
 				<table style="width: 400px">
 					<tr>
-						<td></td>
-						<%-- IDの入力エラーがあれば表示 --%>
-						<td colspan="2" class="color-error text-left">${alert.idErr}</td>
-					</tr>
-					<tr>
 						<%-- ログインID 入力欄の名前は loginId --%>
 						<td class="color-main text-right">ログインID&nbsp;</td>
-						<td class="text-left"><input class="form-control" type="text"
-							maxlength="32" name="loginId" value="${updateUser.getLoginId()}"
-							size="20" /></td>
+						<td class="text-left">${updateUser.getLoginId()}</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -64,20 +57,20 @@
 						<%-- アイコン選択欄の名前は icon --%>
 						<td class="color-main text-right">アイコン&nbsp;</td>
 						<td><select name="icon"><option value="icon-user">male</option>
-								<option value="icon-user-female">female</option>
-								<option value="icon-magic-wand">wand</option>
-								<option value="icon-plugin">plugin</option>
-								<option value="icon-rocket">rocket</option>
-								<option value="icon-smile">smile</option>
-								<option value="icon-wine">wine</option>
-								<option value="icon-cash">cash</option>
-								<option value="icon-gym">gym</option>
-								<option value="icon-diamond">diamond</option>
-								<option value="icon-star">star</option>
-								<option value="icon-science">science</option>
-								<option value="icon-film">film</option>
-								<option value="icon-plane">plane</option>
-								<option value="icon-joy">joy</option>
+							<option value="icon-user-female" <c:if test="${updateUser.getIcon() == 'icon-user-female'}">selected</c:if>>female</option>
+								<option value="icon-magic-wand" <c:if test="${updateUser.getIcon() == 'icon-magic-wand'}">selected</c:if>>wand</option>
+								<option value="icon-plugin" <c:if test="${updateUser.getIcon() == 'icon-plugin'}">selected</c:if>>plugin</option>
+								<option value="icon-rocket" <c:if test="${updateUser.getIcon() == 'icon-rocket'}">selected</c:if>>rocket</option>
+								<option value="icon-smile" <c:if test="${updateUser.getIcon() == 'icon-smile'}">selected</c:if>>smile</option>
+								<option value="icon-wine" <c:if test="${updateUser.getIcon() == 'icon-wine'}">selected</c:if>>wine</option>
+								<option value="icon-cash" <c:if test="${updateUser.getIcon() == 'icon-cash'}">selected</c:if>>cash</option>
+								<option value="icon-gym" <c:if test="${updateUser.getIcon() == 'icon-gym'}">selected</c:if>>gym</option>
+								<option value="icon-diamond" <c:if test="${updateUser.getIcon() == 'icon-diamond'}">selected</c:if>>diamond</option>
+								<option value="icon-star" <c:if test="${updateUser.getIcon() == 'icon-star'}">selected</c:if>>star</option>
+								<option value="icon-science" <c:if test="${updateUser.getIcon() == 'icon-science'}">selected</c:if>>science</option>
+								<option value="icon-film" <c:if test="${updateUser.getIcon() == 'icon-film'}">selected</c:if>>film</option>
+								<option value="icon-plane" <c:if test="${updateUser.getIcon() == 'icon-plane'}">selected</c:if>>plane</option>
+								<option value="icon-joy" <c:if test="${updateUser.getIcon() == 'icon-joy'}">selected</c:if>>joy</option>
 						</select></td>
 					</tr>
 					<tr>
@@ -87,15 +80,11 @@
 							maxlength="128" name="profile" value="${updateUser.getProfile()}"
 							size="20" /></td>
 					</tr>
-					<tr>
-						<td></td>
-						<td class="text-center"><button type="submit" class="btn btn-light"
-								name="action" value="noUpdate">キャンセル</button>
-							<button type="submit" class="btn" name="action" value="confirm">確認</button>
-						</td>
-						<td></td>
-					</tr>
 				</table>
+				<button type="submit" class="btn btn-light" name="action"
+					value="noUpdate">キャンセル</button>
+				<input type="reset" class="btn btn-warning" value="リセット">
+				<button type="submit" class="btn" name="action" value="confirm">確認</button>
 			</form>
 		</div>
 	</div>

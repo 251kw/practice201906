@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.DBManager;
+import dto.ShoutDTO;
 import dto.UserDTO;
 
 /**
@@ -25,16 +26,16 @@ public class UpdateServlet extends HttpServlet {
 	private final String SEARCH_DISP = "/search.jsp";
 	private final String DEL_CONF_DISP = "/deleteConfirm.jsp";
 	private final String DEL_COMP_DISP = "/deleteComplete.jsp";
+	private final String DEL_COMP_DISP2 = "/deleteComplete2.jsp";
 	private final String UPD_INPUT_DISP = "/update.jsp";
 	private final String UPD_CONF_DISP = "/updateConfirm.jsp";
 	private final String UPD_COMP_DISP = "/updateComplete.jsp";
 	private final String CHECK_ERR = "※更新する場合は複数選択できません。";
-	private final String ERR_ID_REQUIRE = "※IDは必ず入力してください。";
-	private final String ERR_ID_CODE = "※IDは英数字のみ入力してください。";
+	private final String NULL_CHECK_ERR = "※選択されていません。";
 	private final String ERR_PASS_REQUIRE = "※パスワードは必ず入力してください。";
 	private final String ERR_NAME_REQUIRE = "※名前は必ず入力してください。";
 	private final String ERR_NAME_ZEN = "※名前は全角で入力してください。";
-	private final String ERR_ID_USED = "※既に使われているIDです。";
+	private final String ERR_NULL = "※検索結果がありません。";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -78,24 +79,32 @@ public class UpdateServlet extends HttpServlet {
 			//選択されたユーザのID取得
 			String[] checkedUser = request.getParameterValues("check");
 
-			//リスト用意
-			ArrayList<UserDTO> userList = new ArrayList<>();
+			//選択されていなかったら検索結果画面に戻り、エラー表示
+			if (checkedUser == null) {
+				request.setAttribute("alert", NULL_CHECK_ERR);
+				gotoPage(request, response, SEARCH_DISP);
 
-			//DBからユーザ情報取得
-			for (String loginId : checkedUser) {
-				userList.add(dbm.selectUserById(loginId));
+				//選択されていたら
+			} else {
+
+				//リスト用意
+				ArrayList<UserDTO> userList = new ArrayList<>();
+
+				//DBからユーザ情報取得
+				for (String loginId : checkedUser) {
+					userList.add(dbm.selectUserById(loginId));
+				}
+
+				//値保持のためセッションに保存
+				session.setAttribute("deleteUsers", userList);
+
+				//削除確認画面に処理を転送
+				gotoPage(request, response, DEL_CONF_DISP);
 			}
-
-			//値保持のためセッションに保存
-			session.setAttribute("deleteUsers", userList);
-
-			//削除確認画面に処理を転送
-			gotoPage(request, response, DEL_CONF_DISP);
-
 		}
 
 		//削除確認画面からキャンセルが押されたら
-		if ("cancel".equals("action")) {
+		if ("cancel".equals(action)) {
 
 			//セッション破棄
 			session.removeAttribute("deleteUsers");
@@ -111,10 +120,29 @@ public class UpdateServlet extends HttpServlet {
 			//セッションからユーザ取得
 			ArrayList<UserDTO> list = (ArrayList<UserDTO>) session.getAttribute("deleteUsers");
 
+			//ログインユーザ情報取得
+			UserDTO loginUser = (UserDTO) session.getAttribute("user");
+			String loginId = null;
+
 			//叫びとユーザ削除メソッド呼び出し
 			for (UserDTO user : list) {
+
+				//削除するユーザがログインユーザならログインIDを保持
+				if (user.getLoginId().equals(loginUser.getLoginId())) {
+					loginId = loginUser.getLoginId();
+				}
 				dbm.deleteWritings(user.getLoginId());
 				dbm.deleteUser(user.getLoginId());
+			}
+
+			//ログインユーザを削除した場合
+			if (loginId != null) {
+
+				//セッションを破棄
+				session.invalidate();
+
+				//削除完了画面へ
+				gotoPage(request, response, DEL_COMP_DISP2);
 			}
 
 			//削除完了画面に処理を転送
@@ -124,19 +152,31 @@ public class UpdateServlet extends HttpServlet {
 		//削除完了画面からユーザの一覧ボタンが押されたら
 		if ("back".equals(action)) {
 
-			//削除したユーザを除く検索結果を取得
-			ArrayList<UserDTO> list = (ArrayList<UserDTO>) session.getAttribute("resultUsers"); //前の検索結果
-			ArrayList<String> loginIds = new ArrayList<>();
-			for (UserDTO user : list) {
-				loginIds.add(user.getLoginId()); //IDを取得
-			}
-			ArrayList<UserDTO> userList = new ArrayList<>();
-			for (String loginId : loginIds) {
-				userList.addAll(dbm.searchUserById(loginId)); //IDを使って検索しなおす
-			}
+			//前の検索結果がひとつだったら検索結果なしの表示
+			ArrayList<UserDTO> list = (ArrayList<UserDTO>) session.getAttribute("resultUsers");
+			if (list.size() == 1) {
 
-			//セッションの上書き
-			session.setAttribute("resultUsers", userList);
+				session.removeAttribute("resultUsers");   //セッション破棄
+				request.setAttribute("alert", ERR_NULL);
+
+				//複数あれば
+			} else {
+
+				//前の検索結果のID取得
+				ArrayList<String> loginIds = new ArrayList<>();
+				for (UserDTO user : list) {
+					loginIds.add(user.getLoginId());
+				}
+
+				//IDで検索しなおす
+				ArrayList<UserDTO> userList = new ArrayList<>();
+				for (String loginId : loginIds) {
+					userList.add(dbm.selectUserById(loginId));
+				}
+
+				//セッションの上書き
+				session.setAttribute("resultUsers", userList);
+			}
 
 			//検索結果画面に戻る
 			gotoPage(request, response, SEARCH_DISP);
@@ -145,12 +185,18 @@ public class UpdateServlet extends HttpServlet {
 		//検索結果画面から更新ボタンが押されたら
 		if ("update".equals(action)) {
 
-			//選択されたユーザを取得
+			//選択されたユーザを取得(ログインIDを受け取る)
 			String[] checkedUser = request.getParameterValues("check");
 
+			//選択されていなかったら検索結果画面に戻り、エラー表示
+			if (checkedUser == null) {
+				request.setAttribute("alert", NULL_CHECK_ERR);
+				gotoPage(request, response, SEARCH_DISP);
+			}
+
 			//複数選択されていたら検索結果画面に戻り、エラー表示
-			if (checkedUser.length != 1) {
-				request.setAttribute("alert2", CHECK_ERR);
+			else if (checkedUser.length != 1) {
+				request.setAttribute("alert", CHECK_ERR);
 				gotoPage(request, response, SEARCH_DISP);
 
 				//一つだったら
@@ -182,31 +228,26 @@ public class UpdateServlet extends HttpServlet {
 		} else if ("confirm".equals(action)) {
 
 			//パラメータの取得
-			String loginId = trimSpace(request.getParameter("loginId"));
 			String password = trimSpace(request.getParameter("password"));
 			String name = trimSpace(request.getParameter("name"));
 			String icon = trimSpace(request.getParameter("icon"));
 			String profile = trimSpace(request.getParameter("profile"));
 
-			UserDTO sub = new UserDTO();
-			sub = (UserDTO) session.getAttribute("updateUser");
+			//変更情報をインスタンス化
+			UserDTO user = (UserDTO) session.getAttribute("updateUser");
+			user.setPassword(password);
+			user.setUserName(name);
+			user.setIcon(icon);
+			user.setProfile(profile);
 
-			//ログインIDを変更してたら重複チェック
-			if(!sub.getLoginId().equals(loginId)) {
-				dbm.checkLoginId(loginId);
-			}
+			//セッションの上書き
+			session.setAttribute("updateUser", user);
 
 			//エラーメッセージ用リスト
 			HashMap<String, String> errList = new HashMap<>();
 
 			//入力チェック
-			errList = checkInput(loginId, password, name);
-
-			//インスタンス化
-			UserDTO user = new UserDTO(loginId, password, name, icon, profile);
-
-			//セッションの上書き
-			session.setAttribute("updateUser", user);
+			errList = checkInput(password, name);
 
 			//エラーがあれば入力画面へ戻る
 			if (errList.size() != 0) {
@@ -221,6 +262,40 @@ public class UpdateServlet extends HttpServlet {
 
 		//更新確認画面で修正ボタンが押されたら入力画面に戻る
 		if ("fix".equals(action)) {
+			gotoPage(request, response, UPD_INPUT_DISP);
+
+			//更新確認画面で確定ボタンが押されたら
+		} else if ("done".equals(action)) {
+
+			UserDTO user = new UserDTO();
+			user = (UserDTO) session.getAttribute("updateUser");
+
+			//ユーザ情報更新メソッド呼び出し
+			dbm.updateUser(user);
+
+			//叫び一覧も更新
+			dbm.updateShoutList(user);
+
+			UserDTO loginUser = (UserDTO) session.getAttribute("user");
+
+			//ログインユーザが変更されていたら
+			if (user.getLoginId().equals(loginUser.getLoginId())) {
+
+				//DBから最新のユーザ情報取得
+				loginUser = dbm.selectUserById(user.getLoginId());
+
+				//変更後のユーザ情報をセッションに入れる
+				session.setAttribute("user", loginUser);
+
+				//変更後の叫び一覧をセッションに入れる
+				ArrayList<ShoutDTO> list = dbm.getShoutList();
+
+				// リストをセッションに保存
+				session.setAttribute("shouts", list);
+
+			}
+
+			//更新完了画面へ
 			gotoPage(request, response, UPD_COMP_DISP);
 		}
 
@@ -234,29 +309,36 @@ public class UpdateServlet extends HttpServlet {
 	}
 
 	//入力チェック
-	private HashMap<String, String> checkInput(String loginId, String password, String name) {
+	private HashMap<String, String> checkInput(String password, String name) {
+
 		HashMap<String, String> list = new HashMap<>();
-		if ("".equals(loginId)) {   //未入力
-			list.put("idErr", ERR_ID_REQUIRE);
-		} else if (!isEisuji(loginId)) {   //英数字以外
-			list.put("idErr", ERR_ID_CODE);
-		}
-		if ("".equals(password)) {   //未入力
+
+		if ("".equals(password)) { //未入力
 			list.put("passErr", ERR_PASS_REQUIRE);
 		}
-		if ("".equals(name)) {   //未入力
+		if ("".equals(name)) { //未入力
 			list.put("nameErr", ERR_NAME_REQUIRE);
-		} else if (!isZenkaku(name)) {   //全角以外
+		} else if (!isZenkaku(name)) { //全角以外
 			list.put("nameErr", ERR_NAME_ZEN);
 		}
 		return list;
 	}
 
 	//スペース除去
-	private String trimSpace(String input) {
-		input = input.replaceAll(" ", "");
-		input = input.replaceAll("　", "");
-		return input;
+	private String trimSpace(String str) {
+		if (str == null || str.length() == 0) {
+			return str;
+		}
+		int st = 0;
+		int len = str.length();
+		char[] val = str.toCharArray();
+		while ((st < len) && ((val[st] <= '\u0020') || (val[st] == '\u00A0') || (val[st] == '\u3000'))) {
+			st++;
+		}
+		while ((st < len) && ((val[len - 1] <= '\u0020') || (val[len - 1] == '\u00A0') || (val[len - 1] == '\u3000'))) {
+			len--;
+		}
+		return ((st > 0) || (len < str.length())) ? str.substring(st, len) : str;
 	}
 
 	//全角チェック
@@ -270,14 +352,4 @@ public class UpdateServlet extends HttpServlet {
 		return result;
 	}
 
-	//英数字チェック
-	private boolean isEisuji(String input) {
-		boolean result = true;
-		if (input.matches("[0-9a-zA-Z]+")) {
-			result = true;
-		} else {
-			result = false;
-		}
-		return result;
-	}
 }

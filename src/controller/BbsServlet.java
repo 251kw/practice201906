@@ -44,20 +44,13 @@ public class BbsServlet extends HttpServlet {
 		if ("shout".equals(action)) {
 
 			//内容を取得
-			String writing = request.getParameter("shout");
-
-			//スペースを除去
-			writing = writing.replaceAll(" ","");
-			writing = writing.replaceAll("　","");
+			String writing = trimSpace(request.getParameter("shout"));
 
 			//書き込みがなければ
 			if (writing.equals("")) {
 
 				// エラーメッセージをリクエストオブジェクトに保存
 				request.setAttribute("alert", "入力されていません。");
-
-				// index.jsp に処理を転送
-				gotoPage(request, response, TOP_DISP);
 
 				// 書き込み内容があれば、リストに追加
 			} else {
@@ -78,9 +71,6 @@ public class BbsServlet extends HttpServlet {
 
 				// リストをセッションに保存
 				session.setAttribute("shouts", list);
-
-				// top.jsp に処理を転送
-				gotoPage(request, response, TOP_DISP);
 			}
 		}
 
@@ -88,7 +78,7 @@ public class BbsServlet extends HttpServlet {
 		if ("delete".equals(action)) {
 
 			//選択された叫びのshoutsIdを取得
-			String shoutsId = request.getParameter("shoutsId");
+			int shoutsId = Integer.parseInt(request.getParameter("shoutsId"));
 
 			dbm = new DBManager();
 
@@ -110,5 +100,22 @@ public class BbsServlet extends HttpServlet {
 			HttpServletResponse response, String page) throws ServletException, IOException {
 		RequestDispatcher rd = request.getRequestDispatcher(page);
 		rd.forward(request, response);
+	}
+
+	//スペース除去
+	private String trimSpace(String str) {
+		if (str == null || str.length() == 0) {
+			return str;
+		}
+		int st = 0;
+		int len = str.length();
+		char[] val = str.toCharArray();
+		while ((st < len) && ((val[st] <= '\u0020') || (val[st] == '\u00A0') || (val[st] == '\u3000'))) {
+			st++;
+		}
+		while ((st < len) && ((val[len - 1] <= '\u0020') || (val[len - 1] == '\u00A0') || (val[len - 1] == '\u3000'))) {
+			len--;
+		}
+		return ((st > 0) || (len < str.length())) ? str.substring(st, len) : str;
 	}
 }

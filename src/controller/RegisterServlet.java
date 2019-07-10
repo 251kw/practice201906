@@ -65,7 +65,12 @@ public class RegisterServlet extends HttpServlet {
 			String profile = trimSpace(request.getParameter("profile"));
 
 			//インスタンス化
-			UserDTO user = new UserDTO(loginId, password, name, icon, profile);
+			UserDTO user = new UserDTO();
+			user.setLoginId(loginId);
+			user.setPassword(password);
+			user.setUserName(name);
+			user.setIcon(icon);
+			user.setProfile(profile);
 
 			//入力値保持のためセッションに保存
 			session.setAttribute("user", user);
@@ -144,10 +149,20 @@ public class RegisterServlet extends HttpServlet {
 	}
 
 	//スペース除去
-	private String trimSpace(String input) {
-		input = input.replaceAll(" ", "");
-		input = input.replaceAll("　", "");
-		return input;
+	private String trimSpace(String str) {
+	    if (str == null || str.length() == 0) {
+	        return str;
+	    }
+	    int st = 0;
+	    int len = str.length();
+	    char[] val = str.toCharArray();
+	    while ((st < len) && ((val[st] <= '\u0020') || (val[st] == '\u00A0') || (val[st] == '\u3000'))) {
+	        st++;
+	    }
+	    while ((st < len) && ((val[len - 1] <= '\u0020') || (val[len - 1] == '\u00A0') || (val[len - 1] == '\u3000'))) {
+	        len--;
+	    }
+	    return ((st > 0) || (len < str.length())) ? str.substring(st, len) : str;
 	}
 
 	//全角チェック

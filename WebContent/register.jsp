@@ -14,7 +14,8 @@
 	<%@ include file="/header.html"%>
 	<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-left">
-			<strong class="color-main">ユーザー登録</strong><hr>
+			<strong class="color-main">ユーザー登録</strong>
+			<hr>
 		</div>
 	</div>
 	<div class="padding-y-5 text-center">
@@ -64,20 +65,20 @@
 						<%-- アイコン選択欄の名前は icon --%>
 						<td class="color-main text-right">アイコン&nbsp;</td>
 						<td><select name="icon"><option value="icon-user">male</option>
-								<option value="icon-user-female">female</option>
-								<option value="icon-magic-wand">wand</option>
-								<option value="icon-plugin">plugin</option>
-								<option value="icon-rocket">rocket</option>
-								<option value="icon-smile">smile</option>
-								<option value="icon-wine">wine</option>
-								<option value="icon-cash">cash</option>
-								<option value="icon-gym">gym</option>
-								<option value="icon-diamond">diamond</option>
-								<option value="icon-star">star</option>
-								<option value="icon-science">science</option>
-								<option value="icon-film">film</option>
-								<option value="icon-plane">plane</option>
-								<option value="icon-joy">joy</option>
+								<option value="icon-user-female" <c:if test="${user.getIcon() == 'icon-user-female'}">selected</c:if>>female</option>
+								<option value="icon-magic-wand" <c:if test="${user.getIcon() == 'icon-magic-wand'}">selected</c:if>>wand</option>
+								<option value="icon-plugin" <c:if test="${user.getIcon() == 'icon-plugin'}">selected</c:if>>plugin</option>
+								<option value="icon-rocket" <c:if test="${user.getIcon() == 'icon-rocket'}">selected</c:if>>rocket</option>
+								<option value="icon-smile" <c:if test="${user.getIcon() == 'icon-smile'}">selected</c:if>>smile</option>
+								<option value="icon-wine" <c:if test="${user.getIcon() == 'icon-wine'}">selected</c:if>>wine</option>
+								<option value="icon-cash" <c:if test="${user.getIcon() == 'icon-cash'}">selected</c:if>>cash</option>
+								<option value="icon-gym" <c:if test="${user.getIcon() == 'icon-gym'}">selected</c:if>>gym</option>
+								<option value="icon-diamond" <c:if test="${user.getIcon() == 'icon-diamond'}">selected</c:if>>diamond</option>
+								<option value="icon-star" <c:if test="${user.getIcon() == 'icon-star'}">selected</c:if>>star</option>
+								<option value="icon-science" <c:if test="${user.getIcon() == 'icon-science'}">selected</c:if>>science</option>
+								<option value="icon-film" <c:if test="${user.getIcon() == 'icon-film'}">selected</c:if>>film</option>
+								<option value="icon-plane" <c:if test="${user.getIcon() == 'icon-plane'}">selected</c:if>>plane</option>
+								<option value="icon-joy" <c:if test="${user.getIcon() == 'icon-joy'}">selected</c:if>>joy</option>
 						</select></td>
 					</tr>
 					<tr>
@@ -87,14 +88,11 @@
 							maxlength="128" name="profile" value="${user.getProfile()}"
 							size="20" /></td>
 					</tr>
-					<tr>
-						<td></td>
-						<td class="text-center"><input class="btn btn-light"
-							type="button" onclick="location.href='index.jsp'" value="キャンセル" />
-							<button type="submit" class="btn" name="action" value="confirm">確認</button>
-						</td><td></td>
-					</tr>
 				</table>
+				<input class="btn btn-light" type="button"
+					onclick="location.href='index.jsp'" value="キャンセル" /> <input
+					type="reset" class="btn btn-warning" value="リセット">
+				<button type="submit" class="btn" name="action" value="confirm">確認</button>
 			</form>
 		</div>
 	</div>

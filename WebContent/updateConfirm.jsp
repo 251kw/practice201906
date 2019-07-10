@@ -19,30 +19,32 @@
 			下記の内容で更新します。<br>
 		</div>
 	</div>
-	<div class="padding-y-5">
-		<div style="width:" class="container padding-y-5 text-center">
-			<jsp:useBean id="updateUser" scope="session"
-				type="java.util.ArrayList<dto.UserDTO>" />
+	<div class="padding-y-5 text-center">
+		<div style="width: 30%" class="container padding-y-5 text-center">
+			<jsp:useBean id="updateUser" scope="session" class="dto.UserDTO" />
 			<form action="update" method="post">
-				<table class="table table-striped table-bordered">
+				<table style="width:400px" class="table table-striped table-bordered">
 					<tr>
-						<th class="text-center">ログインID</th>
-						<th class="text-center">名前</th>
-						<th class="text-center">アイコン</th>
-						<th class="text-center">プロフィール</th>
+						<th class="color-main text-center">ログインID</th>
+						<td class="text-center">${updateUser.loginId }</td>
 					</tr>
-						<tr>
-							<td class="text-center">${updateUser.loginId }</td>
-							<td class="text-center">${updateUser.userName }</td>
-							<td class="text-center"><span
-								class="${updateUser.icon} pe-3x pe-va"></span></td>
-							<td class="text-center">${updateUser.profile }</td>
-						</tr>
+					<tr>
+						<th class="color-main text-center">名前</th>
+						<td class="text-center">${updateUser.userName }</td>
+					</tr>
+					<tr>
+						<th class="color-main text-center">アイコン</th>
+						<td class="text-center"><span
+							class="${updateUser.icon} pe-3x pe-va"></span></td>
+					</tr>
+					<tr>
+						<th class="color-main text-center">プロフィール</th>
+						<td class="text-center">${updateUser.profile }</td>
+					</tr>
 				</table>
 				<button type="submit" class="btn btn-light" name="action"
 					value="fix">修正</button>
-				<button type="submit" class="btn" name="action"
-					value="delete">削除</button>
+				<button type="submit" class="btn" name="action" value="done">確定</button>
 			</form>
 		</div>
 	</div>

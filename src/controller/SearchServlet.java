@@ -78,51 +78,43 @@ public class SearchServlet extends HttpServlet {
 			//パラメータ取得
 			String loginId = trimSpace(request.getParameter("loginId"));
 			String name = trimSpace(request.getParameter("name"));
+			String icon = request.getParameter("icon");
 			String profile = trimSpace(request.getParameter("profile"));
 
 			//インスタンス化
 			UserDTO user = new UserDTO();
 			user.setLoginId(loginId);
 			user.setUserName(name);
+			user.setIcon(icon);
 			user.setProfile(profile);
 
 			//セッションに保存
 			session.setAttribute("searchUser", user);
 
-			//検索結果を入れるリスト作成
-			ArrayList<UserDTO> userList = new ArrayList<>();
-
-			//DBMのユーザ検索メソッド呼び出し
-			if (!"".equals(loginId) && "".equals(name) && "".equals(profile)) { //IDで検索
-				userList.addAll(dbm.searchUserById(loginId));
-			}else
-			if ("".equals(loginId) && !"".equals(name) && "".equals(profile)) { //名前で検索
-				userList.addAll(dbm.searchUserByName(name));
-			}else
-			if ("".equals(loginId) && "".equals(name) && !"".equals(profile)) { //プロフィールで検索
-				userList.addAll(dbm.searchUserByProfile(profile));
-			}else
-			if ("".equals(loginId) && "".equals(name) && "".equals(profile)) { //何も入力されていなければ全検索
-				userList.addAll(dbm.searchAllUser());
-			}else
-			if(!"".equals(loginId) && !"".equals(name) && "".equals(profile)) { //IDと名前で検索
-				userList.addAll(dbm.searchUserByIdAndName(loginId,name));
-			}else
-			if(!"".equals(loginId) && "".equals(name) && !"".equals(profile)) { //IDとプロフィールで検索
-				userList.addAll(dbm.searchUserByIdAndProfile(loginId,profile));
-			}else
-			if(!"".equals(loginId) && !"".equals(name) && "".equals(profile)) { //名前とプロフィールで検索
-				userList.addAll(dbm.searchUserByNameAndProfile(name,profile));
-			}
+			//DBMのユーザ検索メソッド呼び出してリストに入れる
+			ArrayList<UserDTO> userList = dbm.searchUser(loginId,name,icon,profile);
 
 			//検索結果がなければメッセージ表示
 			if (userList.size() == 0) {
 				request.setAttribute("alert", ERR_NULL);
 
-			//あれば検索結果をセッションに登録
+				//あれば検索結果をセッションに登録
 			} else {
 				session.setAttribute("resultUsers", userList);
 			}
+
+			//処理をsearch.jspに転送
+			gotoPage(request, response, SEARCH_DISP);
+		}
+
+		//全ユーザ検索ボタンが押されたら
+		if("searchall".equals(action)) {
+
+			//全ユーザ検索メソッド呼び出し
+			ArrayList<UserDTO> userList = dbm.searchAllUser();
+
+			//セッションに保存
+			session.setAttribute("resultUsers", userList);
 
 			//処理をsearch.jspに転送
 			gotoPage(request, response, SEARCH_DISP);

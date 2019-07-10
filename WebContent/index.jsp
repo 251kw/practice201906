@@ -14,7 +14,8 @@
 	<%@ include file="/header.html"%>
 	<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-left">
-			<strong class="color-main">ログイン</strong><hr>
+			<strong class="color-main">ログイン</strong>
+			<hr>
 			IDとパスワードを入力してください。
 		</div>
 	</div>
@@ -23,6 +24,15 @@
 			<%-- action 属性にサーブレットを指定 --%>
 			<form action="./login" method="post">
 				<table style="width: 400px">
+					<tr>
+						<td colspan="2" class="color-error text-right">
+							<%-- リクエストスコープに alert があれば --%> <c:if
+								test="${requestScope.alert != null && requestScope.alert != ''}">
+								<%-- リクエストスコープの alert の値を出力 --%>
+								<c:out value="${requestScope.alert}" />
+							</c:if>
+						</td>
+					</tr>
 					<tr>
 						<%-- ログインID 入力欄の名前は loginId --%>
 						<td class="color-main text-right">ログインID&nbsp;</td>
@@ -42,18 +52,13 @@
 					</tr>
 					<tr>
 						<td colspan="2" class="text-right">
-							<button type="submit" class="btn btn-light" name="action"
+							<button type="submit" class="btn btn-success" name="action"
 								value="new">新規登録</button>
 						</td>
 					</tr>
 				</table>
 			</form>
-			<%-- リクエストスコープに alert があれば --%>
-			<c:if
-				test="${requestScope.alert != null && requestScope.alert != ''}">
-				<%-- リクエストスコープの alert の値を出力 --%>
-				<c:out value="${requestScope.alert}" />
-			</c:if>
+
 		</div>
 	</div>
 </body>

@@ -52,13 +52,13 @@ public class LoginServlet extends HttpServlet {
 			if (loginId.equals("") || password.equals("")) {
 
 				// ログインID かパスワードどちらか、もしくは双方未入力なら
-				message = "ログインIDとパスワードは必須入力です";
+				message = "※ログインIDとパスワードは必須入力です";
 
 				// エラーメッセージをリクエストオブジェクトに保存
 				request.setAttribute("alert", message);
 
 				// index.jsp に処理を転送
-				gotoPage(request, response,INPUT_DISP);
+				gotoPage(request, response,LOGIN_DISP);
 
 			} else {
 
@@ -82,7 +82,7 @@ public class LoginServlet extends HttpServlet {
 				} else {
 
 					// エラーメッセージをリクエストオブジェクトに保存
-					message = "ログインIDまたはパスワードが違います";
+					message = "※ログインIDまたはパスワードが違います";
 					request.setAttribute("alert", message);
 
 					// 処理の転送先を index.jsp に指定

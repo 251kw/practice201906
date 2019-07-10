@@ -2,6 +2,7 @@ package dto;
 
 // ユーザ情報を保持するクラス
 public class UserDTO {
+	private int userId;      //ユーザID
 	private String loginId;		// ログインID
 	private String password;	// パスワード
 	private String userName;	// ユーザ名
@@ -12,7 +13,7 @@ public class UserDTO {
 
 	}
 
-	public UserDTO(String loginId, String password, String userName, String icon, String profile) {
+	public UserDTO(int userId, String loginId, String password, String userName, String icon, String profile) {
 		this.loginId = loginId;
 		this.password = password;
 		this.userName = userName;
@@ -21,6 +22,14 @@ public class UserDTO {
 	}
 
 	// 各メンバ変数の getter および setter
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	public String getLoginId() {
 		return loginId;
 	}

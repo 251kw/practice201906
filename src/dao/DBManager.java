@@ -8,8 +8,6 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
 import dto.ShoutDTO;
 import dto.UserDTO;
@@ -39,6 +37,7 @@ public class DBManager extends SnsDAO {
 			if (rset.next()) {
 				// 必要な列から値を取り出し、ユーザ情報オブジェクトを生成
 				user = new UserDTO();
+				user.setUserId(rset.getInt(1));
 				user.setLoginId(rset.getString(2));
 				user.setPassword(rset.getString(3));
 				user.setUserName(rset.getString(4));
@@ -78,7 +77,7 @@ public class DBManager extends SnsDAO {
 			while (rset.next()) {
 				// 必要な列から値を取り出し、書き込み内容オブジェクトを生成
 				ShoutDTO shout = new ShoutDTO();
-				shout.setShoutsId(rset.getString(1));
+				shout.setShoutsId(rset.getInt(1));
 				shout.setLoginId(rset.getString(2));
 				shout.setUserName(rset.getString(3));
 				shout.setIcon(rset.getString(4));
@@ -137,12 +136,10 @@ public class DBManager extends SnsDAO {
 	}
 
 	// ログインユーザ情報を受け取り、リストから削除する
-	public boolean deleteWriting(String sshoutsId) {
+	public boolean deleteWriting(int shoutsId) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean result = false;
-
-		int shoutsId = Integer.parseInt(sshoutsId);
 
 		try {
 			conn = getConnection();
@@ -235,17 +232,48 @@ public class DBManager extends SnsDAO {
 		return result;
 	}
 
-	//ユーザをIDで検索
-	public Set<UserDTO> searchUserById(String loginId) {
+	//ユーザを検索
+	public ArrayList<UserDTO> searchUser(String loginId, String name, String icon, String profile) {
 		Connection conn = null; // データベース接続情報
 		PreparedStatement pstmt = null; // SQL 管理情報
 		ResultSet rset = null; // 検索結果
-		String sql;
+		String sql = null;
 
-		sql = "SELECT * FROM users WHERE loginId LIKE ?";
+		//場合分け
+		if (!"".equals(loginId) && "".equals(name) && "--".equals(icon) && "".equals(profile)) {
+			sql = "SELECT * FROM users WHERE loginId LIKE ?";
+		} else if ("".equals(loginId) && !"".equals(name) && "--".equals(icon) && "".equals(profile)) {
+			sql = "SELECT * FROM users WHERE userName LIKE ?";
+		} else if ("".equals(loginId) && "".equals(name) && !"--".equals(icon) && "".equals(profile)) {
+			sql = "SELECT * FROM users WHERE icon =?";
+		} else if ("".equals(loginId) && "".equals(name) && "--".equals(icon) && !"".equals(profile)) {
+			sql = "SELECT * FROM users WHERE profile LIKE ?";
+		} else if (!"".equals(loginId) && !"".equals(name) && "--".equals(icon) && "".equals(profile)) {
+			sql = "SELECT * FROM users WHERE loginId LIKE ? OR userName LIKE ?";
+		} else if (!"".equals(loginId) && "".equals(name) && !"--".equals(icon) && "".equals(profile)) {
+			sql = "SELECT * FROM users WHERE loginId LIKE ? OR icon=?";
+		} else if (!"".equals(loginId) && "".equals(name) && "--".equals(icon) && !"".equals(profile)) {
+			sql = "SELECT * FROM users WHERE loginId LIKE ? OR profile LIKE ?";
+		} else if ("".equals(loginId) && !"".equals(name) && !"--".equals(icon) && "".equals(profile)) {
+			sql = "SELECT * FROM users WHERE userName LIKE ? OR icon=?";
+		} else if ("".equals(loginId) && !"".equals(name) && "--".equals(icon) && !"".equals(profile)) {
+			sql = "SELECT * FROM users WHERE userName LIKE ? OR profile LIKE ?";
+		} else if ("".equals(loginId) && "".equals(name) && !"--".equals(icon) && !"".equals(profile)) {
+			sql = "SELECT * FROM users WHERE icon=? OR profile LIKE ?";
+		} else if (!"".equals(loginId) && !"".equals(name) && !"--".equals(icon) && "".equals(profile)) {
+			sql = "SELECT * FROM users WHERE loginId LIKE ? OR userName LIKE ? OR icon=?";
+		} else if (!"".equals(loginId) && !"".equals(name) && "--".equals(icon) && !"".equals(profile)) {
+			sql = "SELECT * FROM users WHERE loginId LIKE ? OR userName LIKE ? OR profile LIKE ?";
+		} else if (!"".equals(loginId) && "".equals(name) && !"--".equals(icon) && !"".equals(profile)) {
+			sql = "SELECT * FROM users WHERE loginId LIKE ? OR icon=? OR profile LIKE ?";
+		} else if ("".equals(loginId) && !"".equals(name) && !"--".equals(icon) && !"".equals(profile)) {
+			sql = "SELECT * FROM users WHERE userName LIKE ? OR icon=? OR profile LIKE ?";
+		} else if (!"".equals(loginId) && !"".equals(name) && !"--".equals(icon) && !"".equals(profile)) {
+			sql = "SELECT * FROM users WHERE loginId LIKE ? OR userName LIKE ? OR icon=? OR profile LIKE ?";
+		}
 
 		//検索結果を入れるリスト作成
-		Set<UserDTO> list = new HashSet<>();
+		ArrayList<UserDTO> list = new ArrayList<UserDTO>();
 
 		try {
 			// データベース接続情報取得
@@ -253,13 +281,64 @@ public class DBManager extends SnsDAO {
 
 			// SELECT 文の登録と実行
 			pstmt = conn.prepareStatement(sql); // SELECT 構文登録
-			pstmt.setString(1, "%" + loginId + "%");
+
+			//場合分け
+			if (!"".equals(loginId) && "".equals(name) && "--".equals(icon) && "".equals(profile)) {
+				pstmt.setString(1, "%" + loginId + "%");
+			} else if ("".equals(loginId) && !"".equals(name) && "--".equals(icon) && "".equals(profile)) {
+				pstmt.setString(1, "%" + name + "%");
+			} else if ("".equals(loginId) && "".equals(name) && !"--".equals(icon) && "".equals(profile)) {
+				pstmt.setString(1, icon);
+			} else if ("".equals(loginId) && "".equals(name) && "--".equals(icon) && !"".equals(profile)) {
+				pstmt.setString(1, "%" + profile + "%");
+			} else if (!"".equals(loginId) && !"".equals(name) && "--".equals(icon) && "".equals(profile)) {
+				pstmt.setString(1, "%" + loginId + "%");
+				pstmt.setString(2, "%" + name + "%");
+			} else if (!"".equals(loginId) && "".equals(name) && !"--".equals(icon) && "".equals(profile)) {
+				pstmt.setString(1, "%" + loginId + "%");
+				pstmt.setString(2, icon);
+			} else if (!"".equals(loginId) && "".equals(name) && "--".equals(icon) && !"".equals(profile)) {
+				pstmt.setString(1, "%" + loginId + "%");
+				pstmt.setString(2, "%" + profile + "%");
+			} else if ("".equals(loginId) && !"".equals(name) && !"--".equals(icon) && "".equals(profile)) {
+				pstmt.setString(1, "%" + name + "%");
+				pstmt.setString(2, icon);
+			} else if ("".equals(loginId) && !"".equals(name) && "--".equals(icon) && !"".equals(profile)) {
+				pstmt.setString(1, "%" + name + "%");
+				pstmt.setString(2, "%" + profile + "%");
+			} else if ("".equals(loginId) && "".equals(name) && !"--".equals(icon) && !"".equals(profile)) {
+				pstmt.setString(1, icon);
+				pstmt.setString(2, "%" + profile + "%");
+			} else if (!"".equals(loginId) && !"".equals(name) && !"--".equals(icon) && "".equals(profile)) {
+				pstmt.setString(1, "%" + loginId + "%");
+				pstmt.setString(2, "%" + name + "%");
+				pstmt.setString(3, icon);
+			} else if (!"".equals(loginId) && !"".equals(name) && "--".equals(icon) && !"".equals(profile)) {
+				pstmt.setString(1, "%" + loginId + "%");
+				pstmt.setString(2, "%" + name + "%");
+				pstmt.setString(3, "%" + profile + "%");
+			} else if (!"".equals(loginId) && "".equals(name) && !"--".equals(icon) && !"".equals(profile)) {
+				pstmt.setString(1, "%" + loginId + "%");
+				pstmt.setString(2, icon);
+				pstmt.setString(3, "%" + profile + "%");
+			} else if ("".equals(loginId) && !"".equals(name) && !"--".equals(icon) && !"".equals(profile)) {
+				pstmt.setString(1, "%" + name + "%");
+				pstmt.setString(2, icon);
+				pstmt.setString(3, "%" + profile + "%");
+			} else if (!"".equals(loginId) && !"".equals(name) && !"--".equals(icon) && !"".equals(profile)) {
+				pstmt.setString(1, "%" + loginId + "%");
+				pstmt.setString(2, "%" + name + "%");
+				pstmt.setString(3, icon);
+				pstmt.setString(4, "%" + profile + "%");
+			}
+
 			rset = pstmt.executeQuery();
 
 			// 検索結果があれば
 			while (rset.next()) {
 				// 必要な列から値を取り出し、ユーザオブジェクトに設定
 				UserDTO user = new UserDTO();
+				user.setUserId(rset.getInt(1));
 				user.setLoginId(rset.getString(2));
 				user.setPassword(rset.getString(3));
 				user.setUserName(rset.getString(4));
@@ -280,239 +359,17 @@ public class DBManager extends SnsDAO {
 		return list;
 	}
 
-	//ユーザを名前で検索
-	public Set<UserDTO> searchUserByName(String name) {
+	//ユーザを全検索
+	public ArrayList<UserDTO> searchAllUser() {
 		Connection conn = null; // データベース接続情報
 		PreparedStatement pstmt = null; // SQL 管理情報
 		ResultSet rset = null; // 検索結果
-		String sql;
-
-		sql = "SELECT * FROM users WHERE userName LIKE ?";
-		//検索結果を入れるリスト作成
-		Set<UserDTO> list = new HashSet<>();
-
-		try {
-			// データベース接続情報取得
-			conn = getConnection();
-
-			// SELECT 文の登録と実行
-			pstmt = conn.prepareStatement(sql); // SELECT 構文登録
-			pstmt.setString(1, "%" + name + "%");
-			rset = pstmt.executeQuery();
-
-			// 検索結果があれば
-			while (rset.next()) {
-				// 必要な列から値を取り出し、ユーザ情報オブジェクトを生成
-				UserDTO user = new UserDTO();
-				user.setLoginId(rset.getString(2));
-				user.setPassword(rset.getString(3));
-				user.setUserName(rset.getString(4));
-				user.setIcon(rset.getString(5));
-				user.setProfile(rset.getString(6));
-				//リストに追加
-				list.add(user);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			// データベース切断処理
-			close(rset);
-			close(pstmt);
-			close(conn);
-		}
-
-		return list;
-	}
-
-	//ユーザをプロフィールで検索
-	public Set<UserDTO> searchUserByProfile(String profile) {
-		Connection conn = null; // データベース接続情報
-		PreparedStatement pstmt = null; // SQL 管理情報
-		ResultSet rset = null; // 検索結果
-		String sql;
-
-		sql = "SELECT * FROM users WHERE profile LIKE ?";
-		//検索結果を入れるリスト作成
-		Set<UserDTO> list = new HashSet<>();
-
-		try {
-			// データベース接続情報取得
-			conn = getConnection();
-
-			// SELECT 文の登録と実行
-			pstmt = conn.prepareStatement(sql); // SELECT 構文登録
-			pstmt.setString(1, "%" + profile + "%");
-			rset = pstmt.executeQuery();
-
-			// 検索結果があれば
-			while (rset.next()) {
-				// 必要な列から値を取り出し、ユーザ情報オブジェクトを生成
-				UserDTO user = new UserDTO();
-				user.setLoginId(rset.getString(2));
-				user.setPassword(rset.getString(3));
-				user.setUserName(rset.getString(4));
-				user.setIcon(rset.getString(5));
-				user.setProfile(rset.getString(6));
-				//リストに追加
-				list.add(user);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			// データベース切断処理
-			close(rset);
-			close(pstmt);
-			close(conn);
-		}
-
-		return list;
-	}
-
-	//ユーザをIDと名前で検索
-	public Set<UserDTO> searchUserByIdAndName(String loginId, String name) {
-		Connection conn = null; // データベース接続情報
-		PreparedStatement pstmt = null; // SQL 管理情報
-		ResultSet rset = null; // 検索結果
-		String sql;
-
-		sql = "SELECT * FROM users WHERE loginId LIKE ? OR userName LIKE ?";
-		//検索結果を入れるリスト作成
-		Set<UserDTO> list = new HashSet<>();
-
-		try {
-			// データベース接続情報取得
-			conn = getConnection();
-
-			// SELECT 文の登録と実行
-			pstmt = conn.prepareStatement(sql); // SELECT 構文登録
-			pstmt.setString(1, "%" + loginId + "%");
-			pstmt.setString(2, "%" + name + "%");
-			rset = pstmt.executeQuery();
-
-			// 検索結果があれば
-			while (rset.next()) {
-				// 必要な列から値を取り出し、ユーザ情報オブジェクトを生成
-				UserDTO user = new UserDTO();
-				user.setLoginId(rset.getString(2));
-				user.setPassword(rset.getString(3));
-				user.setUserName(rset.getString(4));
-				user.setIcon(rset.getString(5));
-				user.setProfile(rset.getString(6));
-				//リストに追加
-				list.add(user);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			// データベース切断処理
-			close(rset);
-			close(pstmt);
-			close(conn);
-		}
-
-		return list;
-	}
-
-	//ユーザをIDとプロフィールで検索
-	public Set<UserDTO> searchUserByIdAndProfile(String loginId, String profile) {
-		Connection conn = null; // データベース接続情報
-		PreparedStatement pstmt = null; // SQL 管理情報
-		ResultSet rset = null; // 検索結果
-		String sql;
-
-		sql = "SELECT * FROM users WHERE loginId LIKE ? OR profile LIKE ?";
-		//検索結果を入れるリスト作成
-		Set<UserDTO> list = new HashSet<>();
-
-		try {
-			// データベース接続情報取得
-			conn = getConnection();
-
-			// SELECT 文の登録と実行
-			pstmt = conn.prepareStatement(sql); // SELECT 構文登録
-			pstmt.setString(1, "%" + loginId + "%");
-			pstmt.setString(2, "%" + profile + "%");
-			rset = pstmt.executeQuery();
-
-			// 検索結果があれば
-			while (rset.next()) {
-				// 必要な列から値を取り出し、ユーザ情報オブジェクトを生成
-				UserDTO user = new UserDTO();
-				user.setLoginId(rset.getString(2));
-				user.setPassword(rset.getString(3));
-				user.setUserName(rset.getString(4));
-				user.setIcon(rset.getString(5));
-				user.setProfile(rset.getString(6));
-				//リストに追加
-				list.add(user);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			// データベース切断処理
-			close(rset);
-			close(pstmt);
-			close(conn);
-		}
-
-		return list;
-	}
-
-	//ユーザを名前とプロフィールで検索
-	public Set<UserDTO> searchUserByNameAndProfile(String name, String profile) {
-		Connection conn = null; // データベース接続情報
-		PreparedStatement pstmt = null; // SQL 管理情報
-		ResultSet rset = null; // 検索結果
-		String sql;
-
-		sql = "SELECT * FROM users WHERE userName LIKE ? OR profile LIKE ?";
-		//検索結果を入れるリスト作成
-		Set<UserDTO> list = new HashSet<>();
-
-		try {
-			// データベース接続情報取得
-			conn = getConnection();
-
-			// SELECT 文の登録と実行
-			pstmt = conn.prepareStatement(sql); // SELECT 構文登録
-			pstmt.setString(1, "%" + name + "%");
-			pstmt.setString(2, "%" + profile + "%");
-			rset = pstmt.executeQuery();
-
-			// 検索結果があれば
-			while (rset.next()) {
-				// 必要な列から値を取り出し、ユーザ情報オブジェクトを生成
-				UserDTO user = new UserDTO();
-				user.setLoginId(rset.getString(2));
-				user.setPassword(rset.getString(3));
-				user.setUserName(rset.getString(4));
-				user.setIcon(rset.getString(5));
-				user.setProfile(rset.getString(6));
-				//リストに追加
-				list.add(user);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			// データベース切断処理
-			close(rset);
-			close(pstmt);
-			close(conn);
-		}
-
-		return list;
-	}
-
-	//ユーザをプロフィールで検索
-	public Set<UserDTO> searchAllUser() {
-		Connection conn = null; // データベース接続情報
-		PreparedStatement pstmt = null; // SQL 管理情報
-		ResultSet rset = null; // 検索結果
-		String sql;
+		String sql = null;
 
 		sql = "SELECT * FROM users";
+
 		//検索結果を入れるリスト作成
-		Set<UserDTO> list = new HashSet<>();
+		ArrayList<UserDTO> list = new ArrayList<UserDTO>();
 
 		try {
 			// データベース接続情報取得
@@ -520,12 +377,14 @@ public class DBManager extends SnsDAO {
 
 			// SELECT 文の登録と実行
 			pstmt = conn.prepareStatement(sql); // SELECT 構文登録
+
 			rset = pstmt.executeQuery();
 
 			// 検索結果があれば
 			while (rset.next()) {
-				// 必要な列から値を取り出し、ユーザ情報オブジェクトを生成
+				// 必要な列から値を取り出し、ユーザオブジェクトに設定
 				UserDTO user = new UserDTO();
+				user.setUserId(rset.getInt(1));
 				user.setLoginId(rset.getString(2));
 				user.setPassword(rset.getString(3));
 				user.setUserName(rset.getString(4));
@@ -570,6 +429,7 @@ public class DBManager extends SnsDAO {
 			// 検索結果があれば
 			if (rset.next()) {
 				// 必要な列から値を取り出し、ユーザオブジェクトに設定
+				user.setUserId(rset.getInt(1));
 				user.setLoginId(rset.getString(2));
 				user.setPassword(rset.getString(3));
 				user.setUserName(rset.getString(4));
@@ -617,32 +477,99 @@ public class DBManager extends SnsDAO {
 		return result;
 	}
 
-//IDの情報を受け取り、shoutsを削除する
-public boolean deleteWritings(String loginId) {
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	boolean result = false;
+	//IDの情報を受け取り、shoutsを削除する
+	public boolean deleteWritings(String loginId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		boolean result = false;
 
-	try {
-		conn = getConnection();
-		// UPDATE 文の登録と実行
-		String sql = "DELETE FROM shouts WHERE loginId=?";
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, loginId);
+		try {
+			conn = getConnection();
+			// UPDATE 文の登録と実行
+			String sql = "DELETE FROM shouts WHERE loginId=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, loginId);
 
-		int cnt = pstmt.executeUpdate();
-		if (cnt == 1) {
-			// INSERT 文の実行結果が１なら登録成功
-			result = true;
+			int cnt = pstmt.executeUpdate();
+			if (cnt == 1) {
+				// INSERT 文の実行結果が１なら登録成功
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// データベース切断処理
+			close(pstmt);
+			close(conn);
 		}
-	} catch (SQLException e) {
-		e.printStackTrace();
-	} finally {
-		// データベース切断処理
-		close(pstmt);
-		close(conn);
+
+		return result;
 	}
 
-	return result;
-}
+	//ユーザ情報の更新
+	public boolean updateUser(UserDTO user) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		boolean result = false;
+		try {
+			conn = getConnection();
+
+			// INSERT 文の登録と実行
+			String sql = "UPDATE users SET loginId=?, password=?, userName=?, icon=?, profile=? WHERE userId=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getLoginId());
+			pstmt.setString(2, user.getPassword());
+			pstmt.setString(3, user.getUserName());
+			pstmt.setString(4, user.getIcon());
+			pstmt.setString(5, user.getProfile());
+			pstmt.setInt(6, user.getUserId());
+
+			int cnt = pstmt.executeUpdate();
+			if (cnt == 1) {
+				// INSERT 文の実行結果が１なら登録成功
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// データベース切断処理
+			close(pstmt);
+			close(conn);
+		}
+
+		return result;
+	}
+
+	//叫び情報の更新
+	public boolean updateShoutList(UserDTO user) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		boolean result = false;
+		try {
+			conn = getConnection();
+
+			// INSERT 文の登録と実行
+			String sql = "UPDATE shouts SET userName=?, icon=? WHERE loginId=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getUserName());
+			pstmt.setString(2, user.getIcon());
+			pstmt.setString(3, user.getLoginId());
+
+			int cnt = pstmt.executeUpdate();
+			if (cnt == 1) {
+				// INSERT 文の実行結果が１なら登録成功
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// データベース切断処理
+			close(pstmt);
+			close(conn);
+		}
+
+		return result;
+	}
 }
