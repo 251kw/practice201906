@@ -94,8 +94,10 @@ public class UpdateServlet extends HttpServlet {
 				for (String loginId : checkedUser) {
 					userList.add(dbm.selectUserById(loginId));
 				}
+				//保持用
 
-				//値保持のためセッションに保存
+
+				//セッションに保存
 				session.setAttribute("deleteUsers", userList);
 
 				//削除確認画面に処理を転送
@@ -117,15 +119,15 @@ public class UpdateServlet extends HttpServlet {
 		//確認画面から削除ボタンが押されたら
 		if ("delete".equals(action)) {
 
-			//セッションからユーザ取得
-			ArrayList<UserDTO> list = (ArrayList<UserDTO>) session.getAttribute("deleteUsers");
+			//セッションから削除ユーザ情報取得
+			ArrayList<UserDTO> deleteUsers = (ArrayList<UserDTO>) session.getAttribute("deleteUsers");
 
 			//ログインユーザ情報取得
 			UserDTO loginUser = (UserDTO) session.getAttribute("user");
 			String loginId = null;
 
 			//叫びとユーザ削除メソッド呼び出し
-			for (UserDTO user : list) {
+			for (UserDTO user : deleteUsers) {
 
 				//削除するユーザがログインユーザならログインIDを保持
 				if (user.getLoginId().equals(loginUser.getLoginId())) {
@@ -135,6 +137,26 @@ public class UpdateServlet extends HttpServlet {
 				dbm.deleteUser(user.getLoginId());
 			}
 
+			//叫び一覧を検索し直してセッション書き換え
+			ArrayList<ShoutDTO> shouts = dbm.getShoutList();
+			session.removeAttribute("shouts");
+			session.setAttribute("shouts", shouts);
+
+			//削除していないユーザのID取得
+			ArrayList<UserDTO> resultUsers = (ArrayList<UserDTO>) session.getAttribute("resultUsers");
+			ArrayList<UserDTO> userList = new ArrayList<>();
+			UserDTO user = new UserDTO();
+			for (UserDTO resultUser : resultUsers) {
+				user = dbm.selectUserById(resultUser.getLoginId());
+				if(user.getLoginId() != null) {
+					userList.add(user);
+				}
+			}
+
+			//検索結果のセッションの上書き
+			session.removeAttribute("resultUsers");
+			session.setAttribute("resultUsers", userList);
+
 			//ログインユーザを削除した場合
 			if (loginId != null) {
 
@@ -143,10 +165,10 @@ public class UpdateServlet extends HttpServlet {
 
 				//削除完了画面へ
 				gotoPage(request, response, DEL_COMP_DISP2);
+			} else {
+				//削除完了画面に処理を転送
+				gotoPage(request, response, DEL_COMP_DISP);
 			}
-
-			//削除完了画面に処理を転送
-			gotoPage(request, response, DEL_COMP_DISP);
 		}
 
 		//削除完了画面からユーザの一覧ボタンが押されたら
@@ -156,26 +178,8 @@ public class UpdateServlet extends HttpServlet {
 			ArrayList<UserDTO> list = (ArrayList<UserDTO>) session.getAttribute("resultUsers");
 			if (list.size() == 1) {
 
-				session.removeAttribute("resultUsers");   //セッション破棄
 				request.setAttribute("alert", ERR_NULL);
 
-				//複数あれば
-			} else {
-
-				//前の検索結果のID取得
-				ArrayList<String> loginIds = new ArrayList<>();
-				for (UserDTO user : list) {
-					loginIds.add(user.getLoginId());
-				}
-
-				//IDで検索しなおす
-				ArrayList<UserDTO> userList = new ArrayList<>();
-				for (String loginId : loginIds) {
-					userList.add(dbm.selectUserById(loginId));
-				}
-
-				//セッションの上書き
-				session.setAttribute("resultUsers", userList);
 			}
 
 			//検索結果画面に戻る
@@ -196,6 +200,7 @@ public class UpdateServlet extends HttpServlet {
 
 			//複数選択されていたら検索結果画面に戻り、エラー表示
 			else if (checkedUser.length != 1) {
+				request.setAttribute("checks", checkedUser);
 				request.setAttribute("alert", CHECK_ERR);
 				gotoPage(request, response, SEARCH_DISP);
 
@@ -275,6 +280,15 @@ public class UpdateServlet extends HttpServlet {
 
 			//叫び一覧も更新
 			dbm.updateShoutList(user);
+
+			//セッションの上書き
+			ArrayList<UserDTO> userList = (ArrayList<UserDTO>) session.getAttribute("resultUsers");
+			ArrayList<UserDTO> newUserList = new ArrayList<>();
+			for(UserDTO ruser : userList) {
+				newUserList.add(dbm.selectUserById(ruser.getLoginId()));
+			}
+			session.removeAttribute("resultUsers");
+			session.setAttribute("resultUsers", newUserList);
 
 			UserDTO loginUser = (UserDTO) session.getAttribute("user");
 

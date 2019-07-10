@@ -16,7 +16,7 @@
 		<div style="width: 40%" class="container padding-y-5 text-left">
 			<strong class="color-main">ユーザー検索</strong><br>
 			<hr>
-			検索条件を入力してください。<br> 入力されていない場合は全検索します。<br>
+			検索条件を入力してください。<br> 入力されていない場合は全検索します。<br><br>
 		</div>
 	</div>
 	<div class="padding-y-5 container text-center">
@@ -77,7 +77,7 @@
 					<td class="color-main text-left">&nbsp;を含む</td>
 				</tr>
 				<tr><td></td><td class="text-center"><button type="submit" class="btn" name="action" value="search">検索</button></td><td></td></tr>
-			</table>
+			</table><br><br>
 			<button type="submit" class="btn btn-light" name="action" value="top">トップに戻る</button>
 			<input type="reset" class="btn btn-warning" value="リセット">
 			<button type="submit" class="btn btn-success" name="action" value="searchall">全ユーザ表示</button>

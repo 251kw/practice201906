@@ -16,9 +16,9 @@
 			<jsp:useBean id="resultUsers" scope="session"
 				type="java.util.ArrayList<dto.UserDTO>" />
 			<form name="form" action="update" method="post">
-				<div class="text-right"><label><input type="checkbox" name="all"
-					onClick="AllChecked();" />全て選択
-				</label></div>
+				<div class="text-right">
+					<label><input type="checkbox" id="checkall" />全て選択 </label>
+				</div>
 				<table class="table table-striped table-bordered">
 					<tr>
 						<th class="text-center">ログインID</th>
@@ -34,8 +34,11 @@
 							<td class="text-center"><span
 								class="${user.icon} pe-3x pe-va"></span></td>
 							<td class="text-center">${user.profile }</td>
+
 							<td><input type="checkbox" name="check"
-								value="${user.loginId }" onClick="DisChecked();"></td>
+								value="${user.loginId }" class="row_check"
+								<c:forEach var="check" items="${checks }"><c:if test="${check == user.loginId}">checked</c:if></c:forEach>>
+							</td>
 						</tr>
 					</c:forEach>
 				</table>
@@ -48,30 +51,15 @@
 			</form>
 
 			<script>
-  // 「全て選択」チェックで全てにチェック付く
-  function AllChecked(){
-    var all = document.form.all.checked;
-    for (var i=0; i<document.form.check.length; i++){
-      document.form.check[i].checked = all;
-    }
-  }
-
-  // 一つでもチェックを外すと「全て選択」のチェック外れる
-  function DisChecked(){
-    var checks = document.form.check;
-    var checksCount = 0;
-    for (var i=0; i<checks.length; i++){
-      if(checks[i].checked == false){
-        document.form.all.checked = false;
-      }else{
-        checksCount += 1;
-        if(checksCount == checks.length){
-          document.form.all.checked = true;
-        }
-      }
-    }
-  }
-</script>
+				var checkall = document.getElementById('checkall');
+				checkall.addEventListener('click', function() {
+					var checkboxes = document
+							.getElementsByClassName('row_check');
+					for (i in checkboxes) {
+						checkboxes[i].checked = this.checked;
+					}
+				});
+			</script>
 
 		</c:if>
 	</div>
