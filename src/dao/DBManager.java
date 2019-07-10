@@ -396,4 +396,66 @@ public UserDTO getUserDeleteKakunin(String userId) { //ユーザーＩＤ（主�
 	}
 	return user;
 }
+public boolean setWritingDelete(String loginId) {
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+
+	boolean result = false;
+	try {
+		conn = getConnection();
+
+		// delete 文の登録と実行
+		String sql = "DELETE FROM shouts WHERE loginId=?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, loginId);
+
+
+		int cnt = pstmt.executeUpdate();
+		if (cnt >=0/*== 1*/) {
+			// INSERT 文の実行結果が１なら登録成功
+			result = true;
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		// データベース切断処理
+		close(pstmt);
+		close(conn);
+	}
+
+	return result;
+
+}
+
+public boolean setUserDelete(String loginId) {
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+
+	boolean result = false;
+	try {
+		conn = getConnection();
+
+		// delete 文の登録と実行
+		String sql = "DELETE FROM users WHERE loginId=?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, loginId);
+
+
+		int cnt = pstmt.executeUpdate();
+		if (cnt >=0/*== 1*/) {
+			// INSERT 文の実行結果が１なら登録成功
+			result = true;
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		// データベース切断処理
+		close(pstmt);
+		close(conn);
+	}
+
+	return result;
+
+}
+
 }

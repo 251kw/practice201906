@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,22 +8,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import dao.DBManager;
-import dto.UserDTO;
 
 /**
- * Servlet implementation class UserDeleteKakunin
+ * Servlet implementation class UserDltDone
  */
-@WebServlet("/UDK")
-public class UserDeleteKakunin extends HttpServlet {
+@WebServlet("/UDD")
+public class UserDltDone extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserDeleteKakunin() {
+    public UserDltDone() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,34 +39,31 @@ public class UserDeleteKakunin extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
-		String message = null;
-		DBManager dbm = new DBManager();
-		HttpSession session = request.getSession();
-		//DltUserKensaku.javaでセッションに保存したアレーリストを取得。キャストで警告が出るがアノテーションで処理。
-		ArrayList<UserDTO> selectedUsers = (ArrayList<UserDTO>)session.getAttribute("selectedUsers2");
-		//検索されたユーザーIDを取得
-		String[] sltduId=request.getParameterValues("sltduId");
-		ArrayList<UserDTO> uList = new ArrayList<UserDTO>();
+		String[] dltUserList=request.getParameterValues("uListId");
 		RequestDispatcher dispatcher;
 
-		//配列に入れられた個数だけDBManのメソッドを実行、アレーリストに取得したオブジェクトを代入
-		if(!(sltduId==null)) {
-		for(String i : sltduId) {
-			UserDTO sUser = dbm.getUserDeleteKakunin(i);
-			uList.add(sUser);
+		if(!(dltUserList==null)) {
+		for(String i : dltUserList) {
+			DBManager dbm = new DBManager();
+			boolean sUser = dbm.setWritingDelete(i);
+			System.out.println(sUser);
 		}
-		request.setAttribute("uList", uList);
+		for(String i : dltUserList) {
+			DBManager dbm = new DBManager();
+			boolean sUser = dbm.setUserDelete(i);
+			System.out.println(sUser);
+		}
+		//request.setAttribute("uList", uList);
 		dispatcher = request.getRequestDispatcher("userDeleteKakunin.jsp");
 		dispatcher.forward(request, response);
 		}else {
-			message="対象をチェックしてください。";
-			request.setAttribute("alert", message);
-			request.setAttribute("selectedUsers", selectedUsers);//セッションから取得した値（中身はアレーリストをrequestに乗せて返す。
+			//message="対象をチェックしてください。";
+			//request.setAttribute("alert", message);
+			//request.setAttribute("selectedUsers", selectedUsers);//セッションから取得した値（中身はアレーリストをrequestに乗せて返す。
 			dispatcher = request.getRequestDispatcher("userIchiran2.jsp");
 			dispatcher.forward(request, response);
 		}
