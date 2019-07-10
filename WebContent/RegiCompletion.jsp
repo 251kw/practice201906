@@ -23,8 +23,7 @@
 <br>
 <br>
 			<div style="text-align:center"><input class="btn" type="button"
-			onclick="location.href='top.jsp'"value="TOPページへ"></div>
-		</div>
+			onclick="location.href='top.jsp'"value="TOPページへ"></div></div>
 	</div>
 
 </body>

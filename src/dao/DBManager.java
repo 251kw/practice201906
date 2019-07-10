@@ -63,7 +63,7 @@ public class DBManager extends SnsDAO {
 
 		ArrayList<UserDTO> list = new ArrayList<UserDTO>();
 
-		String sql = "SELECT * FROM users WHERE userName LIKE '%?%'";
+		String sql = "SELECT * FROM users WHERE userName LIKE ?";
 		UserDTO user = null;    // 登録ユーザ情報
 
 		try {
@@ -72,7 +72,7 @@ public class DBManager extends SnsDAO {
 
 			// SELECT 文の登録と実行
 			pstmt = conn.prepareStatement(sql);	// SELECT 構文登録
-			pstmt.setString(1, uName);
+			pstmt.setString(1, "%" + uName + "%");
 			rset = pstmt.executeQuery();
 
 			// 検索結果の数だけ繰り返す
@@ -83,7 +83,11 @@ public class DBManager extends SnsDAO {
 				user.setUserName(rset.getString(4));
 				user.setIcon(rset.getString(5));
 				user.setProfile(rset.getString(6));
+
+				// 書き込み内容をリストに追加
+				list.add(user);
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -95,6 +99,8 @@ public class DBManager extends SnsDAO {
 
 		return list;
 	}
+
+
 
 	//ログインIDを受け取り、登録ユーザ一覧に一致したものがあるか検索
 	public UserDTO checkLoginID(String loginId) {
@@ -307,6 +313,70 @@ public class DBManager extends SnsDAO {
 			close(pstmt);
 			close(conn);
 		}
+	}
+
+		//ユーザー編集情報を受け取り、DBの値を更新する
+	public void editAccount(String loginId,String password,String userName,String icon,String profile) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+
+			String sql = "UPDATE USERS SET loginId=?,password=?,userName=?,icon=?,profile=? WHERE loginId=? ";
+
+			try {
+				conn = getConnection();
+
+				// DELETE 文の登録と実行
+
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, loginId);
+				pstmt.setString(2, password);
+				pstmt.setString(3, userName);
+				pstmt.setString(4, icon);
+				pstmt.setString(5, profile);
+				pstmt.setString(6, loginId);
+
+				pstmt.executeUpdate();
+				rset = pstmt.executeQuery();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				// データベース切断処理
+				close(rset);
+				close(pstmt);
+				close(conn);
+			}
 
 	}
+
+	//ログインIDを受け取り、DBからアカウントを削除する
+	public void deleteAccount(String loginId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = "DELETE FROM USERS SET WHERE loginId=? ";
+
+		try {
+			conn = getConnection();
+
+			// DELETE 文の登録と実行
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, loginId);
+
+			pstmt.executeUpdate();
+			rset = pstmt.executeQuery();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// データベース切断処理
+			close(rset);
+			close(pstmt);
+			close(conn);
+		}
+
+}
 }

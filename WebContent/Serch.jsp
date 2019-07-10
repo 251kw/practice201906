@@ -18,42 +18,47 @@
 			</h1>
 		</div>
 	</div>
-<body>
 	<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-center">
 			<form action="./ss" method="post">
 			<strong class="color-main">ユーザー検索</strong>
 			<h5>ユーザー名を入力してください</h5>
-				<table class="table">
-					<tr>
-						<td><input class="form-control" type="text" name="uName"
-							value="" size="60" /></td>
-						<td><input class="btn" type="submit" value="検索" /></td>
-
+						<input class="form-control" type="text" name="uName"
+							value="" size="20" />
+						<input class="btn" type="submit" value="検索" /><br>
+						</form>
+						<%-- リクエストスコープに results_a があれば --%>
 					<c:if
-						test="${requestScope.result != null && requestScope.result != ''}">
-						<jsp:useBean id="results" scope="request" type="java.util.ArrayList<dto.UserDTO>" />
+						test="${requestScope.results_a != null && requestScope.results_a != ''}">
+							<%-- リクエストスコープの alert の値を出力 --%>
+							<td colspan="2" class="color-error text-left"><c:out
+									value="検索結果が${requestScope.results_a}件見つかりました" /></td>
+					</c:if>
+					 <c:if
+						test="${requestScope.results != null && requestScope.results != ''}">
+					<jsp:useBean id="results" scope="request" type="java.util.ArrayList<dto.UserDTO>" />
 			<%-- リストにある要素の数だけ繰り返し --%>
-			<c:forEach var="result" items="${results}">
-			${result.icon}${result.userName}${result.date}
-				<table class="table table-striped table-bordered">
-					<tr>
-						<td rowspan="2" class="text-center"><span
-							class="${result.icon} pe-3x pe-va"></span></td>
-						<td>${result.userName}
-						</td>
-					</tr>
-					<tr>
-						<td>${result.date}</td>
-					</tr>
-					<tr>
-						<td colspan="2"><textarea rows="5" class="form-control">${result.writing}</textarea>
-						</td>
-					</tr>
-				</table>
-			</c:forEach>
-			</c:if>
-							<%-- リクエストスコープに alert_s があれば --%>
+			<form action="Deleting.jsp" method="post">
+			<table class="table table-striped table-bordered">
+  <tr bgcolor="#7fffd4">
+    <th></th><th>ログインID</th><th>ユーザー名</th><th>アイコン</th><th>プロフィール</th><th></th>
+  </tr>
+<c:forEach var="result" items="${results}">
+  <tr>
+  	<td><label class="fancy-checkbox"><input type="checkbox" name="user" value="loginId=${result.loginId},userName=${result.userName},icon=${result.icon},profile=${result.profile}"><span></span></label></td>
+    <td>${result.loginId}</td>
+    <td>${result.userName}</td>
+    <td><span class="${result.icon} pe-2x pe-va"></span></td>
+	<td>${result.profile}</td>
+	<td><a href="Editing.jsp?loginId=${result.loginId}&userName=${result.userName}&icon=${result.icon}&profile=${result.profile}">編集</a></td>
+  </tr>
+</c:forEach>
+</table>
+<input class="btn" type="submit" value="削除" />
+</form>
+			 </c:if>
+					<%-- リクエストスコープに alert_s があれば --%>
+					<table>
 					<c:if
 						test="${requestScope.alert_s != null && requestScope.alert_s != ''}">
 						<tr>
@@ -62,9 +67,19 @@
 									value="${requestScope.alert_s}" /></td>
 
 						</tr>
+						</c:if>
+							<%-- リクエストスコープに alert_n があれば --%>
+					<c:if
+						test="${requestScope.alert_n != null && requestScope.alert_n != ''}">
+						<tr>
+							<%-- リクエストスコープの alert の値を出力 --%>
+							<td colspan="2" class="color-error text-left"><c:out
+									value="${requestScope.alert_n}" /></td>
+						</tr>
 					</c:if>
 				</table>
-			</form>
+			<div style="text-align:center"><input class="btn" type="button"
+			onclick="location.href='top.jsp'"value="TOPページへ"></div>
 		</div>
 	</div>
 </body>

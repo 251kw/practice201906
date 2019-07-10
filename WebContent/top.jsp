@@ -95,7 +95,7 @@
 						<c:if test="${user.loginId.equals(shout.loginId)}">
 						<input type="hidden" name="userName" value="${shout.userName}">
 						<input type="hidden" name="icon" value="${shout.icon}">
-						<div align='right'><input type='image' name='delete' class='icon-trash pe-2x pe-va' value=' '></div>
+						<div align='right'><input type='image' name='delete' class='icon-trash pe-2x pe-va' alt=' '></div>
 						</c:if>
 						</td>
 					</tr>

@@ -39,9 +39,14 @@ public class SerchServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 文字化け対策
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
 		String uName = request.getParameter("uName");
 		String error = null;
 		String message_s = null;
+		String message_n = null;
+		int results_a = 0;
 		RequestDispatcher dispatcher;
 
 		error = uName.trim();
@@ -51,15 +56,20 @@ public class SerchServlet extends HttpServlet {
 			message_s = "空白だけの検索は無効です";
 			//エラーメッセージをリクエストオブジェクトに保存
 			request.setAttribute("alert_s", message_s);
-		}
-
+		}else {
 		//入力情報が取得されたらリクエストスコープに保存
-		DBManager dbm = new DBManager();
-		ArrayList<UserDTO> list = dbm.serchUser(uName);
+			DBManager dbm = new DBManager();
+			ArrayList<UserDTO> list = dbm.serchUser(uName);
 
-		if (list != null) {
-			// ユーザ情報を取得できたら、書き込み内容リストを取得
-		request.setAttribute("results", list);
+			if (list != null) {
+				// ユーザ情報を取得できたら、ユーザー検索情報リストを取得
+			request.setAttribute("results", list);
+			results_a = list.size();
+			request.setAttribute("results_a",results_a);
+			}else {
+				message_n = "検索結果がありません";
+				request.setAttribute("alert_n", message_n);
+			}
 		}
 		dispatcher = request.getRequestDispatcher("Serch.jsp");
 		dispatcher.forward(request, response);

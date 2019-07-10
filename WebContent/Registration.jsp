@@ -141,7 +141,7 @@ if("icon-ball".equals(i)){
 						<%-- プロフィール入力欄の名前はprofile --%>
 						<td class="color-main text-left">プロフィール</td>
 						<td class="text-left"><textarea  name="profile" class="form-control">
-						 <%=profile %></textarea></td>
+						 ${param.profile}</textarea></td>
 					</tr>
 					<tr>
 						<td colspan="2" class="text-right"><input class="btn"
