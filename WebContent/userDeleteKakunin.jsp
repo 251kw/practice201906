@@ -27,7 +27,7 @@
 					<tr>
 						<td width="64" rowspan="2" class="text-center"><span
 							class="${uList.icon} pe-3x pe-va"></span><br>
-							<input type="hidden" name="uListId" value="${uList.userId }" />
+							<input type="hidden" name="uListLoginId" value="${uList.loginId }" />
 						</td>
 						<td width="300">ログインID<br>
 						${uList.loginId}</td>

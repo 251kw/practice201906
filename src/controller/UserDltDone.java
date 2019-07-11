@@ -43,30 +43,31 @@ public class UserDltDone extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
-		String[] dltUserList=request.getParameterValues("uListId");
+		String[] dltUserList=request.getParameterValues("uListLoginId");
 		RequestDispatcher dispatcher;
+		DBManager dbm = new DBManager();
 
 		if(!(dltUserList==null)) {
 		for(String i : dltUserList) {
-			DBManager dbm = new DBManager();
+
 			boolean sUser = dbm.setWritingDelete(i);
 			System.out.println(sUser);
 		}
 		for(String i : dltUserList) {
-			DBManager dbm = new DBManager();
-			boolean sUser = dbm.setUserDelete(i);
-			System.out.println(sUser);
+			boolean sUser2 = dbm.setUserDelete(i);
+			System.out.println(sUser2);
 		}
 		//request.setAttribute("uList", uList);
-		dispatcher = request.getRequestDispatcher("userDeleteKakunin.jsp");
-		dispatcher.forward(request, response);
+
+		dispatcher = request.getRequestDispatcher("userDeleteKanryo.jsp");
+
 		}else {
 			//message="対象をチェックしてください。";
 			//request.setAttribute("alert", message);
 			//request.setAttribute("selectedUsers", selectedUsers);//セッションから取得した値（中身はアレーリストをrequestに乗せて返す。
 			dispatcher = request.getRequestDispatcher("userIchiran2.jsp");
-			dispatcher.forward(request, response);
 		}
+		dispatcher.forward(request, response);
 	}
 
 }

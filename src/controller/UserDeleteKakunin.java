@@ -51,9 +51,10 @@ public class UserDeleteKakunin extends HttpServlet {
 		DBManager dbm = new DBManager();
 		HttpSession session = request.getSession();
 		//DltUserKensaku.javaでセッションに保存したアレーリストを取得。キャストで警告が出るがアノテーションで処理。
-		ArrayList<UserDTO> selectedUsers = (ArrayList<UserDTO>)session.getAttribute("selectedUsers2");
+		ArrayList<UserDTO> selectedUsers2 = (ArrayList<UserDTO>)session.getAttribute("selectedUsers2");
 		//検索されたユーザーIDを取得
 		String[] sltduId=request.getParameterValues("sltduId");
+		//ArrayList<UserDTO> selectedUsers = new ArrayList<UserDTO>();
 		ArrayList<UserDTO> uList = new ArrayList<UserDTO>();
 		RequestDispatcher dispatcher;
 
@@ -69,7 +70,7 @@ public class UserDeleteKakunin extends HttpServlet {
 		}else {
 			message="対象をチェックしてください。";
 			request.setAttribute("alert", message);
-			request.setAttribute("selectedUsers", selectedUsers);//セッションから取得した値（中身はアレーリストをrequestに乗せて返す。
+			request.setAttribute("selectedUsers", selectedUsers2);//セッションから取得した値（中身はアレーリストをrequestに乗せて返す。
 			dispatcher = request.getRequestDispatcher("userIchiran2.jsp");
 			dispatcher.forward(request, response);
 		}

@@ -314,7 +314,8 @@ public boolean setWriting2(String shoutsId/*,String userName,String icon,String 
 
 }
 
-public ArrayList<UserDTO> getUserList(String uk,String uk2,String uk3,String uI,String uI2,String uI3,String uI4,String uI5) {
+public ArrayList<UserDTO> getUserList(String str, String uk2, String uk3, String uI, String uI2, String uI3,
+		String uI4, String uI5) {
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rset = null;
@@ -326,7 +327,7 @@ public ArrayList<UserDTO> getUserList(String uk,String uk2,String uk3,String uI,
 		// SnsDAO クラスのメソッド呼び出し
 		conn = getConnection();
 		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, "%"+uk+"%");
+		pstmt.setString(1, "%"+str+"%");
 		pstmt.setString(2, "%"+uk2+"%");
 		pstmt.setString(3, "%"+uk3+"%");
 		pstmt.setString(4, uI);
@@ -411,8 +412,8 @@ public boolean setWritingDelete(String loginId) {
 
 
 		int cnt = pstmt.executeUpdate();
-		if (cnt >=0/*== 1*/) {
-			// INSERT 文の実行結果が１なら登録成功
+		if (cnt >=1/*== 1*/) {
+
 			result = true;
 		}
 	} catch (SQLException e) {
@@ -442,8 +443,8 @@ public boolean setUserDelete(String loginId) {
 
 
 		int cnt = pstmt.executeUpdate();
-		if (cnt >=0/*== 1*/) {
-			// INSERT 文の実行結果が１なら登録成功
+		if (cnt >=1/*== 1*/) {
+
 			result = true;
 		}
 	} catch (SQLException e) {

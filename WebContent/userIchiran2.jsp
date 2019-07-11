@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="./css/helper.css">
 </head>
 <body>
+	   <jsp:useBean id="selectedUsers2" scope="session" type="java.util.ArrayList<dto.UserDTO>" />
 	<div class="bg-success padding-y-5">
 		<div class="container padding-y-5 text-center">
 			<h1>検索結果一覧</h1>
@@ -22,13 +23,19 @@
 		<div style="width: 60%" class="container padding-y-5">
 			<%-- リストにある要素の数だけ繰り返し --%>
 
-		<form action="UDK" method="post">
-		<%
+<%-- 	<form action="./" method="post">
+		<button class="btn pull-right" type="submit">ユーザー編集</button>
+		<c:forEach var="sltdu" items="${selectedUsers}">
+		<input type="hidden" name="sltduId" value="${sltdu.userId }" />
+		</c:forEach>
+	</form> --%>
 
-		%>
-<!--  		<input type="hidden" name="selectedUsers" value=selectedUsers/> -->
+		<form action="./UDK" method="post">
 
 			<button class="btn pull-right" type="submit">ユーザー削除</button>
+			<!-- JSPの設定をHTML5に変更することでボタンに遷移先を変えられるformaction属性が付与できる。 -->
+			<button class="btn pull-right" type="submit" formaction="./">yahoo!</button><br>
+
  			<c:forEach var="sltdu" items="${selectedUsers}">
  			<table class="table table-bordered">
 					<tr>
@@ -40,7 +47,7 @@
 							class="${sltdu.icon} pe-3x pe-va"></span><br>
 
 						</td>
-						<td width="300">ログインID<br>
+						<td width="300" >ログインID<br>
 						${sltdu.loginId}</td>
 						<td width="300">表示名<br>
 						${sltdu.userName}</td>

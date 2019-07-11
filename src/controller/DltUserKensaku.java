@@ -53,16 +53,13 @@ public class DltUserKensaku extends HttpServlet {
 
 		String message = null;
 		DBManager dbm = new DBManager();
-		String uk = request.getParameter("loginId");//Like検索する際に""空文字だとすべてが検索に引っかかるので入力なければＤＢ上該当の無いスペースを代入
-		if (uk.equals("")) {
-			uk = null;
-		}
+		String[] uk = request.getParameterValues("loginId");//Like検索する際に""空文字だとすべてが検索に引っかかるので入力なければＤＢ上該当の無いスペースを代入
 		String uk2 = request.getParameter("userName");
-		if (uk2.equals("")) {
+		if (uk2.equals("")||uk==null) {
 			uk2 = null;
 		}
 		String uk3 = request.getParameter("profile");
-		if (uk3.equals("")) {
+		if (uk3.equals("")||uk==null) {
 			uk3 = null;
 		}
 
@@ -71,6 +68,9 @@ public class DltUserKensaku extends HttpServlet {
 		String uI3 = request.getParameter("icon3");
 		String uI4 = request.getParameter("icon4");
 		String uI5 = request.getParameter("icon5");
+		String ub="";
+
+		ArrayList<UserDTO> selectedUsers = new ArrayList<UserDTO>();
 
 		if (uk==null && uk2==null && uk3 == null && uI == null && uI2 == null && uI3 == null && uI4 == null
 				&& uI5 == null) {
@@ -79,8 +79,12 @@ public class DltUserKensaku extends HttpServlet {
 			dispatcher = request.getRequestDispatcher("userKensaku.jsp");
 			dispatcher.forward(request, response);
 		} else {
-			ArrayList<UserDTO> selectedUsers = dbm.getUserList(uk, uk2, uk3, uI, uI2, uI3, uI4, uI5);
-
+			for(String str :uk) {
+				if(str.equals("")) {
+					str=null;
+				}
+				selectedUsers = dbm.getUserList(str, uk2, uk3, uI, uI2, uI3, uI4, uI5);
+			}
 			if (!(selectedUsers.size() == 0)) {//sizeメソッド　リスト内の要素の数を調べるためのメソッド
 				HttpSession session = request.getSession();
 				session.setAttribute("selectedUsers2", selectedUsers);
@@ -89,15 +93,10 @@ public class DltUserKensaku extends HttpServlet {
 			} else {
 				message = "検索結果は０件でした";
 				//値を保持する
-				if (" ".equals(uk)) {
-					uk = "";
+				if("".equals(uk[1])) {
+					ub="";
 				}
-				if (" ".equals(uk2)) {
-					uk2 = "";
-				}
-				if (" ".equals(uk3)) {
-					uk3 = "";
-				}
+
 				if (!(uI == null)) {
 					uI = "checked";
 				}
@@ -115,7 +114,7 @@ public class DltUserKensaku extends HttpServlet {
 				}
 
 				request.setAttribute("alert", message);
-				request.setAttribute("uk", uk);
+				request.setAttribute("uk", ub);
 				request.setAttribute("uk2", uk2);
 				request.setAttribute("uk3", uk3);
 				request.setAttribute("uI", uI);
