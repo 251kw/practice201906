@@ -229,6 +229,8 @@ public class DBManager extends SnsDAO {
 		return result;
 	}
 
+
+	//ライク検索
 	public ArrayList<UserDTO> getUserlist(String loginId,String userName) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -241,14 +243,14 @@ public class DBManager extends SnsDAO {
 			conn = getConnection();
 
 			// SELECT 文の実行
-			String sql = "SELECT * FROM users WHERE loginId LIKE ? OR userName LIKE ?";
+			String sql = "SELECT * FROM users WHERE (loginId LIKE ? OR userName LIKE ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%" + loginId +"%");
 			pstmt.setString(2, "%" + userName +"%");
 			rset = pstmt.executeQuery();
 
 			while (rset.next()) {
-				// 必要な列から値を取り出し、書き込み内容オブジェクトを生成
+
 				UserDTO user = new UserDTO();
 				user.setLoginId(rset.getString(2));
 				user.setPassword(rset.getString(3));
@@ -269,6 +271,110 @@ public class DBManager extends SnsDAO {
 			close(conn);
 		}
 		return Userlist;
+	}
+
+
+
+	// 選択したログインIdのユーザー情報をリストに入れて返す。
+	public ArrayList<UserDTO> getDuserList(String loginId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null; // SQL 管理情報
+		ResultSet rset = null;
+
+		ArrayList<UserDTO> DUlist = new ArrayList<UserDTO>();
+
+		try {
+
+			// SELECT 文の実行
+			String sql = "SELECT * FROM users WHERE loginId=?";
+
+			conn = getConnection();
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, loginId);
+			rset = pstmt.executeQuery();
+
+			// 検索結果の数だけ繰り返す
+			while (rset.next()) {
+				// 必要な列から値を取り出し、書き込み内容オブジェクトを生成
+				UserDTO Duser = new UserDTO();
+				Duser.setLoginId(rset.getString(2));
+				Duser.setPassword(rset.getString(3));
+				Duser.setUserName(rset.getString(4));
+				Duser.setIcon(rset.getString(5));
+				Duser.setProfile(rset.getString(6));
+
+				// 書き込み内容をリストに追加
+				DUlist.add(Duser);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// データベース切断処理
+			close(rset);
+			close(pstmt);
+			close(conn);
+		}
+
+		return DUlist;
+	}
+
+	public boolean DeleteUser(String loginId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		boolean result = false;
+
+		String sql = "DELETE FROM users WHERE loginId=?";
+		try {
+			conn = getConnection();
+
+			pstmt = conn.prepareStatement(sql); // SELECT 構文登録
+			pstmt.setString(1, loginId);
+
+			int cnt = pstmt.executeUpdate();
+			if (cnt == 1) {
+				// INSERT 文の実行結果が１なら登録成功
+				result = true;
+			}
+
+		} catch (SQLException e) {
+			// エラー処理はどこまでやるか？
+			e.printStackTrace();
+
+		} finally {
+			// データベース切断処理
+			close(pstmt);
+			close(conn);
+		}
+		return result;
+	}
+
+	public boolean DeleteShouts(String loginId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		boolean result = false;
+
+		String sql = "DELETE FROM shouts WHERE loginId=?";
+		try {
+			conn = getConnection();
+
+			pstmt = conn.prepareStatement(sql); // SELECT 構文登録
+			pstmt.setString(1, loginId);
+
+			int cnt = pstmt.executeUpdate();
+			if (cnt == 1) {
+				// INSERT 文の実行結果が１なら登録成功
+				result = true;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// データベース切断処理
+			close(pstmt);
+			close(conn);
+		}
+		return result;
 	}
 
 }

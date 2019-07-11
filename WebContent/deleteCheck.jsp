@@ -49,7 +49,7 @@
 				</table>
 				<input type="submit" value="削除">
 			</form>
-			<form action="DS" method="get">
+			<form action="top.jsp" method="get">
 				<input type="submit" value="戻る">
 			</form>
 		</div>

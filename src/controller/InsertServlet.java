@@ -109,14 +109,14 @@ public class InsertServlet extends HttpServlet {
 				request.setAttribute("alert3", message3);
 				STATE = false;
 			}
-		/*	//ユーザネームのチェック
-			Pattern p2 = Pattern.compile("^[0-9]*$");
-			Matcher m2 = p2.matcher(UserName);
-			if(m2.find()==true) {
-				message4 = "ユーザーネームに記号は使えません。";
-				request.setAttribute("alert4", message4);
-				STATE = false;
-			}*/
+//			//ユーザネームのチェック
+//			Pattern p2 = Pattern.compile("^[^<>{}\"/|;:.,~!?@#$%^=&*\\]+$");
+//			Matcher m2 = p2.matcher(UserName);
+//			if(m2.find()==true) {
+//				message4 = "ユーザーネームに記号は使えません。";
+//				request.setAttribute("alert4", message4);
+//				STATE = false;
+//			}
 			if(STATE == false) {
 				request.setAttribute("Id", LoginId);
 				request.setAttribute("Pass", Password);
