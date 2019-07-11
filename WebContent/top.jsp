@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page session="true" %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -64,7 +65,7 @@
 		</div>
 	</div>
 	<div class="padding-y-5 text-center">
-d		<div style="width: 40%" class="container padding-y-5 text-left">
+		<div style="width: 40%" class="container padding-y-5 text-left">
 			<strong class="color-main">みんなの叫び</strong>
 		</div>
 	</div>
@@ -73,6 +74,7 @@ d		<div style="width: 40%" class="container padding-y-5 text-left">
  		type="java.util.ArrayList<dto.ShoutDTO>" />
 	<div class="padding-y-5">
 		<div style="width: 40%" class="container padding-y-5">
+		<form action="./DeleteServlet" method="post">
 			<%-- リストにある要素の数だけ繰り返し --%>
 			<c:forEach var="shout" items="${shouts}">
 				<table class="table table-striped table-bordered">
@@ -87,9 +89,16 @@ d		<div style="width: 40%" class="container padding-y-5 text-left">
 					<tr>
 						<td colspan="2"><textarea rows="5" class="form-control">${shout.writing}</textarea>
 						</td>
+					<tr>
+						<td>
+						<c:if test="${user.userName == shout.userName}">
+						<button class="btn" type="submit" name="delete" value="dalete">削除する</button>
+						</c:if>
+						</td>
 					</tr>
 				</table>
 			</c:forEach>
+			</form>
 		</div>
 	</div>
 </body>
