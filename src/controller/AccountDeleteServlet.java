@@ -12,18 +12,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.DBManager;
-import dto.UserDTO;
+
 /**
- * Servlet implementation class SerchServlet
+ * Servlet implementation class AccountDeleteServlet
  */
-@WebServlet("/ss")
-public class SerchServlet extends HttpServlet {
+@WebServlet("/ads")
+public class AccountDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SerchServlet() {
+    public AccountDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,35 +43,21 @@ public class SerchServlet extends HttpServlet {
         // 文字化け対策
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-		String uName = request.getParameter("uName");
+		HttpSession session = request.getSession();
 
-		String error = null;
-		String message_s = null;
+		@SuppressWarnings("unchecked")
+		ArrayList<String> list = (ArrayList<String>)session.getAttribute("listLoginId");
 
-		int results_a = 0;
-		RequestDispatcher dispatcher;
+		RequestDispatcher dispatcher = null;
+		DBManager dbm = new DBManager();
 
-		error = uName.trim();
-
-		//スペースだけの書き込み内容なら
-		if (error.equals("")) {
-			message_s = "空白だけの検索は無効です";
-			//エラーメッセージをリクエストオブジェクトに保存
-			request.setAttribute("alert_s", message_s);
-		}else {
-		//入力情報が取得されたらリクエストスコープに保存
-			DBManager dbm = new DBManager();
-			ArrayList<UserDTO> list = dbm.serchUser(uName);
-			HttpSession session = request.getSession();
-
-			if (list != null) {
-				session.setAttribute("results", list);
-			results_a = list.size();
-			request.setAttribute("results_a",results_a);
-			}
+		//DBからアカウントを消去するメソッドを呼び出す
+		for(String s : list) {
+			dbm.deleteAccount(s);
 		}
-		dispatcher = request.getRequestDispatcher("Serch.jsp");
+		dispatcher = request.getRequestDispatcher("AccountDeleteCompletion.jsp");
 		dispatcher.forward(request, response);
+
 		//doGet(request, response);
 	}
 

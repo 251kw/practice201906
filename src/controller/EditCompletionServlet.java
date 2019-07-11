@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,17 +12,18 @@ import javax.servlet.http.HttpSession;
 
 import dao.DBManager;
 import dto.UserDTO;
+
 /**
- * Servlet implementation class SerchServlet
+ * Servlet implementation class EditCompletionServlet
  */
-@WebServlet("/ss")
-public class SerchServlet extends HttpServlet {
+@WebServlet("/ec")
+public class EditCompletionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SerchServlet() {
+    public EditCompletionServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,7 +33,7 @@ public class SerchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -43,36 +43,25 @@ public class SerchServlet extends HttpServlet {
         // 文字化け対策
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-		String uName = request.getParameter("uName");
 
-		String error = null;
-		String message_s = null;
+		String loginId =  request.getParameter("loginId");
+		String password =  request.getParameter("password");
+		String userName =  request.getParameter("userName");
+		String icon =  request.getParameter("icon");
+		String profile =  request.getParameter("profile");
 
-		int results_a = 0;
-		RequestDispatcher dispatcher;
+		RequestDispatcher dispatcher = null;
+		DBManager dbm = new DBManager();
+		//DBへの書き込みメソッドを呼び出す(DBヘ書き込む)
+		dbm.editAccount(loginId, password, userName, icon, profile);
 
-		error = uName.trim();
-
-		//スペースだけの書き込み内容なら
-		if (error.equals("")) {
-			message_s = "空白だけの検索は無効です";
-			//エラーメッセージをリクエストオブジェクトに保存
-			request.setAttribute("alert_s", message_s);
-		}else {
-		//入力情報が取得されたらリクエストスコープに保存
-			DBManager dbm = new DBManager();
-			ArrayList<UserDTO> list = dbm.serchUser(uName);
-			HttpSession session = request.getSession();
-
-			if (list != null) {
-				session.setAttribute("results", list);
-			results_a = list.size();
-			request.setAttribute("results_a",results_a);
-			}
-		}
-		dispatcher = request.getRequestDispatcher("Serch.jsp");
-		dispatcher.forward(request, response);
+		// アカウント編集後の新しいユーザー情報を取得し、セッションに保存
+		UserDTO user = dbm.getLoginUser(loginId, password);
+		HttpSession session = request.getSession();
+		session.setAttribute("user", user);
 		//doGet(request, response);
+		dispatcher = request.getRequestDispatcher("EditCompletion.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }

@@ -63,7 +63,7 @@ public class DBManager extends SnsDAO {
 
 		ArrayList<UserDTO> list = new ArrayList<UserDTO>();
 
-		String sql = "SELECT * FROM users WHERE userName LIKE ?";
+		String sql = "SELECT * FROM users WHERE userName LIKE ? OR profile LIKE ? OR icon LIKE ? OR loginId LIKE ?";
 		UserDTO user = null;    // 登録ユーザ情報
 
 		try {
@@ -73,6 +73,9 @@ public class DBManager extends SnsDAO {
 			// SELECT 文の登録と実行
 			pstmt = conn.prepareStatement(sql);	// SELECT 構文登録
 			pstmt.setString(1, "%" + uName + "%");
+			pstmt.setString(2, "%" + uName + "%");
+			pstmt.setString(3, "%" + uName + "%");
+			pstmt.setString(4, "%" + uName + "%");
 			rset = pstmt.executeQuery();
 
 			// 検索結果の数だけ繰り返す
@@ -100,8 +103,6 @@ public class DBManager extends SnsDAO {
 		return list;
 	}
 
-
-
 	//ログインIDを受け取り、登録ユーザ一覧に一致したものがあるか検索
 	public UserDTO checkLoginID(String loginId) {
 		Connection conn = null;            // データベース接続情報
@@ -124,7 +125,10 @@ public class DBManager extends SnsDAO {
 			if (rset.next()) {
 				// 必要な列から値を取り出し、ユーザ情報オブジェクトを生成
 				user1 = new UserDTO();
-				user1.setLoginId(rset.getString(2));			}
+				user1.setLoginId(rset.getString(2));
+				user1.setUserName(rset.getString(4));
+				user1.setIcon(rset.getString(5));
+				user1.setProfile(rset.getString(6));			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -136,7 +140,6 @@ public class DBManager extends SnsDAO {
 
 		return user1;
 	}
-
 
 	//新規ユーザー登録情報を受け取り、データベースに登録
 	public void dbRegistration(String loginId,String password,String userName,String icon,String profile) {
@@ -356,7 +359,7 @@ public class DBManager extends SnsDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
-		String sql = "DELETE FROM USERS SET WHERE loginId=? ";
+		String sql = "DELETE FROM USERS WHERE loginId=? ";
 
 		try {
 			conn = getConnection();
@@ -378,5 +381,5 @@ public class DBManager extends SnsDAO {
 			close(conn);
 		}
 
-}
+	}
 }

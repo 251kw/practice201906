@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.ArrayList" %>
+<%
+request.setCharacterEncoding("UTF-8");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -22,7 +26,7 @@
 		<div style="width: 40%" class="container padding-y-5 text-center">
 			<form action="./ss" method="post">
 			<strong class="color-main">ユーザー検索</strong>
-			<h5>ユーザー名を入力してください</h5>
+			<h5>ユーザー情報を入力してください</h5>
 						<input class="form-control" type="text" name="uName"
 							value="" size="20" />
 						<input class="btn" type="submit" value="検索" /><br>
@@ -36,16 +40,16 @@
 					</c:if>
 					 <c:if
 						test="${requestScope.results != null && requestScope.results != ''}">
-					<jsp:useBean id="results" scope="request" type="java.util.ArrayList<dto.UserDTO>" />
+					<jsp:useBean id="results" scope="session" type="java.util.ArrayList<dto.UserDTO>" />
 			<%-- リストにある要素の数だけ繰り返し --%>
-			<form action="Deleting.jsp" method="post">
+			<form action="./cdas" method="post">
 			<table class="table table-striped table-bordered">
   <tr bgcolor="#7fffd4">
     <th></th><th>ログインID</th><th>ユーザー名</th><th>アイコン</th><th>プロフィール</th><th></th>
   </tr>
 <c:forEach var="result" items="${results}">
   <tr>
-  	<td><label class="fancy-checkbox"><input type="checkbox" name="user" value="loginId=${result.loginId},userName=${result.userName},icon=${result.icon},profile=${result.profile}"><span></span></label></td>
+  	<td><label class="fancy-checkbox"><input type="checkbox" name="user" value="${result.loginId}"><span></span></label></td>
     <td>${result.loginId}</td>
     <td>${result.userName}</td>
     <td><span class="${result.icon} pe-2x pe-va"></span></td>
@@ -70,7 +74,7 @@
 						</c:if>
 							<%-- リクエストスコープに alert_n があれば --%>
 					<c:if
-						test="${requestScope.alert_n != null && requestScope.alert_n != ''}">
+						test="${requestScope.alert_n != null}">
 						<tr>
 							<%-- リクエストスコープの alert の値を出力 --%>
 							<td colspan="2" class="color-error text-left"><c:out

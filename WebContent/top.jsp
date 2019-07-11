@@ -103,7 +103,7 @@
 						<td>${shout.date}</td>
 					</tr>
 					<tr>
-						<td colspan="2"><textarea rows="5" class="form-control">${shout.writing}</textarea>
+						<td colspan="2"><textarea readonly rows="5" class="form-control">${shout.writing}</textarea>
 						</td>
 					</tr>
 				</table>
