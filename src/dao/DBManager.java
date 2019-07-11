@@ -179,10 +179,10 @@ public class DBManager extends SnsDAO {
 			conn = getConnection();
 
 			// INSERT 文の登録と実行
-			String sql = "INSERT INTO shouts(userName,loginId, icon, date, writing) VALUES(?,?, ?, ?, ?)";
+			String sql = "INSERT INTO shouts(loginId,userName, icon, date, writing) VALUES(?,?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, user.getUserName());
-			pstmt.setString(2, user.getLoginId());
+			pstmt.setString(1, user.getLoginId());
+			pstmt.setString(2, user.getUserName());
 			pstmt.setString(3, user.getIcon());
 			Calendar calender = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
