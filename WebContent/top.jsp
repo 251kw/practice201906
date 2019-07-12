@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page session="true" %>
+<%@ page import="dto.ShoutDTO" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -92,7 +94,9 @@
 					<tr>
 						<td>
 						<c:if test="${user.userName == shout.userName}">
-						<button class="btn" type="submit" name="delete" value="dalete">削除する</button>
+						<input type="hidden" name="writing" value="${shout.writing}">
+						<input type="hidden" name="shoutsId" value="${shout.shoutsId}">
+						<button type="submit" class="btn" >削除</button>
 						</c:if>
 						</td>
 					</tr>

@@ -30,18 +30,18 @@ public class NewLoginServlet extends HttpServlet {
 		String loginId = user.getLoginId();
 		String password = user.getPassword();
 		DBManager nlog = new DBManager();
-		nlog.getnewLoginUser(loginId,password);
+		nlog.getLoginUser(loginId,password);
 
-		ArrayList<ShoutDTO> list = new ArrayList<ShoutDTO>();
-		ShoutDTO shout = new ShoutDTO();
-		shout.getUserName();
-		shout.getIcon();
-		shout.getDate();
-		shout.getWriting();
-		shout.getloginId();
+		if (user != null) {
+			// ユーザ情報を取得できたら、書き込み内容リストを取得
+			ArrayList<ShoutDTO> list = nlog.getShoutList();
 
-		list.add(shout);
-		session.setAttribute("shouts",list);
+
+			// ログインユーザ情報、書き込み内容リストとしてセッションに保存
+			session.setAttribute("user", user);
+			session.setAttribute("shouts",list);
+
+		}
 
 		UserDTO shoutuser = new UserDTO();
 		shoutuser.getUserName();

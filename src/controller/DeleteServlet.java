@@ -10,13 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dto.ShoutDTO;
-
 @WebServlet("/DeleteServlet")
 public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	// 直接アクセスがあった場合は index.jsp  に処理を転送
+	// 直接アクセスがあった場合は top.jsp  に処理を転送
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("top.jsp");
@@ -28,14 +26,13 @@ public class DeleteServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
-		String shout =request.getParameter("shout");
+		String writing =request.getParameter("writing");
+		String shoutsId = request.getParameter("shoutsId");
 		RequestDispatcher dispatcher;
 
-		ShoutDTO shouter = new ShoutDTO();
-		shouter.setWriting(shout);
-
 		HttpSession session = request.getSession();
-		session.setAttribute("shout", shout);
+		session.setAttribute("writing", writing);
+		session.setAttribute("shoutsId", shoutsId);
 
 
 		// confirm2.jsp に処理を転送

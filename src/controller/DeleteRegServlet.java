@@ -22,15 +22,16 @@ public class DeleteRegServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 
 		HttpSession session = request.getSession();
-		String shout = (String) session.getAttribute("shout");
+		String writing = (String) session.getAttribute("writing");
+		String shoutsId = (String) session.getAttribute("shoutsId");
 
 
 		DBManager des = new DBManager();
-		des.deleteshouts(shout);
+		des.deleteshouts(shoutsId);
 
 		 RequestDispatcher dispatcher =
 	                getServletContext().getRequestDispatcher("/Delete.jsp");
-		 dispatcher.include(request, response);
+		 dispatcher.forward(request, response);
 
 
 	}

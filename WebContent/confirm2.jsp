@@ -16,7 +16,7 @@
 <body>
 <%
 
-	ShoutDTO shout = (ShoutDTO)session.getAttribute("shout");
+	String writing = (String)session.getAttribute("writing");
 %>
 
 	<div class="bg-success padding-y-5">
@@ -39,7 +39,7 @@
 					<tr>
 						<%-- ログインID 入力欄の名前は loginId --%>
 						<tr>
-						<td colspan="2"><textarea rows="5" class="form-control"><%=shout %></textarea>
+						<td colspan="2"><textarea rows="5" class="form-control"><%=writing %></textarea>
 						</td>
 					<tr>
 					</tr>

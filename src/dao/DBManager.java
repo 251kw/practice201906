@@ -88,6 +88,7 @@ public class DBManager extends SnsDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+
 		} finally {
 			// データベース切断処理
 			close(rset);
@@ -105,7 +106,7 @@ public class DBManager extends SnsDAO {
 			int cnt = 0;
 			boolean result = false;
 
-			String sql = "DELETE * FROM shouts WHERE ShoutsId=?";
+			String sql = "DELETE * FROM shouts WHERE shoutsId=?";
 
 			try {
 				// データベース接続情報取得
@@ -179,7 +180,7 @@ public class DBManager extends SnsDAO {
 			conn = getConnection();
 
 			// INSERT 文の登録と実行
-			String sql = "INSERT INTO shouts(loginId,userName, icon, date, writing) VALUES(?,?, ?, ?, ?)";
+			String sql = "INSERT INTO shouts(shoutsId,loginId,userName, icon, date, writing) VALUES(?,?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getLoginId());
 			pstmt.setString(2, user.getUserName());
