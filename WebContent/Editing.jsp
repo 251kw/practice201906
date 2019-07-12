@@ -90,7 +90,7 @@ if("icon-ball".equals(i)){
 						<%-- ログインID 入力欄の名前は loginId --%>
 						<td class="color-main text-left">ID</td>
 						<td class="text-left"><input class="form-control" type="text"
-							 pattern="^[0-9A-Za-z]+$" title="半角英数字で入力して下さい。" name="loginId" value="${param.loginId}" size="20" /></td>
+							readonly  pattern="^[0-9A-Za-z]+$" title="半角英数字で入力して下さい。" name="loginId" value="${param.loginId}" size="20" /></td>
 
 					<tr>
 						<%-- パスワード入力欄の名前は password --%>

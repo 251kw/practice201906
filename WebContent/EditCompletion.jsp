@@ -42,8 +42,9 @@ String profile =  request.getParameter("profile");
 	<tr><td class="color-main text-center">アイコン：<span class="${param.icon} pe-2x pe-va"></span></td>
 	<tr><td class="color-main text-center">プロフィール: ${param.profile} </td>
 </table>
-			<div style="text-align:center"><input class="btn" type="button"
-			onclick="location.href='top.jsp'"value="TOPページへ"></div></div>
+			<div style="text-align:center"><form action="./top" method="post">
+			<input class="btn" type="submit" value="TOPへ" /></form></div>
+	</div>
 	</div>
 </body>
 </html>

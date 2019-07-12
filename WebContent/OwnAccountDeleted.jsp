@@ -3,8 +3,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Delete Complete!</title>
 <link rel="stylesheet" href="./css/skyblue.css">
 <link rel="stylesheet" href="./css/pe-icon-7-stroke.css">
 <link rel="stylesheet" href="./css/helper.css">
@@ -19,13 +17,13 @@
 	</div>
 		<div class="padding-y-5 text-center">
 		<div style="width: 60%" class="container padding-y-5 text-center">
-		<strong class="color-main">書き込みが削除されました！</strong>
+		<strong class="color-main">アカウントが削除されました！</strong>
+		本人のアカウントが削除されたため、ログイン画面に戻ります。
 		<br>
 <br>
-			<div style="text-align:center"><form action="./top" method="post">
-			<input class="btn" type="submit" value="TOPへ" /></form></div>
+			<div style="text-align:center"><form action="index.jsp" method="post">
+			<input class="btn" type="submit" value="ログイン画面へ" /></form></div>
 				</div>
 		</div>
-
 </body>
 </html>

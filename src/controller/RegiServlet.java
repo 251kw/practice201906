@@ -41,9 +41,12 @@ public class RegiServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		String loginId = request.getParameter("loginId");
 		String password = request.getParameter("password");
-		String userName = request.getParameter("userName");
+		String userName1 = request.getParameter("userName");
+		String userName = "";
 		String icon = request.getParameter("icon");
 		String profile = request.getParameter("profile");
+
+		userName = userName1.replaceFirst("^[\\h]+", "").replaceFirst("[\\h]+$", "");
 
 		HttpSession session = request.getSession();
 		session.setAttribute("loginId",loginId);

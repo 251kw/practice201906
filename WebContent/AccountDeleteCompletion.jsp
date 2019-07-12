@@ -22,8 +22,8 @@
 		<strong class="color-main">アカウントが削除されました！</strong>
 		<br>
 <br>
-			<div style="text-align:center"><input class="btn" type="button"
-			onclick="location.href='top.jsp'"value="TOPページへ"></div>
+			<div style="text-align:center"><form action="./top" method="post">
+			<input class="btn" type="submit" value="TOPページへ" /></form></div>
 				</div>
 		</div>
 </body>

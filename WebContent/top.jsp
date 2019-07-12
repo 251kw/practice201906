@@ -86,16 +86,14 @@
 		<div style="width: 40%" class="container padding-y-5">
 			<%-- リストにある要素の数だけ繰り返し --%>
 			<c:forEach var="shout" items="${shouts}">
-			<form method="post" action="shoutsConfirmation.jsp?date=${shout.date}&writing=${shout.writing}">
 				<table class="table table-striped table-bordered">
 					<tr>
 						<td rowspan="2" class="text-center"><span
 							class="${shout.icon} pe-3x pe-va"></span></td>
 						<td>${shout.userName}
 						<c:if test="${user.loginId.equals(shout.loginId)}">
-						<input type="hidden" name="userName" value="${shout.userName}">
-						<input type="hidden" name="icon" value="${shout.icon}">
-						<div align='right'><input type='image' name='delete' class='icon-trash pe-2x pe-va' alt=' '></div>
+						<div align='right'><a href="shoutsConfirmation.jsp?userName=${shout.userName}&date=${shout.date}&icon=${shout.icon}&writing=${shout.writing}"><span
+							class="icon-trash pe-2x pe-va"></span></a></div>
 						</c:if>
 						</td>
 					</tr>
@@ -107,7 +105,6 @@
 						</td>
 					</tr>
 				</table>
-				</form>
 			</c:forEach>
 		</div>
 	</div>

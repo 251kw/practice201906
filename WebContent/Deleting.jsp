@@ -43,7 +43,6 @@ request.setCharacterEncoding("UTF-8");
 </table>
 <strong>これらのアカウントを削除してよろしいですか？</strong><br>
 <input type="submit" value="削除" class="btn">
-
 </form>
 <button onclick="history.back()">戻る</button>
 		</div>

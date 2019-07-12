@@ -36,7 +36,7 @@ public class BbsServlet extends HttpServlet {
 		String message_s = null;
 		RequestDispatcher dispatcher;
 
-		writing = writing1.trim();
+		writing = writing1.replaceFirst("^[\\h]+", "").replaceFirst("[\\h]+$", "");
 
 		//スペースだけの書き込み内容なら
 		if (writing.equals("")) {

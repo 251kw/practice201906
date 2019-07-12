@@ -43,22 +43,27 @@ public class EditCompletionServlet extends HttpServlet {
         // 文字化け対策
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
+		HttpSession session = request.getSession();
 
 		String loginId =  request.getParameter("loginId");
 		String password =  request.getParameter("password");
 		String userName =  request.getParameter("userName");
 		String icon =  request.getParameter("icon");
 		String profile =  request.getParameter("profile");
+		String loginId1 = "";
 
 		RequestDispatcher dispatcher = null;
 		DBManager dbm = new DBManager();
 		//DBへの書き込みメソッドを呼び出す(DBヘ書き込む)
 		dbm.editAccount(loginId, password, userName, icon, profile);
 
-		// アカウント編集後の新しいユーザー情報を取得し、セッションに保存
-		UserDTO user = dbm.getLoginUser(loginId, password);
-		HttpSession session = request.getSession();
-		session.setAttribute("user", user);
+		// ログインユーザー本人が自身のアカウントを編集した場合、編集後の新しいユーザー情報を取得し、セッションに保存
+		UserDTO user = (UserDTO)session.getAttribute("user");
+		loginId1 = user.getLoginId();
+		if(loginId1.equals(loginId)) {
+		UserDTO user1 = dbm.getLoginUser(loginId, password);
+		session.setAttribute("user", user1);
+		}
 		//doGet(request, response);
 		dispatcher = request.getRequestDispatcher("EditCompletion.jsp");
 		dispatcher.forward(request, response);

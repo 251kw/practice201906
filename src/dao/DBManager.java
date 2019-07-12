@@ -163,7 +163,6 @@ public class DBManager extends SnsDAO {
 			pstmt.setString(5, profile);
 
 			pstmt.executeUpdate();
-			rset = pstmt.executeQuery();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -306,7 +305,6 @@ public class DBManager extends SnsDAO {
 			pstmt.setString(1, date);
 
 			pstmt.executeUpdate();
-			rset = pstmt.executeQuery();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -340,7 +338,6 @@ public class DBManager extends SnsDAO {
 				pstmt.setString(6, loginId);
 
 				pstmt.executeUpdate();
-				rset = pstmt.executeQuery();
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -357,9 +354,11 @@ public class DBManager extends SnsDAO {
 	public void deleteAccount(String loginId) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
 		ResultSet rset = null;
 
-		String sql = "DELETE FROM USERS WHERE loginId=? ";
+		String sql = "DELETE FROM SHOUTS WHERE loginId=? ";
+		String sql2 = "DELETE FROM USERS WHERE loginId=? ";
 
 		try {
 			conn = getConnection();
@@ -368,9 +367,11 @@ public class DBManager extends SnsDAO {
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, loginId);
+			pstmt2 = conn.prepareStatement(sql2);
+			pstmt2.setString(1, loginId);
 
 			pstmt.executeUpdate();
-			rset = pstmt.executeQuery();
+			pstmt2.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

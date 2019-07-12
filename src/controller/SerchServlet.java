@@ -44,14 +44,13 @@ public class SerchServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		String uName = request.getParameter("uName");
-
-		String error = null;
 		String message_s = null;
+		String error = null;
 
 		int results_a = 0;
 		RequestDispatcher dispatcher;
 
-		error = uName.trim();
+		error = uName.replaceFirst("^[\\h]+", "").replaceFirst("[\\h]+$", "");
 
 		//スペースだけの書き込み内容なら
 		if (error.equals("")) {

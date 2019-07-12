@@ -24,7 +24,7 @@ request.setCharacterEncoding("UTF-8");
 	</div>
 	<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-center">
-			<form action="./ss" method="post">
+			<form action="./ss" method="post" name="searchform">
 			<strong class="color-main">ユーザー検索</strong>
 			<h5>ユーザー情報を入力してください</h5>
 						<input class="form-control" type="text" name="uName"
@@ -39,10 +39,18 @@ request.setCharacterEncoding("UTF-8");
 									value="検索結果が${requestScope.results_a}件見つかりました" /></td>
 					</c:if>
 					 <c:if
-						test="${requestScope.results != null && requestScope.results != ''}">
-					<jsp:useBean id="results" scope="session" type="java.util.ArrayList<dto.UserDTO>" />
+						test="${sessionScope.results != null && sessionScope.results != ''}">
+						<p><script type="text/javascript">
+						function allcheck( tf ) {
+							   var ElementsCount = document.checkform.elements.length; // チェックボックスの数
+							   for( i=0 ; i<ElementsCount ; i++ ) {
+							      document.checkform.elements[i].checked = tf; // ON・OFFを切り替え
+							   }
+							}
+</script></p>
+					 <jsp:useBean id="results" scope="session" type="java.util.ArrayList<dto.UserDTO>" />
 			<%-- リストにある要素の数だけ繰り返し --%>
-			<form action="./cdas" method="post">
+			<form action="./cdas" method="post" name=checkform>
 			<table class="table table-striped table-bordered">
   <tr bgcolor="#7fffd4">
     <th></th><th>ログインID</th><th>ユーザー名</th><th>アイコン</th><th>プロフィール</th><th></th>
@@ -58,6 +66,10 @@ request.setCharacterEncoding("UTF-8");
   </tr>
 </c:forEach>
 </table>
+<p>
+   <input class="btn" value="全選択" onclick="allcheck(true);">
+   <input class="btn" value="全解除" onclick="allcheck(false);">
+</p>
 <input class="btn" type="submit" value="削除" />
 </form>
 			 </c:if>
@@ -82,8 +94,8 @@ request.setCharacterEncoding("UTF-8");
 						</tr>
 					</c:if>
 				</table>
-			<div style="text-align:center"><input class="btn" type="button"
-			onclick="location.href='top.jsp'"value="TOPページへ"></div>
+			<div style="text-align:center"><form action="./top" method="post">
+			<input class="btn" type="submit" value="TOPへ" /></form></div>
 		</div>
 	</div>
 </body>
