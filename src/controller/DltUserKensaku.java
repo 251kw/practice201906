@@ -68,11 +68,11 @@ public class DltUserKensaku extends HttpServlet {
 		String uI3 = request.getParameter("icon3");
 		String uI4 = request.getParameter("icon4");
 		String uI5 = request.getParameter("icon5");
-		String ub="";
+		//String ub="";
 
 		ArrayList<UserDTO> selectedUsers = new ArrayList<UserDTO>();
 
-		if (uk==null && uk2==null && uk3 == null && uI == null && uI2 == null && uI3 == null && uI4 == null
+		if ("".equals(uk[0]) && uk2==null && uk3 == null && uI == null && uI2 == null && uI3 == null && uI4 == null
 				&& uI5 == null) {
 			message = "検索ワードが入力されていません";
 			request.setAttribute("alert", message);
@@ -93,8 +93,8 @@ public class DltUserKensaku extends HttpServlet {
 			} else {
 				message = "検索結果は０件でした";
 				//値を保持する
-				if("".equals(uk[1])) {
-					ub="";
+				if("".equals(uk[0])) {
+					uk[0]="";
 				}
 
 				if (!(uI == null)) {
@@ -114,7 +114,7 @@ public class DltUserKensaku extends HttpServlet {
 				}
 
 				request.setAttribute("alert", message);
-				request.setAttribute("uk", ub);
+				request.setAttribute("uk", uk[0]);
 				request.setAttribute("uk2", uk2);
 				request.setAttribute("uk3", uk3);
 				request.setAttribute("uI", uI);

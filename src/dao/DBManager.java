@@ -379,13 +379,12 @@ public UserDTO getUserDeleteKakunin(String userId) { //ユーザーＩＤ（主�
 		// 検索結果があれば
 		while (rset.next()) {
 			// 必要な列から値を取り出し、ユーザ情報オブジェクトを生成
-
 			user.setUserId(rset.getString(1));
 			user.setLoginId(rset.getString(2));
+			user.setPassword(rset.getString(3));
 			user.setUserName(rset.getString(4));
 			user.setIcon(rset.getString(5));
 			user.setProfile(rset.getString(6));
-			//list.add(user);
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
@@ -458,5 +457,36 @@ public boolean setUserDelete(String loginId) {
 	return result;
 
 }
+public boolean setUserUpdate(String newerPw,String newerName,String genderIcon,String newerProf,String userId) {
+	Connection conn = null;
+	PreparedStatement pstmt = null;
 
+	boolean result = false;
+	try {
+		conn = getConnection();
+
+		// INSERT 文の登録と実行
+		String sql = "UPDATE users SET password=?,userName=?,icon=?,profile=? WHERE userID=?";/*(loginId,password,userName, icon, profile) VALUES(?, ?, ?, ?,?)";*/
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, newerPw);
+		pstmt.setString(2, newerName);
+		pstmt.setString(3, genderIcon);
+		pstmt.setString(4, newerProf);
+		pstmt.setString(5, userId);
+		int cnt = pstmt.executeUpdate();
+		if (cnt == 1) {
+			// INSERT 文の実行結果が１なら登録成功
+			result = true;
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		// データベース切断処理
+		close(pstmt);
+		close(conn);
+	}
+
+	return result;
+
+}
 }

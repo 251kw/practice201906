@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>削除完了</title>
+<title>変更完了</title>
 <link rel="stylesheet" href="./css/skyblue.css">
 <link rel="stylesheet" href="./css/pe-icon-7-stroke.css">
 <link rel="stylesheet" href="./css/helper.css">
@@ -16,23 +16,21 @@
 						<jsp:useBean id="user" scope="session" type="dto.UserDTO" />
 					</c:if>
 <jsp:useBean id="selectedUsers2" scope="session" type="java.util.ArrayList<dto.UserDTO>" />
-
 	<div class="bg-success padding-y-5">
 		<div class="container padding-y-5 text-center">
-			<h1>ユーザーの削除が完了しました。</h1>
+			<h1>ユーザー情報の変更に成功しました。</h1>
 		</div>
 	</div>
-
-		<div class="padding-y-5 text-center">
+			<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-center">
 			<%-- action 属性にloginサーブレットを指定 --%>
-			<form action="./DUK" method="post">
+			<form action="./AUU" method="post">
 				<h2>ユーザー一覧へ戻る</h2>
 				<c:forEach var="i" items="${selectedUsers2 }">
 				<!--検索サーブレットへ取得したユーザのIdを送信。消されたユーザーは検索に引っかからない。  -->
-				<input type="hidden" name="loginId" value="${i.loginId }" />
-				<input type="hidden" name="userName" value="" />
-				<input type="hidden" name="profile" value="" />
+				<input type="hidden" name="userId" value="${i.userId }" />
+<!-- 				<input type="hidden" name="userName" value="" />
+				<input type="hidden" name="profile" value="" /> -->
 				</c:forEach>
 				<input class="btn" type="submit" value="ユーザー検索一覧へ" />
 			</form>
@@ -43,8 +41,8 @@
 		<div style="width: 40%" class="container padding-y-5 text-center">
 			<%-- action 属性にloginサーブレットを指定 --%>
 			<form action="./login" method="post">
-			<input type="hidden" name="loginId" value="${user.loginId }" />
-			<input type="hidden" name="password" value="${user.password }" />
+			<input type="hidden" name="loginId" value="${updateId }" />
+			<input type="hidden" name="password" value="${updatePw }" />
 				<h4>書き込み画面へ戻る</h4>
 				<input class="btn" type="submit" value="ログイン" />
 			</form>

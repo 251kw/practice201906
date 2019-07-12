@@ -45,7 +45,7 @@ public class ShinkiUserServlet extends  HttpServlet{//サーブレットから�
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html;charset=UTF-8");
+
 		RequestDispatcher dispatcher = null;
 
 		String newerId = request.getParameter("newerId");
@@ -72,7 +72,7 @@ public class ShinkiUserServlet extends  HttpServlet{//サーブレットから�
 					message3 = "パスワードが入力されていません。";
 				}
 				if(!(newerPw.matches("^[0-9a-zA-Z]+$"))) {
-					message3 = "パスワードは半角英数字のみご利用だけます。";
+					message3 = "パスワードは半角英数字のみご利用いただけます。";
 				}
 				if(newerName.equals("")) {
 					message4 = "表示名が入力されていません。";
