@@ -24,7 +24,7 @@
 			<strong class="color-main">削除しました</strong><br>
 <br>
 <br>
-						<form action="./top.jsp" method="post">
+						<form action="./UpdateServlet" method="post">
 						<input class="btn" type="submit" value="TOP画面に戻る" />
 						</form>
 					<div>

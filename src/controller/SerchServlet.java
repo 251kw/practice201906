@@ -15,8 +15,8 @@ import dao.DBManager;
 import dto.ShoutDTO;
 import dto.UserDTO;
 
-@WebServlet("/NewLoginServlet")
-public class NewLoginServlet extends HttpServlet {
+@WebServlet("/SerchServlet")
+public class SerchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	//register.jspからpost送信される。
@@ -39,7 +39,6 @@ public class NewLoginServlet extends HttpServlet {
 			// ログインユーザ情報、書き込み内容リストとしてセッションに保存
 			session.setAttribute("user", user);
 			session.setAttribute("shouts",list);
-
 		}
 
 		UserDTO shoutuser = new UserDTO();

@@ -71,7 +71,7 @@
 				</table>
 			</form>
 						<form action="./create.jsp" method="post">
-						<input type ="button" value="キャンセル" onclick="window.history.back()"/>
+						<input class="btn" type ="button" value="キャンセル" onclick="window.history.back()"/>
 				</form>
 		</div>
 	</div>

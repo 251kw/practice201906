@@ -24,6 +24,9 @@
 	<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-left">
 			<strong class="color-main">ログインユーザー情報</strong>
+			<div align = "right">
+			<p><a href="index.html">ユーザー検索はこちら</a></p>
+			</div>
 		</div>
 	</div>
 	<%-- セッションスコープにある UserDTO 型のオブジェクトを参照 --%>
@@ -76,7 +79,6 @@
  		type="java.util.ArrayList<dto.ShoutDTO>" />
 	<div class="padding-y-5">
 		<div style="width: 40%" class="container padding-y-5">
-		<form action="./DeleteServlet" method="post">
 			<%-- リストにある要素の数だけ繰り返し --%>
 			<c:forEach var="shout" items="${shouts}">
 				<table class="table table-striped table-bordered">
@@ -94,15 +96,16 @@
 					<tr>
 						<td>
 						<c:if test="${user.userName == shout.userName}">
+						<form action="./DeleteServlet" method="post">
 						<input type="hidden" name="writing" value="${shout.writing}">
 						<input type="hidden" name="shoutsId" value="${shout.shoutsId}">
 						<button type="submit" class="btn" >削除</button>
+						</form>
 						</c:if>
 						</td>
 					</tr>
 				</table>
 			</c:forEach>
-			</form>
 		</div>
 	</div>
 </body>

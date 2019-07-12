@@ -15,11 +15,11 @@ import dao.DBManager;
 import dto.ShoutDTO;
 import dto.UserDTO;
 
-@WebServlet("/NewLoginServlet")
-public class NewLoginServlet extends HttpServlet {
+@WebServlet("/UpdateServlet")
+public class UpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	//register.jspからpost送信される。
+	//Delete.jspからpost送信される。
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -35,6 +35,7 @@ public class NewLoginServlet extends HttpServlet {
 		if (user != null) {
 			// ユーザ情報を取得できたら、書き込み内容リストを取得
 			ArrayList<ShoutDTO> list = nlog.getShoutList();
+
 
 			// ログインユーザ情報、書き込み内容リストとしてセッションに保存
 			session.setAttribute("user", user);

@@ -22,17 +22,23 @@ public class DeleteRegServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 
 		HttpSession session = request.getSession();
-		String writing = (String) session.getAttribute("writing");
+//		String writing = (String) session.getAttribute("writing");
 		String shoutsId = (String) session.getAttribute("shoutsId");
+		boolean check;
 
 
 		DBManager des = new DBManager();
-		des.deleteshouts(shoutsId);
-
-		 RequestDispatcher dispatcher =
+		check = des.deleteshouts(shoutsId);
+		if(check == true) {	// SQL文が成功したとき
+			RequestDispatcher dispatcher =
 	                getServletContext().getRequestDispatcher("/Delete.jsp");
+		 dispatcher.forward(request, response);			// 遷移先のURLを書く(/Delete.jsp)
+		} else {	// SQL文が失敗したとき
+						// 遷移先のURLを書く(削除されませんでした.jsp)
+		 RequestDispatcher dispatcher =
+	                getServletContext().getRequestDispatcher("/index.jsp");
 		 dispatcher.forward(request, response);
-
+		}
 
 	}
 }
