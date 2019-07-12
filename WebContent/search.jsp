@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -22,21 +22,31 @@
 			<strong class="color-main">ユーザー情報 入力フォーム</strong>
 		</div>
 	</div>
-	<form action="./US" method="post">
-		<table>
-			<tr>
-				<th>ログインId</th>
-				<td><input type="text" name="loginId" value="${requestScope.loginId}"></td>
-			</tr>
-			<tr>
-				<th>ユーザーネーム</th>
-				<td><input type="text" name="userName" value="${requestScope.userName}"></td>
-			</tr>
-		</table>
-		<input type="submit" value="検索">
-	</form>
+	<div class="padding-y-5 text-center">
+		<div style="width: 40%" class="container padding-y-5 text-center">
+			<form action="./US" method="post">
+				<table>
+					<tr>
+						<th>ログインId</th>
+						<td><input type="text" name="loginId"
+							value="${requestScope.loginId}"></td>
+					</tr>
+					<tr>
+						<th>ユーザーネーム</th>
+						<td><input type="text" name="userName"
+							value="${requestScope.userName}"></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-right"><input type="submit"
+							value="検索"></td>
+					</tr>
+				</table>
+				<button type="submit" class="btn" formaction="top.jsp">戻る</button>
+			</form>
+		</div>
+	</div>
 	<form action="top.jsp" method="get">
-	<input type="submit"value="戻る">
+		<input type="submit" value="戻る">
 	</form>
 </body>
 </html>

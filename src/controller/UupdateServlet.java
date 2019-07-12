@@ -11,16 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class DeleteServlet
+ * Servlet implementation class UupdateServlet
  */
-@WebServlet("/DS")
-public class DeleteServlet extends HttpServlet {
+@WebServlet("/UUDS")
+public class UupdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteServlet() {
+    public UupdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,32 +39,26 @@ public class DeleteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		RequestDispatcher dispatcher = null;
 
-		String userName = request.getParameter("userName");
-		String loginId = request.getParameter("loginId");
-		String icon = request.getParameter("icon");
-		String date = request.getParameter("date");
-		String writing = request.getParameter("writing");
 
+		String loginId = request.getParameter("newID");
+		String password = request.getParameter("newPW");
+		String userName = request.getParameter("newUN");
+		String icon = request.getParameter("newIC");
+		String profile = request.getParameter("newPF");
 
-		//deleteCheck.jspに送るために保存
-		//DeleteServlet2.javaでも使えるように。
 		HttpSession session = request.getSession();
-		session.setAttribute("dC_userName", userName);
-		session.setAttribute("dC_loginId", loginId);
-		session.setAttribute("dC_icon", icon);
-		session.setAttribute("dC_date", date);
-		session.setAttribute("dC_writing", writing);
+		session.setAttribute("loginId", loginId);
+		session.setAttribute("password", password);
+		session.setAttribute("userName", userName);
+		session.setAttribute("icon", icon);
+		session.setAttribute("profile", profile);
 
-
-		dispatcher = request.getRequestDispatcher("deleteCheck.jsp");
+		dispatcher = request.getRequestDispatcher("uudCheck.jsp");
 		dispatcher.forward(request, response);
-
-
 	}
 
 }

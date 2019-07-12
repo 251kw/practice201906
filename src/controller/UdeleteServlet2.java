@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,17 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.DBManager;
+import dto.ShoutDTO;
+import dto.UserDTO;
+
 /**
- * Servlet implementation class DeleteServlet
+ * Servlet implementation class UdeleteServlet2
  */
-@WebServlet("/DS")
-public class DeleteServlet extends HttpServlet {
+@WebServlet("/US2")
+public class UdeleteServlet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteServlet() {
+    public UdeleteServlet2() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,32 +44,40 @@ public class DeleteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		RequestDispatcher dispatcher = null;
 
-		String userName = request.getParameter("userName");
-		String loginId = request.getParameter("loginId");
-		String icon = request.getParameter("icon");
-		String date = request.getParameter("date");
-		String writing = request.getParameter("writing");
-
-
-		//deleteCheck.jspに送るために保存
-		//DeleteServlet2.javaでも使えるように。
 		HttpSession session = request.getSession();
-		session.setAttribute("dC_userName", userName);
-		session.setAttribute("dC_loginId", loginId);
-		session.setAttribute("dC_icon", icon);
-		session.setAttribute("dC_date", date);
-		session.setAttribute("dC_writing", writing);
+		UserDTO udt = new UserDTO();
+		UserDTO loginUser = (UserDTO)session.getAttribute("user");
+		String loginUserId = loginUser.getLoginId();
+
+		String[]d_users = (String[])session.getAttribute("d_users");
+		boolean STATE = false;
 
 
-		dispatcher = request.getRequestDispatcher("deleteCheck.jsp");
+		for(String loginId : d_users) {
+
+			DBManager Sdbm = new DBManager();
+			boolean result2 = Sdbm.DeleteShouts(loginId);
+			DBManager Udbm = new DBManager();
+			boolean result = Udbm.DeleteUser(loginId);
+
+			if(loginUserId.equals(loginId)) {
+				STATE = true;
+			}
+		}
+
+		DBManager dbm = new DBManager();
+		ArrayList<ShoutDTO> list = dbm.getShoutList();
+		session.setAttribute("shouts", list);
+
+		session.setAttribute("STATE", STATE);
+
+
+		dispatcher = request.getRequestDispatcher("udComp.jsp");
 		dispatcher.forward(request, response);
-
-
 	}
 
 }
