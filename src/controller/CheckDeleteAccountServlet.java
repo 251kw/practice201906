@@ -55,7 +55,7 @@ public class CheckDeleteAccountServlet extends HttpServlet {
 			message_n = "削除するユーザーをチェックしてください";
 			request.setAttribute("alert_n", message_n);
 		RequestDispatcher dispatcher;
-		dispatcher = request.getRequestDispatcher("Serch.jsp");
+		dispatcher = request.getRequestDispatcher("Search.jsp");
 		dispatcher.forward(request, response);
 		}
 

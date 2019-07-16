@@ -29,7 +29,7 @@
 request.setCharacterEncoding("UTF-8");
 %>
 <table class="table table-striped table-bordered">
-<tr bgcolor="#7fffd4">
+<tr class="bg-success padding-y-5">
 <th>ログインID</th><th>ユーザー名</th><th>アイコン</th><th>プロフィール</th>
 </tr>
 <c:forEach var="a" items="${accounts}">

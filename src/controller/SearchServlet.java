@@ -17,13 +17,13 @@ import dto.UserDTO;
  * Servlet implementation class SerchServlet
  */
 @WebServlet("/ss")
-public class SerchServlet extends HttpServlet {
+public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SerchServlet() {
+    public SearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,6 +45,7 @@ public class SerchServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		String uName = request.getParameter("uName");
 		String message_s = null;
+		String message_n = null;
 		String error = null;
 
 		int results_a = 0;
@@ -63,13 +64,18 @@ public class SerchServlet extends HttpServlet {
 			ArrayList<UserDTO> list = dbm.serchUser(uName);
 			HttpSession session = request.getSession();
 
-			if (list != null) {
+			if (list.size() != 0) {
 				session.setAttribute("results", list);
 			results_a = list.size();
 			request.setAttribute("results_a",results_a);
+			}else {
+				message_n = "検索結果が0件です";
+				request.setAttribute("alert_n",message_n);
+				list = null;
+				session.setAttribute("results",list);
 			}
 		}
-		dispatcher = request.getRequestDispatcher("Serch.jsp");
+		dispatcher = request.getRequestDispatcher("Search.jsp");
 		dispatcher.forward(request, response);
 		//doGet(request, response);
 	}

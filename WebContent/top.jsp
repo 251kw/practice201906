@@ -20,7 +20,7 @@
 	</div>
 	<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-left">
-			<form action="Serch.jsp" method="post">
+			<form action="Search.jsp" method="post">
 			<strong class="color-main">ログインユーザー情報</strong>
 			<p style="text-align: right"><input class="btn" type="submit" value="ユーザー検索" /></p></form>
 		</div>

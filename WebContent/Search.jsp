@@ -52,7 +52,7 @@ request.setCharacterEncoding("UTF-8");
 			<%-- リストにある要素の数だけ繰り返し --%>
 			<form action="./cdas" method="post" name=checkform>
 			<table class="table table-striped table-bordered">
-  <tr bgcolor="#7fffd4">
+  <tr class="bg-success padding-y-5">
     <th></th><th>ログインID</th><th>ユーザー名</th><th>アイコン</th><th>プロフィール</th><th></th>
   </tr>
 <c:forEach var="result" items="${results}">
