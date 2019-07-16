@@ -23,6 +23,7 @@ public class SearchServlet extends HttpServlet {
 	private final String SEARCH_DISP = "/search.jsp";
 	private final String TOP_DISP = "/top.jsp";
 	private final String ERR_NULL = "※検索結果がありません。";
+	private final String ERR_NO_INPUT = "※検索条件が入力されていません。";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -91,16 +92,22 @@ public class SearchServlet extends HttpServlet {
 			//セッションに保存
 			session.setAttribute("searchUser", user);
 
-			//DBMのユーザ検索メソッド呼び出してリストに入れる
-			ArrayList<UserDTO> userList = dbm.searchUser(loginId,name,icon,profile);
-
-			//検索結果がなければメッセージ表示
-			if (userList.size() == 0) {
-				request.setAttribute("alert", ERR_NULL);
-
-				//あれば検索結果をセッションに登録
+			//何も入力されていなければ検索画面に戻ってエラー表示
+			if ("".equals(loginId) && "".equals(name) && "--".equals(icon) && "".equals(profile)) {
+				request.setAttribute("alert2", ERR_NO_INPUT);
 			} else {
-				session.setAttribute("resultUsers", userList);
+
+				//DBMのユーザ検索メソッド呼び出してリストに入れる
+				ArrayList<UserDTO> userList = dbm.searchUser(loginId, name, icon, profile);
+
+				//検索結果がなければメッセージ表示
+				if (userList.size() == 0) {
+					request.setAttribute("alert", ERR_NULL);
+
+					//あれば検索結果をセッションに登録
+				} else {
+					session.setAttribute("resultUsers", userList);
+				}
 			}
 
 			//処理をsearch.jspに転送
@@ -108,7 +115,7 @@ public class SearchServlet extends HttpServlet {
 		}
 
 		//全ユーザ検索ボタンが押されたら
-		if("searchall".equals(action)) {
+		if ("searchall".equals(action)) {
 
 			//全ユーザ検索メソッド呼び出し
 			ArrayList<UserDTO> userList = dbm.searchAllUser();

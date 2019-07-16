@@ -176,7 +176,7 @@ public class UpdateServlet extends HttpServlet {
 
 			//前の検索結果がひとつだったら検索結果なしの表示
 			ArrayList<UserDTO> list = (ArrayList<UserDTO>) session.getAttribute("resultUsers");
-			if (list.size() == 1) {
+			if (list.size() == 0) {
 
 				request.setAttribute("alert", ERR_NULL);
 
