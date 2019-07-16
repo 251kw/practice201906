@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.DBManager;
+import dto.ShoutDTO;
 import dto.UserDTO;
 
 /**
@@ -64,6 +66,11 @@ public class EditCompletionServlet extends HttpServlet {
 		UserDTO user1 = dbm.getLoginUser(loginId, password);
 		session.setAttribute("user", user1);
 		}
+		// アカウント編集後の書き込みリストを取得
+		ArrayList<ShoutDTO> list = dbm.getShoutList();
+
+		// リストをセッションに保存
+		session.setAttribute("shouts", list);
 		//doGet(request, response);
 		dispatcher = request.getRequestDispatcher("EditCompletion.jsp");
 		dispatcher.forward(request, response);

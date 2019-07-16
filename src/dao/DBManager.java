@@ -320,9 +320,11 @@ public class DBManager extends SnsDAO {
 	public void editAccount(String loginId,String password,String userName,String icon,String profile) {
 			Connection conn = null;
 			PreparedStatement pstmt = null;
+			PreparedStatement pstmt2 = null;
 			ResultSet rset = null;
 
 			String sql = "UPDATE USERS SET loginId=?,password=?,userName=?,icon=?,profile=? WHERE loginId=? ";
+			String sql2 = "UPDATE SHOUTS SET USERNAME =? , ICON =? WHERE LOGINID =? ";
 
 			try {
 				conn = getConnection();
@@ -337,7 +339,14 @@ public class DBManager extends SnsDAO {
 				pstmt.setString(5, profile);
 				pstmt.setString(6, loginId);
 
+				pstmt2 = conn.prepareStatement(sql2);
+				pstmt2.setString(1, userName);
+				pstmt2.setString(2, icon);
+				pstmt2.setString(3, loginId);
+
+
 				pstmt.executeUpdate();
+				pstmt2.executeUpdate();
 
 			} catch (SQLException e) {
 				e.printStackTrace();

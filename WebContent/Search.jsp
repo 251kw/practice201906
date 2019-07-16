@@ -23,7 +23,7 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</div>
 	<div class="padding-y-5 text-center">
-		<div style="width: 40%" class="container padding-y-5 text-center">
+		<div style="width: 45%" class="container padding-y-5 text-center">
 			<form action="./ss" method="post" name="searchform">
 			<strong class="color-main">ユーザー検索</strong>
 			<h5>ユーザー情報を入力してください</h5>
@@ -31,12 +31,25 @@ request.setCharacterEncoding("UTF-8");
 							value="" size="20" />
 						<input class="btn" type="submit" value="検索" /><br>
 						</form>
+						<%-- リクエストスコープに alert_s があれば --%>
+					<c:if
+						test="${requestScope.alert_s != null && requestScope.alert_s != ''}">
+						<%-- リクエストスコープの alert の値を出力 --%>
+							<div class="color-error text-left"><c:out
+									value="${requestScope.alert_s}" /></div>
+						</c:if>
+						<%-- リクエストスコープに alert_rn があれば --%>
+					<c:if
+						test="${requestScope.alert_rn != null && requestScope.alert_rn != ''}">
+							<div class="color-error text-left"><c:out
+									value="${requestScope.alert_rn}" /></div>
+						</c:if>
 						<%-- リクエストスコープに results_a があれば --%>
 					<c:if
 						test="${requestScope.results_a != null && requestScope.results_a != ''}">
 							<%-- リクエストスコープの alert の値を出力 --%>
-							<td colspan="2" class="color-error text-left"><c:out
-									value="検索結果が${requestScope.results_a}件見つかりました" /></td>
+							<div class="color-error text-centeer"><c:out
+									value="検索結果が${requestScope.results_a}件見つかりました" /></div>
 					</c:if>
 					 <c:if
 						test="${sessionScope.results != null && sessionScope.results != ''}">
@@ -48,6 +61,13 @@ request.setCharacterEncoding("UTF-8");
 							   }
 							}
 </script></p>
+							<%-- リクエストスコープに alert_n があれば --%>
+					<c:if
+						test="${requestScope.alert_n != null}">
+							<%-- リクエストスコープの alert の値を出力 --%>
+							<div class="color-error text-center"><c:out
+									value="${requestScope.alert_n}" /></div>
+					</c:if>
 					 <jsp:useBean id="results" scope="session" type="java.util.ArrayList<dto.UserDTO>" />
 			<%-- リストにある要素の数だけ繰り返し --%>
 			<form action="./cdas" method="post" name=checkform>
@@ -73,27 +93,6 @@ request.setCharacterEncoding("UTF-8");
 <input class="btn" type="submit" value="削除" />
 </form>
 			 </c:if>
-					<%-- リクエストスコープに alert_s があれば --%>
-					<table>
-					<c:if
-						test="${requestScope.alert_s != null && requestScope.alert_s != ''}">
-						<tr>
-							<%-- リクエストスコープの alert の値を出力 --%>
-							<td colspan="2" class="color-error text-left"><c:out
-									value="${requestScope.alert_s}" /></td>
-
-						</tr>
-						</c:if>
-							<%-- リクエストスコープに alert_n があれば --%>
-					<c:if
-						test="${requestScope.alert_n != null}">
-						<tr>
-							<%-- リクエストスコープの alert の値を出力 --%>
-							<td colspan="2" class="color-error text-left"><c:out
-									value="${requestScope.alert_n}" /></td>
-						</tr>
-					</c:if>
-				</table>
 			<div style="text-align:center"><form action="./top" method="post">
 			<input class="btn" type="submit" value="TOPへ" /></form></div>
 		</div>

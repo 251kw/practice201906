@@ -50,14 +50,15 @@ public class CheckDeleteAccountServlet extends HttpServlet {
 		ArrayList<String> listLoginId = new ArrayList<String>();
 		ArrayList<UserDTO> list = new ArrayList<UserDTO>();
 		String message_n = null;
+		RequestDispatcher dispatcher;
 
 		if (users == null ){
 			message_n = "削除するユーザーをチェックしてください";
 			request.setAttribute("alert_n", message_n);
-		RequestDispatcher dispatcher;
+
 		dispatcher = request.getRequestDispatcher("Search.jsp");
-		dispatcher.forward(request, response);
-		}
+		//dispatcher.forward(request, response);
+		}else {
 
 		for(String b : users){
 			listLoginId.add(b);
@@ -72,10 +73,9 @@ public class CheckDeleteAccountServlet extends HttpServlet {
 		session.setAttribute("listLoginId",listLoginId);
 		request.setAttribute("accounts", list);
 
-
-
-		RequestDispatcher dispatcher;
 		dispatcher = request.getRequestDispatcher("Deleting.jsp");
+
+		}
 		dispatcher.forward(request, response);
 	}
 

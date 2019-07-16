@@ -65,8 +65,7 @@ public class AccountDeleteServlet extends HttpServlet {
 		if(list1.contains(loginId1)) {
 			session.invalidate();
 			dispatcher = request.getRequestDispatcher("OwnAccountDeleted.jsp");
-			dispatcher.forward(request, response);
-		}
+		}else {
 
 		// 書き込み内容消去後のリストを取得
 		ArrayList<ShoutDTO> list = dbm.getShoutList();
@@ -74,6 +73,7 @@ public class AccountDeleteServlet extends HttpServlet {
 		// リストをセッションに保存
 		session.setAttribute("shouts", list);
 		dispatcher = request.getRequestDispatcher("AccountDeleteCompletion.jsp");
+		}
 		dispatcher.forward(request, response);
 
 		//doGet(request, response);

@@ -45,7 +45,7 @@ public class SearchServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		String uName = request.getParameter("uName");
 		String message_s = null;
-		String message_n = null;
+		String message_rn = null;
 		String error = null;
 
 		int results_a = 0;
@@ -69,8 +69,8 @@ public class SearchServlet extends HttpServlet {
 			results_a = list.size();
 			request.setAttribute("results_a",results_a);
 			}else {
-				message_n = "検索結果が0件です";
-				request.setAttribute("alert_n",message_n);
+				message_rn = "検索結果が0件です";
+				request.setAttribute("alert_rn",message_rn);
 				list = null;
 				session.setAttribute("results",list);
 			}

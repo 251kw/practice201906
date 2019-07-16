@@ -58,33 +58,33 @@ public class RegiServlet extends HttpServlet {
 		DBManager dbm = new DBManager();
 
 		RequestDispatcher dispatcher = null;
-		String message_i = null;
+		String messagei = null;
 		String message2 = null;
-		String message_u = null;
-		String message_p = null;
+		String messageu = null;
+		String messagep = null;
 
 		if (loginId.equals("") ) {
 			// 必須入力事項が未入力なら
-			message_i = "ログインIDは必須入力です";
+			messagei = "ログインIDは必須入力です";
 
 			// エラーメッセージをリクエストオブジェクトに保存
-			request.setAttribute("alert_i", message_i);
+			request.setAttribute("alert_i", messagei);
 		}
 
 		//パスワードが未入力なら
 		if (password.equals("")) {
-			message_p = "パスワードは必須入力です";
+			messagep = "パスワードは必須入力です";
 
 			// エラーメッセージをリクエストオブジェクトに保存
-			request.setAttribute("alert_p", message_p);
+			request.setAttribute("alert_p", messagep);
 		}
 
 		//ユーザーネームが未入力なら
 		if (userName.equals("")) {
-			message_u = "ユーザー名は必須入力です";
+			messageu = "ユーザー名は必須入力です";
 
 			// エラーメッセージをリクエストオブジェクトに保存
-			request.setAttribute("alert_u", message_u);
+			request.setAttribute("alert_u", messageu);
 		}
 
 				// ログインIDが重複している場合
@@ -96,13 +96,13 @@ public class RegiServlet extends HttpServlet {
 				request.setAttribute("alert2", message2);
 		}
 		//エラーメッセージが一つでもあれば転送
-		if(message_i != null || message_p != null || message_u != null || message2 != null)  {
+		if(messagei != null || messagep != null || messageu != null || message2 != null)  {
 		dispatcher = request.getRequestDispatcher("Registration.jsp");
-		dispatcher.forward(request, response);
-		}
+		}else {
 		//入力エラーがなければ確認画面へ
 		dispatcher = request.getRequestDispatcher("Confirmation.jsp");
-		dispatcher.forward(request, response);
+		}
+	dispatcher.forward(request, response);
 	}
 
 }

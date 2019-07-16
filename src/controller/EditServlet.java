@@ -54,43 +54,41 @@ public class EditServlet extends HttpServlet {
 		//DBManager dbm = new DBManager();
 
 		RequestDispatcher dispatcher = null;
-		String message_i = null;
-		String message_u = null;
-		String message_p = null;
+		String messageI = null;
+		String messageU = null;
+		String messageP = null;
 
 		if (loginId.equals("") ) {
 			// 必須入力事項が未入力なら
-			message_i = "ログインIDは必須入力です";
+			messageI = "ログインIDは必須入力です";
 
 			// エラーメッセージをリクエストオブジェクトに保存
-			request.setAttribute("alert_i", message_i);
+			request.setAttribute("alert_i", messageI);
 		}
 
 		//パスワードが未入力なら
 		if (password.equals("")) {
-			message_p = "パスワードは必須入力です";
+			messageP = "パスワードは必須入力です";
 
 			// エラーメッセージをリクエストオブジェクトに保存
-			request.setAttribute("alert_p", message_p);
+			request.setAttribute("alert_p", messageP);
 		}
 
 		//ユーザーネームが未入力なら
 		if (userName.equals("")) {
-			message_u = "ユーザー名は必須入力です";
+			messageU = "ユーザー名は必須入力です";
 
 			// エラーメッセージをリクエストオブジェクトに保存
-			request.setAttribute("alert_u", message_u);
+			request.setAttribute("alert_u", messageU);
 		}
 		//エラーメッセージが一つでもあれば転送
-		if(message_i != null || message_p != null || message_u != null)  {
+		if(messageI != null || messageP != null || messageU != null)  {
 		dispatcher = request.getRequestDispatcher("Editing.jsp");
-		dispatcher.forward(request, response);
-		}
+		}else {
 		//入力エラーがなければ確認画面へ
 		dispatcher = request.getRequestDispatcher("EditConfirmation.jsp");
+		}
 		dispatcher.forward(request, response);
-
-		//doGet(request, response);
 	}
 
 }
