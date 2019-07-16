@@ -48,9 +48,9 @@ public class UserUpdateCheck extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		HttpSession session = request.getSession();
 
-		//String sLoginId = (String) session.getAttribute("beforeUpdateLoginId");
-		//String sltduId = request.getParameter("sltduId");//userId
-		String newerId = request.getParameter("newerId");
+		String sLoginId = (String) session.getAttribute("beforeUpdateLoginId");
+		String sltduId = request.getParameter("sltduId");
+		//String newerId = request.getParameter("newerId");
 		String newerPw = request.getParameter("newerPw");
 		String newerName = request.getParameter("newerName");
 		String genderIcon = request.getParameter("gender");
@@ -64,16 +64,25 @@ public class UserUpdateCheck extends HttpServlet {
 		String message3 = null;
 		String message4 = null;
 
-		if (newerId.equals("") || newerPw.equals("") || newerName.equals("") || genderIcon.equals("")
-				|| (!(newerId.matches("^[0-9a-zA-Z]+$")))||(!(newerPw.matches("^[0-9a-zA-Z]+$")))) {
-			if (newerId.equals("")) {
+		String[] uk = request.getParameterValues("loginId");//Like検索する際に""空文字だとすべてが検索に引っかかるので入力なければＤＢ上該当の無いスペースを代入
+		String uk2 = request.getParameter("userName");
+		String uk3 = request.getParameter("profile");
+		String uI = request.getParameter("icon");
+		String uI2 = request.getParameter("icon2");
+		String uI3 = request.getParameter("icon3");
+		String uI4 = request.getParameter("icon4");
+		String uI5 = request.getParameter("icon5");
+
+		if (/*newerId.equals("") ||*/ newerPw.equals("") || newerName.equals("") || genderIcon.equals("")
+				/*|| (!(newerId.matches("^[0-9a-zA-Z]+$")))*/||(!(newerPw.matches("^[0-9a-zA-Z]+$")))) {
+			/*if (newerId.equals("")) {
 				message2 = "ログインIDが入力されていません。";
-			}
-			if (!(newerId.matches("^[0-9a-zA-Z]+$"))) {//文字列に半角英数字以外の文字がないかチェック（matchesメソッド
+			}*/
+			/*if (!(newerId.matches("^[0-9a-zA-Z]+$"))) {//文字列に半角英数字以外の文字がないかチェック（matchesメソッド
 				message2 = "ログインIDは半角英数字のみご利用いただけます。";
-			}
+			}*/
 			if (newerPw.equals("")) {
-				message3 = "パスワードが入力されていません。";
+				message2 = "パスワードが入力されていません。";
 			}
 			if (!(newerPw.matches("^[0-9a-zA-Z]+$"))) {
 				message3 = "パスワードは半角英数字のみご利用いただけます。";
@@ -91,41 +100,23 @@ public class UserUpdateCheck extends HttpServlet {
 			request.setAttribute("alert4", message4);
 
 			dispatcher = request.getRequestDispatcher("userUpdateNyuuryoku.jsp");
-			dispatcher.forward(request, response);
+			//dispatcher.forward(request, response);
 
-		} /*else {//必須項目が埋まっていたら
-			if (!(newerId.matches("^[0-9a-zA-Z]+$"))) {//文字列に半角英数字以外の文字がないかチェック（matchesメソッド
-				message = "ログインIDは半角英数字のみご利用いただけます。";
-			}
-			if (!(newerPw.matches("^[0-9a-zA-Z]+$"))) {
-				message3 = "パスワードは半角英数字のみご利用だけます。";
-			}
-			DBManager dbm = new DBManager();
-			//if(入力画面から送信されたIDとセッションに保存されたsUserのloginIdが違っていれば既に一緒のIDがあるか検索するメソッド
-			//）｛
-
-			if (!(sLoginId.equals(newerId))) {
-				newerUser = dbm.getShinkiUser(newerId);//DBManagerに追加したメソッドで入力されたIDが存在しているかチェック　未登録ならnull代入
-			}
-			if (newerUser != null) {
-				//if(newerUser != null) {
-				message2 = "このログインIDはすでに使われています。";
-				//}
-				request.setAttribute("sUser.loginId", newerId);
-
-				request.setAttribute("sUser.userName", newerName);
-				request.setAttribute("sUser.profile", newerProf);
-				request.setAttribute("sUserIcon", genderIcon);
-				request.setAttribute("alert", message);
-				//request.setAttribute("alert2", message2);
-				request.setAttribute("alert3", message3);
-				//request.setAttribute("alert4", message4);
-				dispatcher = request.getRequestDispatcher("userUpdateNyuuryoku.jsp");
-			}*/ else {
-				//HttpSession session = request.getSession();//sessionにUserDTO型のnewerUserを保存
-				newerUser = new UserDTO(newerId, newerPw, newerName, genderIcon, newerProf);
-				session.setAttribute("newerUser2", newerUser);//key設定して取り出せるようにする。
+		} else {
+				//requestUserDTO型のnewerUserを保存
+				newerUser = new UserDTO(sLoginId, newerPw, newerName, genderIcon, newerProf);
+				request.setAttribute("newerUser2", newerUser);//key設定して取り出せるようにする。
 				request.setAttribute("nPw", newerPw);
+
+				request.setAttribute("sltduId", sltduId);
+				request.setAttribute("uk", uk[0]);
+				request.setAttribute("uk2", uk2);
+				request.setAttribute("uk3", uk3);
+				request.setAttribute("uI", uI);
+				request.setAttribute("uI2", uI2);
+				request.setAttribute("uI3", uI3);
+				request.setAttribute("uI4", uI4);
+				request.setAttribute("uI5", uI5);
 
 				dispatcher = request.getRequestDispatcher("userUpdateKakunin.jsp");
 			}

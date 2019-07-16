@@ -8,20 +8,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import dao.DBManager;
+//import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class UserDltDone
+ * Servlet implementation class AfterUpdateUser
  */
-@WebServlet("/UDD")
-public class UserDltDone extends HttpServlet {
+@WebServlet("/KCB")
+public class KeepCheckBox extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserDltDone() {
+    public KeepCheckBox() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,7 +30,6 @@ public class UserDltDone extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -41,11 +39,15 @@ public class UserDltDone extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
-		String[] dltUserList=request.getParameterValues("uListLoginId");
+
 		RequestDispatcher dispatcher;
+
+/*		String message = null;
 		DBManager dbm = new DBManager();
+		String[] uk = request.getParameterValues("userId");
+		UserDTO user = new UserDTO();
+		ArrayList<UserDTO> uList = new ArrayList<UserDTO>();*/
 
 		String[] uk = request.getParameterValues("loginId");//Like検索する際に""空文字だとすべてが検索に引っかかるので入力なければＤＢ上該当の無いスペースを代入
 		String uk2 = request.getParameter("userName");
@@ -56,36 +58,54 @@ public class UserDltDone extends HttpServlet {
 		String uI4 = request.getParameter("icon4");
 		String uI5 = request.getParameter("icon5");
 
-		if(!(dltUserList==null)) {
-		for(String i : dltUserList) {
-
-			/*boolean sUser =*/ dbm.setWritingDelete(i);
-			//System.out.println(sUser);
+		if("".equals(uI)) {
+			uI = null;
 		}
-		for(String i : dltUserList) {
-			/*boolean sUser2 =*/ dbm.setUserDelete(i);
-			//System.out.println(sUser2);
+		if("".equals(uI2)) {
+			uI2 = null;
 		}
-		//request.setAttribute("uList", uList);
-
-		request.setAttribute("uk", uk[0]);
-		request.setAttribute("uk2", uk2);
-		request.setAttribute("uk3", uk3);
-		request.setAttribute("uI", uI);
-		request.setAttribute("uI2", uI2);
-		request.setAttribute("uI3", uI3);
-		request.setAttribute("uI4", uI4);
-		request.setAttribute("uI5", uI5);
-
-		dispatcher = request.getRequestDispatcher("userDeleteKanryo.jsp");
-
-		}else {
-			//message="対象をチェックしてください。";
-			//request.setAttribute("alert", message);
-			//request.setAttribute("selectedUsers", selectedUsers);//セッションから取得した値（中身はアレーリストをrequestに乗せて返す。
-			dispatcher = request.getRequestDispatcher("userIchiran2.jsp");
+		if("".equals(uI3)) {
+			uI3 = null;
 		}
+		if("".equals(uI4)) {
+			uI4 = null;
+		}
+		if("".equals(uI5)) {
+			uI5 = null;
+		}
+
+
+			if("".equals(uk[0])) {
+				uk[0]="";
+			}
+
+			if ((!(uI == null))){
+				uI = "checked";
+			}
+			if ((!(uI2 == null))){
+				uI2 = "checked";
+			}
+			if ((!(uI3 == null))){
+				uI3 = "checked";
+			}
+			if ((!(uI4 == null))) {
+				uI4 = "checked";
+			}
+			if ((!(uI5 == null))) {
+				uI5 = "checked";
+			}
+
+			request.setAttribute("uk", uk[0]);
+			request.setAttribute("uk2", uk2);
+			request.setAttribute("uk3", uk3);
+			request.setAttribute("uI", uI);
+			request.setAttribute("uI2", uI2);
+			request.setAttribute("uI3", uI3);
+			request.setAttribute("uI4", uI4);
+			request.setAttribute("uI5", uI5);
+
+			dispatcher = request.getRequestDispatcher("userKensaku.jsp");
 		dispatcher.forward(request, response);
 	}
-
 }
+

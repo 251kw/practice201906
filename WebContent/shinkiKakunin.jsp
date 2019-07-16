@@ -20,7 +20,7 @@
 	<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-center">
 			<form action="./SK" method="post">
-				<table style="width: 400px" class="table">
+				<table style="width:400px" class="table">
 					<tr>
 						<td class="color-main text-left">ログインID:${newerUser.loginId}</td>
 					</tr>

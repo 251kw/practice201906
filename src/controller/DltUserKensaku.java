@@ -55,20 +55,34 @@ public class DltUserKensaku extends HttpServlet {
 		DBManager dbm = new DBManager();
 		String[] uk = request.getParameterValues("loginId");//Like検索する際に""空文字だとすべてが検索に引っかかるので入力なければＤＢ上該当の無いスペースを代入
 		String uk2 = request.getParameter("userName");
-		if (uk2.equals("")||uk==null) {
+		if (uk2.equals("")/*||uk==null*/) {
 			uk2 = null;
 		}
 		String uk3 = request.getParameter("profile");
-		if (uk3.equals("")||uk==null) {
+		if (uk3.equals("")/*||uk==null*/) {
 			uk3 = null;
 		}
 
 		String uI = request.getParameter("icon");
+		if("".equals(uI)) {
+			uI=null;
+		}
 		String uI2 = request.getParameter("icon2");
+		if("".equals(uI2)) {
+			uI2=null;
+		}
 		String uI3 = request.getParameter("icon3");
+		if("".equals(uI3)) {
+			uI3=null;
+		}
 		String uI4 = request.getParameter("icon4");
+		if("".equals(uI4)) {
+			uI4=null;
+		}
 		String uI5 = request.getParameter("icon5");
-		//String ub="";
+		if("".equals(uI5)) {
+			uI5=null;
+		}
 
 		ArrayList<UserDTO> selectedUsers = new ArrayList<UserDTO>();
 
@@ -88,6 +102,20 @@ public class DltUserKensaku extends HttpServlet {
 			if (!(selectedUsers.size() == 0)) {//sizeメソッド　リスト内の要素の数を調べるためのメソッド
 				HttpSession session = request.getSession();
 				session.setAttribute("selectedUsers2", selectedUsers);
+				if("".equals(uk[0])) {
+					uk[0]="";
+				}
+
+				//request.setAttribute("alert", message);
+				request.setAttribute("uk", uk[0]);
+				request.setAttribute("uk2", uk2);
+				request.setAttribute("uk3", uk3);
+				request.setAttribute("uI", uI);
+				request.setAttribute("uI2", uI2);
+				request.setAttribute("uI3", uI3);
+				request.setAttribute("uI4", uI4);
+				request.setAttribute("uI5", uI5);
+
 				request.setAttribute("selectedUsers", selectedUsers);
 				dispatcher = request.getRequestDispatcher("userIchiran2.jsp");
 			} else {

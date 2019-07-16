@@ -465,7 +465,6 @@ public boolean setUserUpdate(String newerPw,String newerName,String genderIcon,S
 	try {
 		conn = getConnection();
 
-		// INSERT 文の登録と実行
 		String sql = "UPDATE users SET password=?,userName=?,icon=?,profile=? WHERE userID=?";/*(loginId,password,userName, icon, profile) VALUES(?, ?, ?, ?,?)";*/
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, newerPw);
@@ -475,7 +474,34 @@ public boolean setUserUpdate(String newerPw,String newerName,String genderIcon,S
 		pstmt.setString(5, userId);
 		int cnt = pstmt.executeUpdate();
 		if (cnt == 1) {
-			// INSERT 文の実行結果が１なら登録成功
+			result = true;
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		// データベース切断処理
+		close(pstmt);
+		close(conn);
+	}
+
+	return result;
+
+}
+public boolean setShoutsUpdate(String newerName,String genderIcon,String sLoginId) {
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+
+	boolean result = false;
+	try {
+		conn = getConnection();
+
+		String sql = "UPDATE shouts SET userName=?,icon=? WHERE loginId=?";/*(loginId,password,userName, icon, profile) VALUES(?, ?, ?, ?,?)";*/
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, newerName);
+		pstmt.setString(2, genderIcon);
+		pstmt.setString(3, sLoginId);
+		int cnt = pstmt.executeUpdate();
+		if (cnt == 1) {
 			result = true;
 		}
 	} catch (SQLException e) {

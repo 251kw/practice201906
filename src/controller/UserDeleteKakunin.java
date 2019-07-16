@@ -58,6 +58,15 @@ public class UserDeleteKakunin extends HttpServlet {
 		ArrayList<UserDTO> uList = new ArrayList<UserDTO>();
 		RequestDispatcher dispatcher;
 
+		String[] uk = request.getParameterValues("loginId");//Like検索する際に""空文字だとすべてが検索に引っかかるので入力なければＤＢ上該当の無いスペースを代入
+		String uk2 = request.getParameter("userName");
+		String uk3 = request.getParameter("profile");
+		String uI = request.getParameter("icon");
+		String uI2 = request.getParameter("icon2");
+		String uI3 = request.getParameter("icon3");
+		String uI4 = request.getParameter("icon4");
+		String uI5 = request.getParameter("icon5");
+
 		//配列に入れられた個数だけDBManのメソッドを実行、アレーリストに取得したオブジェクトを代入
 		if(!(sltduId==null)) {
 		for(String i : sltduId) {
@@ -65,6 +74,14 @@ public class UserDeleteKakunin extends HttpServlet {
 			uList.add(sUser);
 		}
 		request.setAttribute("uList", uList);
+		request.setAttribute("uk", uk[0]);
+		request.setAttribute("uk2", uk2);
+		request.setAttribute("uk3", uk3);
+		request.setAttribute("uI", uI);
+		request.setAttribute("uI2", uI2);
+		request.setAttribute("uI3", uI3);
+		request.setAttribute("uI4", uI4);
+		request.setAttribute("uI5", uI5);
 		dispatcher = request.getRequestDispatcher("userDeleteKakunin.jsp");
 		dispatcher.forward(request, response);
 		}else {

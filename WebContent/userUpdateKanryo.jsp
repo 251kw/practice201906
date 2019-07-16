@@ -24,14 +24,24 @@
 			<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-center">
 			<%-- action 属性にloginサーブレットを指定 --%>
-			<form action="./AUU" method="post">
+			<form action="./DUK" method="post">
 				<h2>ユーザー一覧へ戻る</h2>
-				<c:forEach var="i" items="${selectedUsers2 }">
+<%-- 				<c:forEach var="i" items="${selectedUsers2 }">
 				<!--検索サーブレットへ取得したユーザのIdを送信。消されたユーザーは検索に引っかからない。  -->
 				<input type="hidden" name="userId" value="${i.userId }" />
 <!-- 				<input type="hidden" name="userName" value="" />
 				<input type="hidden" name="profile" value="" /> -->
-				</c:forEach>
+				</c:forEach> --%>
+				<input type="hidden" name="loginId" value="${uk }" />
+				<input type="hidden" name="userName" value="${uk2 }" />
+				<input type="hidden" name="profile" value="${uk3 }" />
+				<input type="hidden" name="icon" value="${uI }" />
+				<input type="hidden" name="icon2" value="${uI2 }" />
+				<input type="hidden" name="icon3" value="${uI3 }" />
+				<input type="hidden" name="icon4" value="${uI4 }" />
+				<input type="hidden" name="icon5" value="${uI5 }" />
+				<%-- <input type="hidden" name="sltduId" value="${sUser.userId }" />
+				<input type="hidden" name="newerId" value="${sUser.loginId }" /> --%>
 				<input class="btn" type="submit" value="ユーザー検索一覧へ" />
 			</form>
 		</div>

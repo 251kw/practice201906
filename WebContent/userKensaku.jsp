@@ -73,13 +73,13 @@
 				</table>
 			</form>
 			<div class="padding-y-5 text-center">
-				<div style="width: 40%" class="container padding-y-5 text-center">
+				<div style="width: 60%" class="container padding-y-5 text-center">
 					<%-- action 属性にloginサーブレットを指定 --%>
 					<form action="./login" method="post">
-						<h2>また叫びますか？</h2>
+						<h2>叫び画面へ戻る</h2>
 						<input type="hidden" name="loginId" value="${user.loginId }" /> <input
 							type="hidden" name="password" value="${user.password }" /> <input
-							class="btn" type="submit" value="もっと叫ぶ！" />
+							class="btn" type="submit" value="もっと叫ぼう" />
 					</form>
 				</div>
 			</div>

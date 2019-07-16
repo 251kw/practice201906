@@ -22,6 +22,15 @@
 		<div style="width: 60%" class="container padding-y-5">
 				<form action="UDD" method="post">
 
+				<input type="hidden" name="loginId" value="${uk }" />
+				<input type="hidden" name="userName" value="${uk2 }" />
+				<input type="hidden" name="profile" value="${uk3 }" />
+				<input type="hidden" name="icon" value="${uI }" />
+				<input type="hidden" name="icon2" value="${uI2 }" />
+				<input type="hidden" name="icon3" value="${uI3 }" />
+				<input type="hidden" name="icon4" value="${uI4 }" />
+				<input type="hidden" name="icon5" value="${uI5 }" />
+
  			<c:forEach var="uList" items="${uList}">
  			<table class="table table-bordered">
 					<tr>

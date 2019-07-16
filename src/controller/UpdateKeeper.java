@@ -9,19 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.DBManager;
-
 /**
- * Servlet implementation class AfterUpdateUser
+ * Servlet implementation class UpdateKeeper
  */
-@WebServlet("/AUU")
-public class AfterUpdateUser extends HttpServlet {
+@WebServlet("/UK")
+public class UpdateKeeper extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AfterUpdateUser() {
+    public UpdateKeeper() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,13 +38,23 @@ public class AfterUpdateUser extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.setCharacterEncoding("UTF-8");
 
-		RequestDispatcher dispatcher;
+		RequestDispatcher dispatcher = null;
 
-		String message = null;
-		DBManager dbm = new DBManager();
-		String[] uk = request.getParameterValues("userId");
+		String sltduId = request.getParameter("sltduId");
+		String newerPw = request.getParameter("newerPw");
+		String newerName = request.getParameter("newerName");
+		String genderIcon = request.getParameter("gender");
+		String newerProf = request.getParameter("newerProfile");
+
+		request.setAttribute("sltduId", sltduId);
+		request.setAttribute("sUser.password", newerPw);
+		request.setAttribute("sUserIcon", genderIcon);
+		request.setAttribute("sUser.userName", newerName);
+		request.setAttribute("sUser.profile", newerProf);
+
+		dispatcher = request.getRequestDispatcher("userUpdateNyuuryoku.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }

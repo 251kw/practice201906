@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>変更内容入力画面</title>
 <link rel="stylesheet" href="./css/skyblue.css">
 <link rel="stylesheet" href="./css/pe-icon-7-stroke.css">
 <link rel="stylesheet" href="./css/helper.css">
@@ -41,33 +41,34 @@
 			<strong class="color-main">変更する部分を入力してください。</strong>
 		</div>
 	</div>
-<jsp:useBean id="sUser" scope="session" type="dto.UserDTO" />
+<%-- <jsp:useBean id="sUser" scope="session" type="dto.UserDTO" /> --%>
 	<div class="padding-y-5 text-center">
-		<div style="width: 40%" class="container padding-y-5 text-center">
+		<div style="width: 35%" class="container padding-y-5 text-center">
 			<%-- action 属性にサーブレットを指定 --%>
 			<form action="./UUC" method="post">
-				<input type="hidden" name="sltduId" value="${sUser.userId }" />
-				<input type="hidden" name="newerId" value="${sUser.loginId }" />
-				<table style="width: 400px" class="table">
-<%-- 					<tr>
-						<td class="color-main text-left">ログインID</td>
-						<td class="text-left"><input class="form-control" type="text"
-							name="newerId" value="${sUser.loginId }" size="20" maxlength="32" /><br>
-							<h6 class="color-error text-left">半角英数最大32文字</h6>
-							</td>
+				<input type="hidden" name="sltduId" value="${sltduId }" />
+				<input type="hidden" name="loginId" value="${uk }" />
+				<input type="hidden" name="userName" value="${uk2 }" />
+				<input type="hidden" name="profile" value="${uk3 }" />
+				<input type="hidden" name="icon" value="${uI }" />
+				<input type="hidden" name="icon2" value="${uI2 }" />
+				<input type="hidden" name="icon3" value="${uI3 }" />
+				<input type="hidden" name="icon4" value="${uI4 }" />
+				<input type="hidden" name="icon5" value="${uI5 }" />
 
-					</tr> --%>
+				<table style="width: 400px" class="table">
+
 					<tr>
 						<td class="color-main text-left">パスワード</td>
 						<td class="text-left"><input class="form-control"
-							type="password" name="newerPw" value="${sUser.password }" size="20" maxlength="32" />
-							<h6 class="color-error text-left">半角英数最大32文字</h6>
+							type="password" name="newerPw" value="${sUser.password }" size="20" maxlength="32" minlength="4"/>
+							<h6 class="color-error text-left">半角英数4文字～32文字</h6>
 							</td>
 					</tr>
 					<tr>
 						<td class="color-main text-left">表示名</td>
 						<td class="text-left"><input class="form-control" type="text"
-							name="newerName" value="${sUser.userName }" size="20" maxlength="64" />
+							name="newerName" value="${sUser.userName }" size="20" maxlength="64" minlength="4"/>
 							<h6 class="color-error text-left">最大64文字</h6>
 							</td>
 					</tr>
@@ -92,14 +93,13 @@
 							<h6 class="color-error text-left">最大128文字</h6>
 							</td>
 					</tr>
+<tr>
 
-					<tr>
-						<td colspan="2" class="text-right"><input class="btn"
-							type="submit" value="入力内容を確認する" /></td>
-					</tr>
-					<tr>
-						<td colspan="2" class="text-right"><a href="index.jsp">登録をやめる</a></td>
-					</tr>
+						<th colspan="2" class="text-right"><input class="btn"type="submit" value="入力内容を確認する" />
+							<input class="btn" type="submit" formaction="./DUK" value="ユーザー一覧へ戻る"></th>
+
+</tr>
+
 
 					<%-- リクエストスコープに alert があれば --%>
 					<c:if
@@ -136,6 +136,7 @@
 					</c:if>
 				</table>
 			</form>
+
 		</div>
 	</div>
 </body>

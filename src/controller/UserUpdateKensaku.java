@@ -55,6 +55,15 @@ public class UserUpdateKensaku extends HttpServlet {
 		//検索されたユーザーIDを取得
 		String[] sltduId=request.getParameterValues("sltduId");
 
+		String[] uk = request.getParameterValues("loginId");
+		String uk2 = request.getParameter("userName");
+		String uk3 = request.getParameter("profile");
+		String uI = request.getParameter("icon");
+		String uI2 = request.getParameter("icon2");
+		String uI3 = request.getParameter("icon3");
+		String uI4 = request.getParameter("icon4");
+		String uI5 = request.getParameter("icon5");
+
 		RequestDispatcher dispatcher;
 
 		//配列に入れられた個数だけDBManのメソッドを実行、アレーリストに取得したオブジェクトを代入
@@ -72,9 +81,20 @@ public class UserUpdateKensaku extends HttpServlet {
 		session.setAttribute("beforeUpdateLoginId", sUser.getLoginId());
 		//アイコンの値を送る
 		request.setAttribute("sUserIcon", sUser.getIcon());
-		session.setAttribute("sUser", sUser);
+		request.setAttribute("sUser", sUser);
+
+		request.setAttribute("sltduId", sltduId[0]);
+		request.setAttribute("uk", uk[0]);
+		request.setAttribute("uk2", uk2);
+		request.setAttribute("uk3", uk3);
+		request.setAttribute("uI", uI);
+		request.setAttribute("uI2", uI2);
+		request.setAttribute("uI3", uI3);
+		request.setAttribute("uI4", uI4);
+		request.setAttribute("uI5", uI5);
+
 		dispatcher = request.getRequestDispatcher("userUpdateNyuuryoku.jsp");
-		dispatcher.forward(request, response);
+		/*dispatcher.forward(request, response);*/
 		}else {
 			message="登録内容の編集は1度に1件のみ可能です。";
 			request.setAttribute("alert", message);
