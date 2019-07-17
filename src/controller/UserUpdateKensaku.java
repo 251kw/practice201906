@@ -81,7 +81,9 @@ public class UserUpdateKensaku extends HttpServlet {
 		session.setAttribute("beforeUpdateLoginId", sUser.getLoginId());
 		//アイコンの値を送る
 		request.setAttribute("sUserIcon", sUser.getIcon());
-		request.setAttribute("sUser", sUser);
+		request.setAttribute("sUserName", sUser.getUserName());
+		request.setAttribute("sUserPassword", sUser.getPassword());
+		request.setAttribute("sUserProfile", sUser.getProfile());
 
 		request.setAttribute("sltduId", sltduId[0]);
 		request.setAttribute("uk", uk[0]);

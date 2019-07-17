@@ -91,19 +91,19 @@ public class ShinkiUserServlet extends  HttpServlet{//サーブレットから�
 			dispatcher.forward(request, response);
 
 		}else {//必須項目が埋まっていたら
+			DBManager dbm = new DBManager();
+			newerUser = dbm.getShinkiUser(newerId);//DBManagerに追加したメソッドで入力されたIDが存在しているかチェック　未登録ならnull代入
+			if((!(newerId.matches("^[0-9a-zA-Z]+$"))) || (!(newerPw.matches("^[0-9a-zA-Z]+$"))) || (newerUser != null)) {
 			if(!(newerId.matches("^[0-9a-zA-Z]+$"))) {//文字列に半角英数字以外の文字がないかチェック（matchesメソッド
 				message = "ログインIDは半角英数字のみご利用いただけます。";
 			}
 			if(!(newerPw.matches("^[0-9a-zA-Z]+$"))) {
 				message3 = "パスワードは半角英数字のみご利用だけます。";
 			}
-			DBManager dbm = new DBManager();
-			newerUser = dbm.getShinkiUser(newerId);//DBManagerに追加したメソッドで入力されたIDが存在しているかチェック　未登録ならnull代入
-			//newerUser2 = dbm.gentShinkiUserName(newerName); 表示名チェックで使ってました。↓のif文を||newerUser2 != null;で利用
 			if(newerUser != null) {
-				if(newerUser != null) {
 				message2 = "このログインIDはすでに使われています。";
-				}
+			}
+
 				request.setAttribute("nId", newerId);
 				request.setAttribute("nName", newerName);
 				request.setAttribute("nProf", newerProf);
@@ -111,7 +111,6 @@ public class ShinkiUserServlet extends  HttpServlet{//サーブレットから�
 				request.setAttribute("alert", message);
 				request.setAttribute("alert2", message2);
 				request.setAttribute("alert3", message3);
-				request.setAttribute("alert4", message4);
 				dispatcher = request.getRequestDispatcher("shinkiUser.jsp");
 			}else {
 				HttpSession session = request.getSession();//sessionにUserDTO型のnewerUserを保存

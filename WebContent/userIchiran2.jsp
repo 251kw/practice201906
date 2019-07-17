@@ -13,6 +13,19 @@
 <link rel="stylesheet" href="./css/helper.css">
 </head>
 <body>
+
+	<%
+		String checkCheck ="";
+		 checkCheck=(String)request.getAttribute("checkCheck2");
+	 	if(checkCheck==null){
+			checkCheck="";
+		}
+	%>
+				<%--  <c:if
+					test="${requestScope.checkCheck!= null && requestScope.checkCheck != ''}">
+					<% checkCheck=request.getParameter("checkCheck2");%>
+				</c:if>
+ --%>
 	<jsp:useBean id="selectedUsers2" scope="session"
 		type="java.util.ArrayList<dto.UserDTO>" />
 	<div class="bg-success padding-y-5">
@@ -22,16 +35,8 @@
 	</div>
 	<div class="padding-y-5">
 		<div style="width: 60%" class="container padding-y-5">
-			<%-- リストにある要素の数だけ繰り返し --%>
-
-			<%-- 	<form action="./" method="post">
-		<button class="btn pull-right" type="submit">ユーザー編集</button>
-		<c:forEach var="sltdu" items="${selectedUsers}">
-		<input type="hidden" name="sltduId" value="${sltdu.userId }" />
-		</c:forEach>
-	</form> --%>
-
 			<form action="./UDK" method="post">
+			<!-- 検索画面で入力された値を保持するため。 -->
 				<input type="hidden" name="loginId" value="${uk }" /> <input
 					type="hidden" name="userName" value="${uk2 }" /> <input
 					type="hidden" name="profile" value="${uk3 }" /> <input
@@ -44,8 +49,8 @@
 					test="${requestScope.alert != null && requestScope.alert != ''}">
 					<tr>
 						<%-- リクエストスコープの alert の値を出力 --%>
-						<td colspan="2" class="color-error text-left"><c:out
-								value="${requestScope.alert}" /></td>
+						<td colspan="3"><span class="color-error text-left"><c:out
+								value="${requestScope.alert}" /></span></td>
 					</tr>
 
 				</c:if>
@@ -53,13 +58,17 @@
 				<button class="btn pull-right" type="submit">ユーザー削除</button>
 				<!-- JSPの設定をHTML5に変更することでボタンに遷移先を変えられるformaction属性が付与できる。 -->
 				<button class="btn pull-right" type="submit" formaction="./UUK">登録内容の編集</button>
+
+				<!-- checkCheckの状態を送信 -->
+				<input type="hidden" name="checkCheck" value="<%=checkCheck %>" />
+				<button class="btn pull-left" type="submit" formaction="./ACB">全選択</button>&nbsp;
 				<br>
 
-				<c:forEach var="sltdu" items="${selectedUsers}">
+				<c:forEach var="sltdu" items="${selectedUsers2}">
 					<table class="table table-bordered">
 						<tr>
 							<td width="32" rowspan="2" class="text-center"><input
-								type="checkbox" name="sltduId" value="${sltdu.userId }" /></td>
+								type="checkbox" name="sltduId" value="${sltdu.userId }" ${checkCheck2 }/></td>
 							<td width="64" rowspan="2" class="text-center"><span
 								class="${sltdu.icon} pe-3x pe-va"></span><br></td>
 							<td width="300">ログインID<br> ${sltdu.loginId}

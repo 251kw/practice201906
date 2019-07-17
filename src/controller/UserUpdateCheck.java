@@ -90,8 +90,9 @@ public class UserUpdateCheck extends HttpServlet {
 			if (newerName.equals("")) {
 				message4 = "表示名が入力されていません。";
 			}
-			request.setAttribute("sUser.userName", newerName);
-			request.setAttribute("sUser.profile", newerProf);
+			request.setAttribute("sUserName", newerName);
+			request.setAttribute("sUserPassword", newerPw);
+			request.setAttribute("sUserProfile", newerProf);
 			request.setAttribute("sUserIcon", genderIcon);
 			// エラーメッセージをリクエストオブジェクトに保存
 			request.setAttribute("alert", message);

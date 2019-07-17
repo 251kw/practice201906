@@ -61,14 +61,14 @@
 					<tr>
 						<td class="color-main text-left">パスワード</td>
 						<td class="text-left"><input class="form-control"
-							type="password" name="newerPw" value="${sUser.password }" size="20" maxlength="32" minlength="4"/>
+							type="password" name="newerPw" value="${sUserPassword }" size="20" maxlength="32" minlength="4"/>
 							<h6 class="color-error text-left">半角英数4文字～32文字</h6>
 							</td>
 					</tr>
 					<tr>
 						<td class="color-main text-left">表示名</td>
 						<td class="text-left"><input class="form-control" type="text"
-							name="newerName" value="${sUser.userName }" size="20" maxlength="64" minlength="4"/>
+							name="newerName" value="${sUserName }" size="20" maxlength="64" minlength="4"/>
 							<h6 class="color-error text-left">最大64文字</h6>
 							</td>
 					</tr>
@@ -88,7 +88,7 @@
 					</tr>
 					<tr>
 						<td class="color-main text-left">プロフィール</td>
-						<td><input type="text" name="newerProfile" value="${sUser.profile }"
+						<td><input type="text" name="newerProfile" value="${sUserProfile }"
 							size="20" maxlength="128">
 							<h6 class="color-error text-left">最大128文字</h6>
 							</td>
