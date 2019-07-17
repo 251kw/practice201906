@@ -39,7 +39,6 @@ public class NewLoginServlet extends HttpServlet {
 			// ログインユーザ情報、書き込み内容リストとしてセッションに保存
 			session.setAttribute("user", user);
 			session.setAttribute("shouts",list);
-
 		}
 
 		UserDTO shoutuser = new UserDTO();

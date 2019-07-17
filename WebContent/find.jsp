@@ -8,7 +8,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Shouter - 検索-</title>
+<title>Shouter - みんなの心の叫び -</title>
 <link rel="stylesheet" href="./css/skyblue.css">
 <link rel="stylesheet" href="./css/pe-icon-7-stroke.css">
 <link rel="stylesheet" href="./css/helper.css">
@@ -17,21 +17,31 @@
 	<div class="bg-success padding-y-5">
 		<div class="container padding-y-5 text-center">
 			<h1>
-				Shouter&nbsp;<span class="icon-speaker"></span>
+				Shouter &nbsp;<span class="icon-speaker"></span>
 			</h1>
 		</div>
 	</div>
 	<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-left">
 			<strong class="color-main">ユーザー情報</strong>
+			<div align="right"></div>
 		</div>
 	</div>
 	<%-- セッションスコープにある UserDTO 型のオブジェクトを参照 --%>
-<jsp:useBean id="user" scope="session" type="dto.UserDTO" />
+	<div class="padding-y-5 text-center">
+		<div style="width: 40%" class="container padding-y-5 text-left">
+			<strong class="color-main">ユーザー一覧</strong>
+		</div>
+	</div>
+	<%-- セッションスコープにある ArrayList 型のオブジェクトを参照 --%>
+	<jsp:useBean id="searchuser" scope="session"
+		type="java.util.ArrayList<dto.UserDTO>" />
 	<div class="padding-y-5">
 		<div style="width: 40%" class="container padding-y-5">
-			<%-- action 属性にサーブレットを指定 --%>
-			<c:forEach var="shout" items="${users}">
+			<%-- リストにある要素の数だけ繰り返し --%>
+			<c:forEach var="user" items="${searchuser}">
+				<input type="checkbox" name="serch" value="">
+				<c:if test="checked"><input type="hidden" name="userName" value="${user.userName}"></c:if>
 				<table class="table table-striped table-bordered">
 					<tr>
 						<td rowspan="2" class="text-center"><span
@@ -45,5 +55,16 @@
 			</c:forEach>
 		</div>
 	</div>
+	<div style="text-align: center">
+		<form action="./.jsp" method="post">
+			<span style="margin-left: 100px">
+			<input class="btn" type="submit" value="更新" /></span>
+		</form>
+		<form action="./DeleteuserServlet" method="post">
+			<span style="margin-left: 100px"><input class="btn"
+				type="submit" value="削除" /></span>
+		</form>
+	</div>
+</body>
 </body>
 </html>

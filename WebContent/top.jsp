@@ -25,7 +25,10 @@
 		<div style="width: 40%" class="container padding-y-5 text-left">
 			<strong class="color-main">ログインユーザー情報</strong>
 			<div align = "right">
-			<p><a href="index.html">ユーザー検索はこちら</a></p>
+			<%-- action 属性にサーブレットを指定 --%>
+			<form action="./search.jsp" method="post">
+			<button type="submit" class="btn" >ユーザー検索はこちらから</button>
+			</form>
 			</div>
 		</div>
 	</div>

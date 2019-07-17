@@ -43,7 +43,6 @@ public class BbsServlet extends HttpServlet {
 			// １度だけ DataManager オブジェクトを生成
 			if(dbm == null){
 				dbm = new DBManager();
-
 			}
 
 			// ログインユーザ情報と書き込み内容を引数に、リストに追加するメソッドを呼び出し

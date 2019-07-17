@@ -93,9 +93,9 @@ public class CreateServlet extends HttpServlet {
 
 
 		DBManager ndb = new DBManager();
-		ndb.serchUser(loginId);
+		ndb.loginsearchUser(loginId);
 
-		if (ndb.serchUser(loginId)) {
+		if (ndb.loginsearchUser(loginId)) {
 			message2 = "既にこのloginIdは使われています。";
 			flag = true;
 
