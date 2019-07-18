@@ -1,16 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%
-	String UserName = (String) session.getAttribute("dC_userName");
-	String LoginId = (String) session.getAttribute("dC_loginId");
-	String Icon = (String) session.getAttribute("dC_icon");
-	String Date = (String) session.getAttribute("dC_date");
-	String Writing = (String) session.getAttribute("dC_writing");
-%>
 <title>削除の確認</title>
 <link rel="stylesheet" href="./css/skyblue.css">
 <link rel="stylesheet" href="./css/pe-icon-7-stroke.css">
@@ -25,7 +19,7 @@
 		</div>
 	</div>
 	<div class="padding-y-5 text-center">
-		<div style="width: 40%" class="container padding-y-5 text-left">
+		<div style="width: 40%" class="container padding-y-5 text-center">
 			<strong class="color-main">この書き込みを削除します。</strong>
 		</div>
 	</div>
@@ -37,22 +31,26 @@
 				<table class="table table-striped table-bordered">
 					<tr>
 						<td rowspan="2" class="text-center"><span
-							class="<%=Icon%> pe-3x pe-va"></span></td>
-						<td><%=UserName%></td>
+							class="${dC_icon} pe-3x pe-va"></span></td>
+						<td><c:out value="${dC_userName}" /></td>
+						<td><input type="submit" value="削除"></td>
 					</tr>
 					<tr>
-						<td><%=Date%></td>
+						<td><c:out value="${dC_date}" /></td>
 					</tr>
 					<tr>
-						<td colspan="2"><%=Writing%></td>
+						<td colspan="2"class="text-center"><c:out value="${dC_writing}" /></td>
 					</tr>
 				</table>
-				<input type="submit" value="削除">
+				<!-- <input type="submit" value="削除"> -->
 			</form>
-			<form action="top.jsp" method="get">
+			<!-- <form action="top.jsp" method="get">
 				<input type="submit" value="戻る">
-			</form>
+			</form> -->
 		</div>
 	</div>
+	<form action="top.jsp" method="get">
+				<input type="submit" value="戻る">
+			</form>
 </body>
 </html>

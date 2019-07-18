@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*,dto.UserDTO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,13 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<div class="bg-success padding-y-5">
+		<div class="container padding-y-5 text-center">
+			<h1>
+				検索結果&nbsp;<span class="icon-speaker"></span>
+			</h1>
+		</div>
+	</div>
 	<form action="./UDS" method="post">
 		<table class="table">
 			<tr>
@@ -39,8 +47,36 @@
 			<!-- UsearchServlet.javaでセッションに保存しておいたやつ -->
 			<c:forEach var="userL" items="${userlist}">
 				<tr>
+				<c:set var="x" value="${userL.loginId}"/>
+					<%
+						String s = (String)pageContext.getAttribute("x");
+						String [] c_users = (String [])request.getAttribute("Cusers");
+
+						String a = "ok";
+						String b = "";
+						//最初の一回目を考慮
+						//全解除ボタンを押された時もここに入らない。
+						if(c_users != null){
+							for(String c : c_users){
+								if(s.equals(c)){
+									b = "ok";
+								}
+							}
+						}
+						request.setAttribute("B", b);
+						request.setAttribute("A", a);
+					%>
+					<c:choose>
+					<c:when test="${A == B}">
+					<td><input type="checkbox" name="d_user"
+						value="${userL.loginId}" checked></td>
+					</c:when>
+					<c:otherwise>
 					<td><input type="checkbox" name="d_user"
 						value="${userL.loginId}"></td>
+					</c:otherwise>
+					</c:choose>
+
 					<td><c:out value="${userL.loginId}" /></td>
 					<td><c:out value="${userL.password}" /></td>
 					<td><c:out value="${userL.userName}" /></td>
@@ -48,6 +84,10 @@
 					<td><c:out value="${userL.profile}" /></td>
 				</tr>
 			</c:forEach>
+						<tr>
+			<td><button type="submit" class="btn btn-success" formaction="./ACS">全選択</button></td>
+			<td><button type="submit" class="btn btn-success" formaction="./ACS2">全解除</button></td>
+			</tr>
 			<tr>
 				<!-- どちらも一回UdeleteServlet.javaを経由して分岐させている。 -->
 				<td><input type="submit" class="btn" name="btn" value="削除"></td>
@@ -56,7 +96,7 @@
 		</table>
 	</form>
 	<form action="./US" method="get">
-		<input type="submit" value="戻る">
+		<input type="submit"value="戻る">
 	</form>
 </body>
 </html>

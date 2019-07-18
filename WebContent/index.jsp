@@ -66,7 +66,7 @@ String UserName = (String)session.getAttribute("PRF");
 		</div>
 	</div>
 	<form action="insert.jsp" method="get">
-	<input type="submit" value="新規登録">
+	<input type="submit" class="btn" value="新規登録">
 	</form>
 </body>
 </html>

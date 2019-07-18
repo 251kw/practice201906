@@ -20,6 +20,13 @@ public class UserDTO {
 		this.profile = profile;
 	}
 
+	public UserDTO(String password, String userName, String icon, String profile) {
+		this.password = password;
+		this.userName = userName;
+		this.icon = icon;
+		this.profile = profile;
+	}
+
 	public UserDTO(String loginId) {
 		this.loginId = loginId;
 	}

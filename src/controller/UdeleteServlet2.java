@@ -49,7 +49,7 @@ public class UdeleteServlet2 extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 
 		HttpSession session = request.getSession();
-		UserDTO udt = new UserDTO();
+//		UserDTO udt = new UserDTO();
 		UserDTO loginUser = (UserDTO)session.getAttribute("user");
 		String loginUserId = loginUser.getLoginId();
 
@@ -60,9 +60,9 @@ public class UdeleteServlet2 extends HttpServlet {
 		for(String loginId : d_users) {
 
 			DBManager Sdbm = new DBManager();
-			boolean result2 = Sdbm.DeleteShouts(loginId);
+			/*boolean result2 = */Sdbm.DeleteShouts(loginId);
 			DBManager Udbm = new DBManager();
-			boolean result = Udbm.DeleteUser(loginId);
+			/*boolean result =*/ Udbm.DeleteUser(loginId);
 
 			if(loginUserId.equals(loginId)) {
 				STATE = true;

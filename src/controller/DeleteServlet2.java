@@ -54,7 +54,7 @@ public class DeleteServlet2 extends HttpServlet {
 
 		//DBMの削除メソッドを呼び出す。
 		DBManager dbm = new DBManager();
-		boolean result = dbm.DeleteNew(LoginId, Date);
+		/*boolean result = */dbm.DeleteNew(LoginId, Date);
 
 //		余裕があればエラー処理も細かくやってみる。
 //		if (result == false) {

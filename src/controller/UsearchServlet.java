@@ -41,9 +41,13 @@ public class UsearchServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String LoginId = (String)session.getAttribute("loginId");
 		String UserName = (String)session.getAttribute("userName");
+		String Profile = (String)session.getAttribute("profile");
+		String Icon = (String)session.getAttribute("icon");
 
 		request.setAttribute("loginId", LoginId);
 		request.setAttribute("userName", UserName);
+		request.setAttribute("profile", Profile);
+		request.setAttribute("icon",Icon);
 
 		dispatcher = request.getRequestDispatcher("search.jsp");
 		dispatcher.forward(request, response);
@@ -61,6 +65,10 @@ public class UsearchServlet extends HttpServlet {
 
 		String loginId = request.getParameter("loginId");
 		String userName = request.getParameter("userName");
+		String profile = request.getParameter("profile");
+		String icon = request.getParameter("icon");
+
+
 		String ASmessage = null;
 		RequestDispatcher dispatcher = null;
 
@@ -74,13 +82,16 @@ public class UsearchServlet extends HttpServlet {
 
 
 		DBManager dbm = new DBManager();
-		ArrayList<UserDTO> Userlist = dbm.getUserlist(loginId,userName);
+		ArrayList<UserDTO> Userlist = dbm.getUserlist(loginId,userName,icon,profile);
 
 		HttpSession session = request.getSession();
 		session.setAttribute("userlist", Userlist);
 
 		session.setAttribute("loginId", loginId);
 		session.setAttribute("userName", userName);
+		session.setAttribute("profile", profile);
+		session.setAttribute("icon", icon);
+
 
 		dispatcher = request.getRequestDispatcher("USresult.jsp");
 		dispatcher.forward(request, response);

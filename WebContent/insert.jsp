@@ -5,7 +5,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%String Icon = (String)request.getAttribute("IC"); %>
+<%
+	String Icon = (String) request.getAttribute("IC");
+%>
 <title>入力フォーム</title>
 <link rel="stylesheet" href="./css/skyblue.css">
 <link rel="stylesheet" href="./css/pe-icon-7-stroke.css">
@@ -57,14 +59,49 @@
 						</c:if>
 					</tr>
 					<tr>
+						<c:if
+							test="${requestScope.Id_alert != null && requestScope.Id_alert != ''}">
+							<td colspan="2" class="color-error text-left"><c:out
+									value="${requestScope.Id_alert}" /></td>
+						</c:if>
+					</tr>
+					<tr>
 						<td class="color-main text-left">ログインID</td>
 						<td class="text-left"><input class="form-control" type="text"
 							name="loginId" value="${requestScope.Id}" size="20" /></td>
 					</tr>
 					<tr>
+						<c:if
+							test="${requestScope.PW_alert != null && requestScope.PW_alert != ''}">
+							<td colspan="2" class="color-error text-left"><c:out
+									value="${requestScope.PW_alert}" /></td>
+						</c:if>
+					</tr>
+					<tr>
 						<td class="color-main text-left">パスワード</td>
 						<td class="text-left"><input class="form-control"
 							type="password" name="password" value="" size="20" /></td>
+					</tr>
+					<tr>
+						<c:if
+							test="${requestScope.UN_alert != null && requestScope.UN_alert != ''}">
+							<td colspan="2" class="color-error text-left"><c:out
+									value="${requestScope.UN_alert}" /></td>
+						</c:if>
+					</tr>
+					<tr>
+						<c:if
+							test="${requestScope.UN_alert2 != null && requestScope.UN_alert2 != ''}">
+							<td colspan="2" class="color-error text-left"><c:out
+									value="${requestScope.UN_alert2}" /></td>
+						</c:if>
+					</tr>
+					<tr>
+						<c:if
+							test="${requestScope.UN_alert3 != null && requestScope.UN_alert3 != ''}">
+							<td colspan="2" class="color-error text-left"><c:out
+									value="${requestScope.UN_alert3}" /></td>
+						</c:if>
 					</tr>
 					<tr>
 						<td class="color-main text-left">ユーザーネーム</td>
@@ -74,30 +111,39 @@
 					<tr>
 						<td class="color-main text-left">アイコン</td>
 						<td><select name="icon" class="form-control">
-						<c:choose>
-						<c:when test="${requestScope.Ic == 'pe-7s-user-female'}">
-						<%-- <c:when test=<%Icon.equals("pe-7s-user-female");%>> --%>
-								<option value="pe-7s-user">男性</option>
-								<option value="pe-7s-user-female"selected>女性</option>
-						</c:when>
-						<c:otherwise>
-								<option value="pe-7s-user"selected>男性</option>
-								<option value="pe-7s-user-female">女性</option>
-						</c:otherwise>
-						</c:choose>
+								<c:choose>
+									<c:when test="${requestScope.Ic == 'pe-7s-user-female'}">
+										<%-- <c:when test=<%Icon.equals("pe-7s-user-female");%>> --%>
+										<option value="pe-7s-user">男性</option>
+										<option value="pe-7s-user-female" selected>女性</option>
+									</c:when>
+									<c:otherwise>
+										<option value="pe-7s-user" selected>男性</option>
+										<option value="pe-7s-user-female">女性</option>
+									</c:otherwise>
+								</c:choose>
 						</select></td>
+					</tr>
+					<tr>
+						<c:if
+							test="${requestScope.PF_alert != null && requestScope.PF_alert != ''}">
+							<td colspan="2" class="color-error text-left"><c:out
+									value="${requestScope.PF_alert}" /></td>
+						</c:if>
 					</tr>
 					<tr>
 						<td class="color-main text-left">プロフィール</td>
 						<td class="text-left"><input class="form-control" type="text"
 							name="profile" value="${requestScope.Pf}" size="20" /></td>
+					</tr>
 				</table>
-				<input type="submit" value="次へ">
-			</form>
-			<form action="index.jsp" method="get">
-				<input type="submit" value="戻る">
+				<input type="submit" class="btn" value="次へ">
 			</form>
 		</div>
 	</div>
+	<form action="index.jsp" method="get">
+		<input type="submit" value="戻る">
+	</form>
+
 </body>
 </html>

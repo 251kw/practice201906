@@ -81,11 +81,17 @@ public class InsertServlet extends HttpServlet {
 		String message1 = null;
 		String message2 = null;
 		String message3 = null;
+		String Id_Error = null;
+		String PW_Error = null;
+		String UN_Error = null;
+		String PF_Error = null;
+		String UN_Error2 = null;
+		String UN_Error3 = null;
 		//String message4 = null;
 		RequestDispatcher dispatcher = null;
 
 		if(LoginId.equals("") || Password.equals("") ||
-				UserName.equals("") ) {
+				UserName.equals("") || Profile.equals("") ) {
 			message1 = "全ての項目を入力してください。";
 			request.setAttribute("alert1", message1);
 
@@ -93,6 +99,44 @@ public class InsertServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 
 		}else {
+
+			if(LoginId.length() > 32 ) {
+				Id_Error = "32文字以下で入力してください。";
+				request.setAttribute("Id_alert", Id_Error);
+				STATE = false;
+			}
+
+			if(Password.length() > 32 ) {
+				PW_Error = "32文字以下で入力してください。";
+				request.setAttribute("PW_alert", PW_Error);
+				STATE = false;
+			}
+
+			if(UserName.length() > 64 ) {
+				UN_Error = "64文字以下で入力してください。";
+				request.setAttribute("UN_alert", UN_Error);
+				STATE = false;
+			}
+
+			if(Profile.length() > 128 ) {
+				PF_Error = "128文字以下で入力してください。";
+				request.setAttribute("UN_alert", PF_Error);
+				STATE = false;
+			}
+
+			if(UserName.indexOf("　")==-1) {
+				UN_Error2 = "姓と名の間に全角スペースを入れてください。";
+				request.setAttribute("UN_alert2", UN_Error2);
+				STATE = false;
+			}
+
+			if(UserName.indexOf("　")==0 || UserName.indexOf("　")==UserName.length()+1) {
+				UN_Error3 = "全角スペースは姓と名の間に入れてください。";
+				request.setAttribute("UN_alert3", UN_Error3);
+				STATE = false;
+			}
+
+
 			//Idに被りがないかチェック
 			DBManager dbm = new DBManager();
 			boolean result = dbm.serchData(LoginId);
@@ -128,16 +172,8 @@ public class InsertServlet extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 
-
-
-				//insertCheck.jspにつなげるためにリクエストに保存
-//				request.setAttribute("LoginId", LoginId);
-//				request.setAttribute("Password",Password );
-//				request.setAttribute("Icon", Icon);
-//				request.setAttribute("UserName", UserName);
-//				request.setAttribute("Profile", Profile);
-
 				//servlet2に値を渡すためにセッションに保存
+				//insertCheckにも
 				HttpSession session = request.getSession();
 				session.setAttribute("LoginId", LoginId);
 				session.setAttribute("Password", Password);

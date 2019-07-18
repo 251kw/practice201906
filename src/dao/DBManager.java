@@ -200,7 +200,6 @@ public class DBManager extends SnsDAO {
 	public boolean DeleteNew(String loginId, String date) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		ShoutDTO shout = null;
 		boolean result = false;
 
 		String sql = "DELETE FROM shouts WHERE loginId=? AND date=?";
@@ -231,7 +230,7 @@ public class DBManager extends SnsDAO {
 
 
 	//ライク検索
-	public ArrayList<UserDTO> getUserlist(String loginId,String userName) {
+	public ArrayList<UserDTO> getUserlist(String loginId,String userName,String icon,String profile) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -243,10 +242,28 @@ public class DBManager extends SnsDAO {
 			conn = getConnection();
 
 			// SELECT 文の実行
-			String sql = "SELECT * FROM users WHERE (loginId LIKE ? OR userName LIKE ?)";
+			String sql = "SELECT * FROM users WHERE (loginId LIKE ? AND userName LIKE ? AND icon LIKE ? AND profile LIKE ?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "%" + loginId +"%");
-			pstmt.setString(2, "%" + userName +"%");
+
+
+			if(loginId=="") {
+				pstmt.setString(1, loginId +"%");
+			}else {
+				pstmt.setString(1, "%" + loginId +"%");
+			}
+			if(userName=="") {
+				pstmt.setString(2, userName +"%");
+			}else {
+				pstmt.setString(2, "%" + userName +"%");
+			}
+
+			pstmt.setString(3, "%"+icon);
+
+
+			pstmt.setString(4, "%" + profile +"%");
+
+
+
 			rset = pstmt.executeQuery();
 
 			while (rset.next()) {
@@ -374,6 +391,107 @@ public class DBManager extends SnsDAO {
 			close(pstmt);
 			close(conn);
 		}
+		return result;
+	}
+
+	public UserDTO getUDUser(String loginId) {
+		Connection conn = null; // データベース接続情報
+		PreparedStatement pstmt = null; // SQL 管理情報
+		ResultSet rset = null; // 検索結果
+
+		String sql = "SELECT * FROM users WHERE loginId=?";
+		UserDTO updateUser = null; // 登録ユーザ情報
+
+		try {
+			// データベース接続情報取得
+			conn = getConnection();
+
+			// SELECT 文の登録と実行
+			pstmt = conn.prepareStatement(sql); // SELECT 構文登録
+			pstmt.setString(1, loginId);
+			rset = pstmt.executeQuery();
+
+			// 検索結果があれば
+			if (rset.next()) {
+				// 必要な列から値を取り出し、ユーザ情報オブジェクトを生成
+				updateUser = new UserDTO();
+				updateUser.setLoginId(rset.getString(2));
+				updateUser.setPassword(rset.getString(3));
+				updateUser.setUserName(rset.getString(4));
+				updateUser.setIcon(rset.getString(5));
+				updateUser.setProfile(rset.getString(6));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// データベース切断処理
+			close(rset);
+			close(pstmt);
+			close(conn);
+		}
+
+		return updateUser;
+	}
+
+	public boolean UpdateUser(UserDTO Updateuser , String loginId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		boolean result = false;
+		try {
+			conn = getConnection();
+			String sql = "UPDATE users SET password=?, userName=?, icon=?, profile=? WHERE loginId=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, Updateuser.getPassword());
+			pstmt.setString(2, Updateuser.getUserName());
+			pstmt.setString(3, Updateuser.getIcon());
+			pstmt.setString(4, Updateuser.getProfile());
+			pstmt.setString(5, loginId);
+
+			int cnt = pstmt.executeUpdate();
+			if (cnt == 1) {
+				// INSERT 文の実行結果が１なら登録成功
+				result = true;
+			}
+		} catch (SQLException e) {
+			// エラー処理はどこまでやるか？
+			e.printStackTrace();
+		} finally {
+			// データベース切断処理
+			close(pstmt);
+			close(conn);
+		}
+		return result;
+	}
+
+	public boolean UpdateShouts(UserDTO updateUser, String loginId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		boolean result = false;
+		try {
+			conn = getConnection();
+
+			// INSERT 文の登録と実行
+			String sql = "UPDATE shouts SET userName=?, icon=? WHERE loginId=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, updateUser.getUserName());
+			pstmt.setString(2, updateUser.getIcon());
+			pstmt.setString(3, loginId);
+
+
+			int cnt = pstmt.executeUpdate();
+			if (cnt != 0) {
+				// INSERT 文の実行結果が１なら登録成功
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// データベース切断処理
+			close(pstmt);
+			close(conn);
+		}
+
 		return result;
 	}
 

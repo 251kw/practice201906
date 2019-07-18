@@ -19,12 +19,12 @@
 		</div>
 	</div>
 	<div class="padding-y-5 text-center">
-		<div style="width: 40%" class="container padding-y-5 text-left">
+		<div style="width: 40%" class="container padding-y-5 text-center">
 			<strong class="color-main">ログインユーザー情報</strong>
 		</div>
 	</div>
 	<form action="search.jsp" method="get">
-	<input type="submit" value="ユーザー検索画面へ">
+	<input type="submit" class="btn" value="ユーザー検索画面へ">
 	</form>
 	<%-- セッションスコープにある UserDTO 型のオブジェクトを参照 --%>
 	<jsp:useBean id="user" scope="session" type="dto.UserDTO" />
@@ -98,7 +98,7 @@
 									<input type="hidden" name="date" value="${shout.date}">
 									<input type="hidden" name="writing" value="${shout.writing}">
 									<input type="hidden" name="icon" value="${shout.icon}">
-									<input type="submit" value="削除">
+									<input type="submit"value="削除">
 								</form></td>
 						</c:if>
 					</tr>

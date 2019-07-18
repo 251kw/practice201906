@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ユーザー削除完了画面</title>
+<title>ユーザー情報更新完了画面</title>
 <link rel="stylesheet" href="./css/skyblue.css">
 <link rel="stylesheet" href="./css/pe-icon-7-stroke.css">
 <link rel="stylesheet" href="./css/helper.css">
@@ -20,14 +20,14 @@
 	</div>
 	<div class="padding-y-5 text-center">
 		<div style="width: 60%" class="container padding-y-5 text-center">
-			<h1>ユーザーの削除が完了しました</h1>
-				<form action="./UDCS" method="post">
-		<input type="submit" class="btn" value="次へ">
+			<h1>ユーザー情報の更新が完了しました</h1>
+				<form action="top.jsp" method="get">
+		<input type="submit" class="btn" value="トップへ">
 	</form>
 		</div>
 	</div>
-<!-- 	<form action="./UDCS" method="post">
-		<input type="submit" value="次へ">
+	<!-- <form action="top.jsp" method="get">
+		<input type="submit" class="btn" value="トップへ">
 	</form> -->
 </body>
 </html>

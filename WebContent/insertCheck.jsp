@@ -5,15 +5,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%
-	String Id = (String) session.getAttribute("LoginId");
-	String Pass = (String) session.getAttribute("Password");
-	String Ic = (String) session.getAttribute("Icon");
-	String UName = (String) session.getAttribute("UserName");
-	String Prof = (String) session.getAttribute("Profile");
-%>
-
-
 <link rel="stylesheet" href="./css/skyblue.css">
 <link rel="stylesheet" href="./css/pe-icon-7-stroke.css">
 <link rel="stylesheet" href="./css/helper.css">
@@ -39,40 +30,41 @@
 					<tr>
 						<th>ログインID</th>
 						<td colspan="2" class="color-main text-left"><c:out
-								value="<%=Id%>" /></td>
+								value="${LoginId}" /></td>
 					</tr>
 					<tr>
 						<th>パスワード</th>
 						<td colspan="2" class="color-main text-left"><c:out
-								value="<%=Pass%>" /></td>
+								value="${Password}" /></td>
 					</tr>
 					<tr>
 						<th>ユーザーネーム</th>
 						<td colspan="2" class="color-main text-left"><c:out
-								value="<%=UName%>" /></td>
+								value="${UserName}" /></td>
+
 					</tr>
 					<tr>
 						<th>アイコン</th>
-						<td colspan="2" class="color-main text-left"><c:out
-								value="<%=Ic%>" /></td>
+						<td colspan="2" class="color-main text-left"><span
+							class="${Icon} pe-3x pe-va"></span></td>
 					</tr>
 					<tr>
 						<th>プロフィール</th>
 						<td colspan="2" class="color-main text-left"><c:out
-								value="<%=Prof%>" /></td>
+								value="${Profile}" /></td>
 					</tr>
 				</table>
-				<input type="submit" value="登録">
+				<input type="submit" class="btn" value="登録">
 
-			</form>
-			<form action="IS" method="get">
-				<input type="hidden" name="Id" value="<%=Id%>"> <input
-					type="hidden" name="Ic" value="<%=Ic%>"> <input
-					type="hidden" name="UName" value="<%=UName%>"> <input
-					type="hidden" name="Prof" value="<%=Prof%>"> <input
-					type="submit" value="戻る">
 			</form>
 		</div>
 	</div>
+	<form action="IS" method="get">
+		<input type="hidden" name="Id" value="${LoginId}"> <input
+			type="hidden" name="Ic" value="${Icon}"> <input type="hidden"
+			name="UName" value="${UserName}"> <input type="hidden"
+			name="Prof" value="${Profile}"> <input type="submit"
+			value="戻る">
+	</form>
 </body>
 </html>
