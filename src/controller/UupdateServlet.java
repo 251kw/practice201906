@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -54,6 +55,9 @@ public class UupdateServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		RequestDispatcher dispatcher = null;
+		HttpSession session = request.getSession();
+		@SuppressWarnings("unchecked")
+		ArrayList<UserDTO> D_users = (ArrayList<UserDTO>)session.getAttribute("D_users");
 //		String alert1 = "";
 //		boolean STATE = true;
 
@@ -64,13 +68,26 @@ public class UupdateServlet extends HttpServlet {
 		String icon = request.getParameter("newIC");
 		String profile = request.getParameter("newPF");
 
-//		if(password.equals("") ||
-//				userName.equals("") || profile.equals("") ) {
-//			alert1 = "全ての項目を入力してください。";
-//			request.setAttribute("alert1", alert1);
-//			STATE = false;
-//		}
-//
+		//更新画面で何も入力されなければもともとの情報が登録される。
+		if(password.equals("")){
+			for(UserDTO user : D_users) {
+				password = user.getPassword();
+			}
+		}
+
+		if(userName.equals("")){
+			for(UserDTO user : D_users) {
+				userName = user.getUserName();
+			}
+		}
+
+		if(profile.equals("")){
+			for(UserDTO user : D_users) {
+				profile = user.getProfile();
+			}
+		}
+
+
 //		if(STATE == false) {
 //
 //			UserDTO UPdateUser = new UserDTO(password,userName,icon,profile);
@@ -82,7 +99,7 @@ public class UupdateServlet extends HttpServlet {
 
 		UserDTO UPdateUser = new UserDTO(password,userName,icon,profile);
 
-		HttpSession session = request.getSession();
+		session = request.getSession();
 		session.setAttribute("UpdateUser", UPdateUser);
 
 
