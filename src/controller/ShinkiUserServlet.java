@@ -62,16 +62,14 @@ public class ShinkiUserServlet extends  HttpServlet{//サーブレットから�
 		String message4 = null;
 
 		if (newerId.equals("") || newerPw.equals("") || newerName.equals("")|| genderIcon.equals("")) {
-				if(newerId.equals("")) {
+				if(newerId.equals("")) {//エラーメッセージ設定
 					message2 = "ログインIDが入力されていません。";
-				}
-				if(!(newerId.matches("^[0-9a-zA-Z]+$"))) {//文字列に半角英数字以外の文字がないかチェック（matchesメソッド
+				}else if(!(newerId.matches("^[0-9a-zA-Z]+$"))){ //文字列に半角英数字以外の文字がないかチェック（matchesメソッド
 					message2 = "ログインIDは半角英数字のみご利用いただけます。";
 				}
 				if(newerPw.equals("")) {
 					message3 = "パスワードが入力されていません。";
-				}
-				if(!(newerPw.matches("^[0-9a-zA-Z]+$"))) {
+				}else if(!(newerPw.matches("^[0-9a-zA-Z]+$"))) {
 					message3 = "パスワードは半角英数字のみご利用いただけます。";
 				}
 				if(newerName.equals("")) {
@@ -81,7 +79,7 @@ public class ShinkiUserServlet extends  HttpServlet{//サーブレットから�
 			request.setAttribute("nProf", newerProf);
 			request.setAttribute("nIcon", genderIcon);
 			// エラーメッセージをリクエストオブジェクトに保存
-			request.setAttribute("alert", message);
+			//request.setAttribute("alert", message);
 			request.setAttribute("alert2", message2);
 			request.setAttribute("alert3", message3);
 			request.setAttribute("alert4", message4);
