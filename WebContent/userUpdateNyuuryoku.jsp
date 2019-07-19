@@ -88,8 +88,8 @@
 					</tr>
 					<tr>
 						<td class="color-main text-left">プロフィール</td>
-						<td><input type="text" name="newerProfile" value="${sUserProfile }"
-							size="20" maxlength="128">
+						<td class="text-left"><textarea rows="5" cols="20" class="form-control"  name="newerProfile"
+							 maxlength="128">${sUserProfile }</textarea>
 							<h6 class="color-error text-left">最大128文字</h6>
 							</td>
 					</tr>

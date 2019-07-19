@@ -53,6 +53,7 @@ public class UserUpdateDone extends HttpServlet {
 		String beanUserId=beanUser.getLoginId();//ユーザー情報のログインIDを取得
 		String beanUserPw=beanUser.getPassword();
 
+		//一意のuserIdを取得
 		String userId = (String) session.getAttribute("beforeUpdateUserId");
 
 		//String newerId = request.getParameter("newerId");

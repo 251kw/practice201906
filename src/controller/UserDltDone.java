@@ -8,8 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.DBManager;
+import dto.UserDTO;
 
 /**
  * Servlet implementation class UserDltDone
@@ -43,7 +45,7 @@ public class UserDltDone extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
-		String[] dltUserList=request.getParameterValues("uListLoginId");
+		String[] dltUserList=request.getParameterValues("uListLoginId");//削除するユーザーのloginIdを取得
 		RequestDispatcher dispatcher;
 		DBManager dbm = new DBManager();
 
@@ -56,6 +58,11 @@ public class UserDltDone extends HttpServlet {
 		String uI4 = request.getParameter("icon4");
 		String uI5 = request.getParameter("icon5");
 
+		HttpSession session = request.getSession();
+		UserDTO beanUser = (UserDTO) session.getAttribute("user");//ログイン時に入力されたユーザー情報取得
+		String beanUserId=beanUser.getLoginId();//ユーザー情報のログインIDを取得
+		String dltMyId="";
+
 		if(!(dltUserList==null)) {
 		for(String i : dltUserList) {
 
@@ -66,8 +73,17 @@ public class UserDltDone extends HttpServlet {
 			/*boolean sUser2 =*/ dbm.setUserDelete(i);
 			//System.out.println(sUser2);
 		}
+		for(String i : dltUserList) {//消去するユーザーログインIdとログインしているユーザーのログインIDを比較
+			if(i.equals(beanUserId)) {
+				dltMyId=i;
+				/*dispatcher = request.getRequestDispatcher("index.jsp");
+				dispatcher.forward(request, response);//一致するものがあった場合、index.jspに遷移
+*/			}
+		}
 		//request.setAttribute("uList", uList);
 
+		request.setAttribute("beanUserId", beanUserId);
+		request.setAttribute("dltMyId", dltMyId);
 		request.setAttribute("uk", uk[0]);
 		request.setAttribute("uk2", uk2);
 		request.setAttribute("uk3", uk3);

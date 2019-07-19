@@ -14,7 +14,7 @@
 </head>
 <body>
 
-	<%
+	<% //全選択処理のための変数
 		String checkCheck ="";
 		 checkCheck=(String)request.getAttribute("checkCheck2");
 	 	if(checkCheck==null){

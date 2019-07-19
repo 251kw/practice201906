@@ -75,6 +75,7 @@ public class ShinkiUserServlet extends  HttpServlet{//サーブレットから�
 				if(newerName.equals("")) {
 					message4 = "表示名が入力されていません。";
 				}
+			request.setAttribute("nId", newerId);
 			request.setAttribute("nName", newerName);
 			request.setAttribute("nProf", newerProf);
 			request.setAttribute("nIcon", genderIcon);

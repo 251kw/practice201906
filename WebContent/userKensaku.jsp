@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
 <html lang="ja">
 <head>
@@ -41,13 +41,13 @@
 						<td><input type="checkbox" name="icon" id="icon" value="icon-user"
 							${uI }>
 							<span class="icon-user pe-2x pe-va"></span><input
-							type="checkbox" name="icon2" id="icon2" value="icon-user-female" ${uI2 }><span
+							type="checkbox" name="icon" id="icon2" value="icon-user-female" ${uI2 }><span
 							class="icon-user-female pe-2x pe-va"></span> <input type="checkbox"
-							name="icon3" id="icon3" value="icon-study" ${uI3 }><span
+							name="icon" id="icon3" value="icon-study" ${uI3 }><span
 							class="icon-study pe-2x pe-va"></span> <input type="checkbox"
-							name="icon4" id="icon4" value="icon-male" ${uI4 }><span
+							name="icon" id="icon4" value="icon-male" ${uI4 }><span
 							class="icon-male pe-2x pe-va"></span> <input type="checkbox"
-							name="icon5" value="icon-female" ${uI5 }><span
+							name="icon" value="icon-female" ${uI5 }><span
 							class="icon-female pe-2x pe-va"></span></td>
 					</tr>
 					<tr>

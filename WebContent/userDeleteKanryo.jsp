@@ -11,6 +11,11 @@
 <link rel="stylesheet" href="./css/helper.css">
 </head>
 <body>
+	<%
+		String dltMyId = (String)request.getAttribute("dltMyId");
+		String beanUserId = (String)request.getAttribute("beanUserId");
+
+	%>
 					<c:if
 						test="${sessionScope.user != null && requestScope.user != ''}">
 						<jsp:useBean id="user" scope="session" type="dto.UserDTO" />
@@ -22,6 +27,8 @@
 			<h1>ユーザーの削除が完了しました。</h1>
 		</div>
 	</div>
+
+	<c:if test="${dltMyId != beanUserId}">
 
 		<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-center">
@@ -45,6 +52,8 @@
 		</div>
 	</div>
 
+
+
 	<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-center">
 			<%-- action 属性にloginサーブレットを指定 --%>
@@ -56,7 +65,7 @@
 			</form>
 		</div>
 	</div>
-
+</c:if>
 	<div class="padding-y-5 text-center">
 		<div style="width: 40%" class="container padding-y-5 text-center">
 			<%-- action 属性にloginサーブレットを指定 --%>
