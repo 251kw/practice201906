@@ -52,6 +52,10 @@ String UserName = (String)session.getAttribute("PRF");
 						<td colspan="2" class="text-right"><input class="btn"
 							type="submit" value="ログイン" /></td>
 					</tr>
+					<tr>
+					<td colspan="2" class="text-right">
+					<button type="submit" class="btn btn-success" formaction="insert.jsp">新規登録</button></td>
+					</tr>
 					<%-- リクエストスコープに alert があれば --%>
 					<c:if
 						test="${requestScope.alert != null && requestScope.alert != ''}">
@@ -65,8 +69,8 @@ String UserName = (String)session.getAttribute("PRF");
 			</form>
 		</div>
 	</div>
-	<form action="insert.jsp" method="get">
-	<input type="submit" class="btn" value="新規登録">
-	</form>
+	<!-- <form action="insert.jsp" method="get">
+	<input type="submit" class="btn btn-success" value="新規登録">
+	</form> -->
 </body>
 </html>

@@ -47,12 +47,28 @@
 						<td><select name="icon" class="form-control">
 								<c:choose>
 									<c:when test="${requestScope.icon == 'pe-7s-user-female'}">
+										<option value="">選択してください</option>
 										<option value="pe-7s-user">男性</option>
 										<option value="pe-7s-user-female" selected>女性</option>
+										<option value="pe-7s-smile">スマイル</option>
+									</c:when>
+									<c:when test="${requestScope.icon == 'pe-7s-user'}">
+										<option value="">選択してください</option>
+										<option value="pe-7s-user"selected>男性</option>
+										<option value="pe-7s-user-female">女性</option>
+										<option value="pe-7s-smile">スマイル</option>
+									</c:when>
+									<c:when test="${requestScope.icon == 'pe-7s-smile'}">
+										<option value="">選択してください</option>
+										<option value="pe-7s-user">男性</option>
+										<option value="pe-7s-user-female">女性</option>
+										<option value="pe-7s-smile"selected>スマイル</option>
 									</c:when>
 									<c:otherwise>
-										<option value="pe-7s-user" selected>男性</option>
+										<option value=""selected>選択してください</option>
+										<option value="pe-7s-user">男性</option>
 										<option value="pe-7s-user-female">女性</option>
+										<option value="pe-7s-smile">スマイル</option>
 									</c:otherwise>
 								</c:choose>
 						</select></td>

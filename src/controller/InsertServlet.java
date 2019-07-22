@@ -46,9 +46,6 @@ public class InsertServlet extends HttpServlet {
 		String IC = request.getParameter("Ic");
 		String PRF = request.getParameter("Prof");
 
-
-
-
 		//上の処理で受け取った値をindex。ｊｓｐで値をとるためリクエストに保存
 		//HttpSession session = request.getSession();
 		request.setAttribute("Id", LId);
@@ -65,7 +62,8 @@ public class InsertServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 
@@ -90,57 +88,64 @@ public class InsertServlet extends HttpServlet {
 		//String message4 = null;
 		RequestDispatcher dispatcher = null;
 
-		if(LoginId.equals("") || Password.equals("") ||
-				UserName.equals("") || Profile.equals("") ) {
+		if (LoginId.equals("") || Password.equals("") ||
+				UserName.equals("") || Profile.equals("")) {
 			message1 = "全ての項目を入力してください。";
 			request.setAttribute("alert1", message1);
 
-			dispatcher = request.getRequestDispatcher("insert.jsp");
-			dispatcher.forward(request, response);
+			STATE = false;
+		}
+			/*request.setAttribute("Id", LoginId);
+			request.setAttribute("Pass", Password);
+			request.setAttribute("Un", UserName);
+			request.setAttribute("Ic", Icon);
+			request.setAttribute("Pf", Profile);*/
 
-		}else {
+			/*dispatcher = request.getRequestDispatcher("insert.jsp");
+			dispatcher.forward(request, response);*/
 
-			if(LoginId.length() > 32 ) {
+		/*} else {*/
+
+			if (LoginId.length() > 32) {
 				Id_Error = "32文字以下で入力してください。";
 				request.setAttribute("Id_alert", Id_Error);
 				STATE = false;
 			}
 
-			if(Password.length() > 32 ) {
+			if (Password.length() > 32) {
 				PW_Error = "32文字以下で入力してください。";
 				request.setAttribute("PW_alert", PW_Error);
 				STATE = false;
 			}
 
-			if(UserName.length() > 64 ) {
+			if (UserName.length() > 64) {
 				UN_Error = "64文字以下で入力してください。";
 				request.setAttribute("UN_alert", UN_Error);
 				STATE = false;
 			}
 
-			if(Profile.length() > 128 ) {
+			if (Profile.length() > 128) {
 				PF_Error = "128文字以下で入力してください。";
 				request.setAttribute("UN_alert", PF_Error);
 				STATE = false;
 			}
 
-			if(UserName.indexOf("　")==-1) {
+			if (UserName.indexOf("　") == -1) {
 				UN_Error2 = "姓と名の間に全角スペースを入れてください。";
 				request.setAttribute("UN_alert2", UN_Error2);
 				STATE = false;
 			}
 
-			if(UserName.indexOf("　")==0 || UserName.indexOf("　")==UserName.length()+1) {
+			if (UserName.indexOf("　") == 0 || UserName.indexOf("　") == UserName.length() + 1) {
 				UN_Error3 = "全角スペースは姓と名の間に入れてください。";
 				request.setAttribute("UN_alert3", UN_Error3);
 				STATE = false;
 			}
 
-
 			//Idに被りがないかチェック
 			DBManager dbm = new DBManager();
 			boolean result = dbm.serchData(LoginId);
-			if(result == false) {
+			if (result == false) {
 				message2 = "このIDは既に存在します。";
 				request.setAttribute("alert2", message2);
 				STATE = false;
@@ -148,20 +153,13 @@ public class InsertServlet extends HttpServlet {
 			//Idがアルファベットかチェック
 			Pattern p1 = Pattern.compile("^[0-9a-zA-Z]+$");
 			Matcher m1 = p1.matcher(LoginId);
-			if(m1.find()==false) {
+			if (m1.find() == false) {
 				message3 = "IDはアルファベットで入力してください。";
 				request.setAttribute("alert3", message3);
 				STATE = false;
 			}
-//			//ユーザネームのチェック
-//			Pattern p2 = Pattern.compile("^[^<>{}\"/|;:.,~!?@#$%^=&*\\]+$");
-//			Matcher m2 = p2.matcher(UserName);
-//			if(m2.find()==true) {
-//				message4 = "ユーザーネームに記号は使えません。";
-//				request.setAttribute("alert4", message4);
-//				STATE = false;
-//			}
-			if(STATE == false) {
+
+			if (STATE == false) {
 				request.setAttribute("Id", LoginId);
 				request.setAttribute("Pass", Password);
 				request.setAttribute("Un", UserName);
@@ -172,20 +170,17 @@ public class InsertServlet extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 
-				//servlet2に値を渡すためにセッションに保存
-				//insertCheckにも
-				HttpSession session = request.getSession();
-				session.setAttribute("LoginId", LoginId);
-				session.setAttribute("Password", Password);
-				session.setAttribute("Icon", Icon);
-				session.setAttribute("UserName", UserName);
-				session.setAttribute("Profile", Profile);
+			//servlet2に値を渡すためにセッションに保存
+			//insertCheckにも
+			HttpSession session = request.getSession();
+			session.setAttribute("LoginId", LoginId);
+			session.setAttribute("Password", Password);
+			session.setAttribute("Icon", Icon);
+			session.setAttribute("UserName", UserName);
+			session.setAttribute("Profile", Profile);
 
-				dispatcher = request.getRequestDispatcher("insertCheck.jsp");
-				dispatcher.forward(request, response);
-
-		}
-
+			dispatcher = request.getRequestDispatcher("insertCheck.jsp");
+			dispatcher.forward(request, response);
 
 
 

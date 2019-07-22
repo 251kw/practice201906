@@ -61,9 +61,9 @@
 				<table border="1">
 					<tr>
 						<c:if
-							test="${requestScope.alert1 != null && requestScope.alert1 != ''}">
+							test="${requestScope.PW_alert != null && requestScope.PW_alert != ''}">
 							<td colspan="2" class="color-error text-left"><c:out
-									value="${requestScope.alert1}" /></td>
+									value="${requestScope.PW_alert}" /></td>
 						</c:if>
 					</tr>
 					<tr>
@@ -71,6 +71,27 @@
 						<td class="text-left"><input class="form-control"
 							type="password" name="newPW" value="${updateUser.password}"
 							size="20" /></td>
+					</tr>
+					<tr>
+						<c:if
+							test="${requestScope.UN_alert != null && requestScope.UN_alert != ''}">
+							<td colspan="2" class="color-error text-left"><c:out
+									value="${requestScope.UN_alert}" /></td>
+						</c:if>
+					</tr>
+					<tr>
+						<c:if
+							test="${requestScope.UN_alert2 != null && requestScope.UN_alert2 != ''}">
+							<td colspan="2" class="color-error text-left"><c:out
+									value="${requestScope.UN_alert2}" /></td>
+						</c:if>
+					</tr>
+					<tr>
+						<c:if
+							test="${requestScope.UN_alert3 != null && requestScope.UN_alert3 != ''}">
+							<td colspan="2" class="color-error text-left"><c:out
+									value="${requestScope.UN_alert3}" /></td>
+						</c:if>
 					</tr>
 					<tr>
 						<td class="color-main text-left">ユーザーネーム</td>
@@ -82,13 +103,19 @@
 						<td><select name="newIC" class="form-control">
 								<c:choose>
 									<c:when test="${updateUser.icon == 'pe-7s-user-female'}">
-										<%-- <c:when test=<%Icon.equals("pe-7s-user-female");%>> --%>
 										<option value="pe-7s-user">男性</option>
 										<option value="pe-7s-user-female" selected>女性</option>
+										<option value="pe-7s-smile">その他</option>
+									</c:when>
+									<c:when test="${updateUser.icon == 'pe-7s-user'}">
+										<option value="pe-7s-user"selected>男性</option>
+										<option value="pe-7s-user-female">女性</option>
+										<option value="pe-7s-smile">スマイル</option>
 									</c:when>
 									<c:otherwise>
-										<option value="pe-7s-user" selected>男性</option>
+										<option value="pe-7s-user">男性</option>
 										<option value="pe-7s-user-female">女性</option>
+										<option value="pe-7s-smile"selected>スマイル</option>
 									</c:otherwise>
 								</c:choose>
 						</select></td>
@@ -99,7 +126,7 @@
 							name="newPF" value="${updateUser.profile}" size="20" /></td>
 				</table>
 				<!-- <button type="submit" class="btn" formaction="top.jsp">戻る</button> -->
-				<input type="submit" class="btn" value="確認画面へ">
+				<input type="submit" class="btn btn-success" value="確認画面へ">
 			</form>
 		</div>
 	</div>

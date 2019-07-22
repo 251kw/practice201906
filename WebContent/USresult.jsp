@@ -85,13 +85,13 @@
 				</tr>
 			</c:forEach>
 						<tr>
-			<td><button type="submit" class="btn btn-success" formaction="./ACS">全選択</button></td>
-			<td><button type="submit" class="btn btn-success" formaction="./ACS2">全解除</button></td>
+			<td><button type="submit" class="btn" formaction="./ACS">全選択</button></td>
+			<td><button type="submit" class="btn" formaction="./ACS2">全解除</button></td>
 			</tr>
 			<tr>
 				<!-- どちらも一回UdeleteServlet.javaを経由して分岐させている。 -->
-				<td><input type="submit" class="btn" name="btn" value="削除"></td>
-				<td><input type="submit" class="btn" name="btn" value="更新"></td>
+				<td><input type="submit" class="btn btn-success" name="btn" value="削除"></td>
+				<td><input type="submit" class="btn btn-success" name="btn" value="更新"></td>
 			</tr>
 		</table>
 	</form>

@@ -116,10 +116,18 @@
 										<%-- <c:when test=<%Icon.equals("pe-7s-user-female");%>> --%>
 										<option value="pe-7s-user">男性</option>
 										<option value="pe-7s-user-female" selected>女性</option>
+										<option value="pe-7s-smile">その他</option>
+									</c:when>
+									<c:when test="${requestScope.Ic == 'pe-7s-smile'}">
+										<%-- <c:when test=<%Icon.equals("pe-7s-user-female");%>> --%>
+										<option value="pe-7s-user">男性</option>
+										<option value="pe-7s-user-female">女性</option>
+										<option value="pe-7s-smile"selected>スマイル</option>
 									</c:when>
 									<c:otherwise>
-										<option value="pe-7s-user" selected>男性</option>
+										<option value="pe-7s-user"selected>男性</option>
 										<option value="pe-7s-user-female">女性</option>
+										<option value="pe-7s-smile">スマイル</option>
 									</c:otherwise>
 								</c:choose>
 						</select></td>

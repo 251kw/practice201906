@@ -24,7 +24,7 @@
 		</div>
 	</div>
 	<form action="search.jsp" method="get">
-	<input type="submit" class="btn" value="ユーザー検索画面へ">
+	<input type="submit" class="btn btn-success" value="ユーザー検索">
 	</form>
 	<%-- セッションスコープにある UserDTO 型のオブジェクトを参照 --%>
 	<jsp:useBean id="user" scope="session" type="dto.UserDTO" />
